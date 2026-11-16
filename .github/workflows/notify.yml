@@ -1,0 +1,41 @@
+name: Notify subscribers
+
+on:
+  push:
+    branches: [main]
+    paths: ["data/days.js"]
+  workflow_dispatch:
+
+jobs:
+  notify:
+    # Only daily editions trigger a notification, not design changes.
+    if: github.event_name == 'workflow_dispatch' || startsWith(github.event.head_commit.message, 'Edition')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Send push notification
+        env:
+          ONESIGNAL_API_KEY: ${{ secrets.ONESIGNAL_API_KEY }}
+          APP_ID: febcbdcd-b552-4489-b331-294900387ad8
+          SITE_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/
+        run: |
+          node -e '
+          global.window = {};
+          require("./data/days.js");
+          const days = window.DM_DAYS.slice().sort((a,b) => a.date < b.date ? -1 : 1);
+          const d = days[days.length - 1];
+          const body = {
+            app_id: process.env.APP_ID,
+            target_channel: "push",
+            included_segments: ["Total Subscriptions"],
+            headings: { en: "Azimuth updated", ro: "Azimuth e actualizat" },
+            contents: { en: d.headline_en || d.headline, ro: d.headline || d.headline_en },
+            url: process.env.SITE_URL + "#d-" + d.date,
+            web_push_topic: "azimuth-edition"
+          };
+          fetch("https://api.onesignal.com/notifications", {
+            method: "POST",
+            headers: { "Content-Type": "application/json", "Authorization": "Key " + process.env.ONESIGNAL_API_KEY },
+            body: JSON.stringify(body)
+          }).then(async r => { const t = await r.text(); console.log(r.status, t); if (!r.ok) process.exit(1); });
+          '

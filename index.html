@@ -523,7 +523,7 @@ const I18N = {
   searching:"Loading the archive...", archiveFailShort:"The archive could not be loaded.", noResults:"No results.", savedStories:"Saved stories",
   noSaved:"You have not saved any stories yet. Use the bookmark button on a story.",
   fallback:"This briefing is only available in Romanian.",
-  jStories:"Stories", jMarkets:"Markets", jImpact:"Market impact", jWatch:"Watchlist", jSources:"Sources", jumpTo:"Jump to section", menu:"Menu", mSections:"Sections", mCats:"Story categories", mTools:"Tools", mTop:"Briefing", mCal:"Calendar and archive", mSearch:"Search", mLang:"Language", jFg:"Fear & Greed", fgTitle:"Fear & Greed", fgSub:"How nervous or confident investors are, on a scale from 0 (extreme fear) to 100 (extreme greed).", fgStocks:"US stocks", fgCrypto:"Crypto", fgStocksSrc:"CNN Fear & Greed, last US close", fgCryptoSrc:"Alternative.me, reading of the day", fgWords:["Extreme fear","Fear","Neutral","Greed","Extreme greed"], fgTrend:"Recent editions", fgDay:"Edition", fgNone:"No reading", fgNote:"These indices measure market mood, not value. They are not a forecast or a recommendation.",
+  jStories:"Stories", jMarkets:"Markets", jImpact:"Market impact", jWatch:"Watchlist", jSources:"Sources", jumpTo:"Jump to section", menu:"Menu", mSections:"Sections", mCats:"Story categories", mTools:"Tools", mTop:"Briefing", mCal:"Calendar and archive", mSearch:"Search", mLang:"Language", mPush:"Notifications", pushOff:"Off", pushOn:"On", pushBlocked:"Blocked in settings", pushNA:"Not supported here", jFg:"Fear & Greed", fgTitle:"Fear & Greed", fgSub:"How nervous or confident investors are, on a scale from 0 (extreme fear) to 100 (extreme greed).", fgStocks:"US stocks", fgCrypto:"Crypto", fgStocksSrc:"CNN Fear & Greed, last US close", fgCryptoSrc:"Alternative.me, reading of the day", fgWords:["Extreme fear","Fear","Neutral","Greed","Extreme greed"], fgTrend:"Recent editions", fgDay:"Edition", fgNone:"No reading", fgNote:"These indices measure market mood, not value. They are not a forecast or a recommendation.",
   fxTitle:"Market impact", fxSub:"How today's events feed through to markets and the economy.", fxRisk:"Risk", fxStory:"Story",
   riskWords:["low","moderate","elevated","high","severe"], fxHow:"How it feeds through", fxWatch:"What to watch", fxOpen:"Open story",
   fxDisc:"For information only, not investment advice. Arrows show moves and pressures reported so far, not a forecast.",
@@ -549,7 +549,7 @@ const I18N = {
   searching:"Se încarcă arhiva...", archiveFailShort:"Arhiva nu a putut fi încărcată.", noResults:"Niciun rezultat.", savedStories:"Știri salvate",
   noSaved:"Nu ai salvat încă nicio știre. Folosește butonul de semn de carte de pe o știre.",
   fallback:"",
-  jStories:"Știri", jMarkets:"Piețe", jImpact:"Impact pe piețe", jWatch:"De urmărit", jSources:"Surse", jumpTo:"Mergi la secțiune", menu:"Meniu", mSections:"Secțiuni", mCats:"Categorii de știri", mTools:"Instrumente", mTop:"Rezumatul zilei", mCal:"Calendar și arhivă", mSearch:"Căutare", mLang:"Limbă", jFg:"Frică și lăcomie", fgTitle:"Frică și lăcomie", fgSub:"Cât de temători sau de încrezători sunt investitorii, pe o scară de la 0 (frică extremă) la 100 (lăcomie extremă).", fgStocks:"Acțiuni SUA", fgCrypto:"Cripto", fgStocksSrc:"CNN Fear & Greed, ultima închidere din SUA", fgCryptoSrc:"Alternative.me, valoarea zilei", fgWords:["Frică extremă","Frică","Neutru","Lăcomie","Lăcomie extremă"], fgTrend:"Edițiile recente", fgDay:"Ediția", fgNone:"Fără valoare", fgNote:"Acești indici măsoară starea de spirit a pieței, nu valoarea. Nu sunt o prognoză și nici o recomandare.",
+  jStories:"Știri", jMarkets:"Piețe", jImpact:"Impact pe piețe", jWatch:"De urmărit", jSources:"Surse", jumpTo:"Mergi la secțiune", menu:"Meniu", mSections:"Secțiuni", mCats:"Categorii de știri", mTools:"Instrumente", mTop:"Rezumatul zilei", mCal:"Calendar și arhivă", mSearch:"Căutare", mLang:"Limbă", mPush:"Notificări", pushOff:"Oprite", pushOn:"Pornite", pushBlocked:"Blocate din setări", pushNA:"Indisponibile aici", jFg:"Frică și lăcomie", fgTitle:"Frică și lăcomie", fgSub:"Cât de temători sau de încrezători sunt investitorii, pe o scară de la 0 (frică extremă) la 100 (lăcomie extremă).", fgStocks:"Acțiuni SUA", fgCrypto:"Cripto", fgStocksSrc:"CNN Fear & Greed, ultima închidere din SUA", fgCryptoSrc:"Alternative.me, valoarea zilei", fgWords:["Frică extremă","Frică","Neutru","Lăcomie","Lăcomie extremă"], fgTrend:"Edițiile recente", fgDay:"Ediția", fgNone:"Fără valoare", fgNote:"Acești indici măsoară starea de spirit a pieței, nu valoarea. Nu sunt o prognoză și nici o recomandare.",
   fxTitle:"Impact pe piețe", fxSub:"Cum se transmit evenimentele zilei în piețe și în economie.", fxRisk:"Risc", fxStory:"Știrea",
   riskWords:["scăzut","moderat","ridicat","mare","sever"], fxHow:"Cum se transmite", fxWatch:"De urmărit", fxOpen:"Deschide știrea",
   fxDisc:"Doar cu titlu informativ, nu reprezintă o recomandare de investiții. Săgețile arată mișcări și presiuni raportate până acum, nu o prognoză.",
@@ -1032,6 +1032,7 @@ function buildMenu(){
     it('data-m="cal"', '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="3"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>', t("mCal"))+
     it('data-m="search"', '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>', t("mSearch"))+
     it('data-m="lang"', '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/></svg>', t("mLang"), LANG.toUpperCase());
+  if (window.AZ_PUSH) h += it('data-m="push"', '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 16V11a6 6 0 1 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></svg>', t("mPush"), t({on:"pushOn",off:"pushOff",blocked:"pushBlocked",na:"pushNA"}[window.AZ_PUSH.state()] || "pushOff"));
   $("#drawer").innerHTML = h;
 }
 function openMenu(){ buildMenu(); const o = $("#menuOv"); o.classList.add("show"); $("#drawer").style.transform = ""; lockScroll(true); }
@@ -1053,6 +1054,7 @@ $("#menuOv").addEventListener("click", e => {
   else if (m === "cal") closeMenu(() => $("#dateBtn").click());
   else if (m === "search") closeMenu(() => $("#searchBtn").click());
   else if (m === "lang") closeMenu(() => $("#langBtn").click());
+  else if (m === "push" && window.AZ_PUSH) { window.AZ_PUSH.toggle().then(() => buildMenu()).catch(() => buildMenu()); }
 });
 document.addEventListener("keydown", e => { if (e.key === "Escape") closeMenu(); });
 (function(){ /* glisare spre stânga pentru închidere */
@@ -1245,6 +1247,36 @@ document.querySelectorAll(".lang-opt[data-lang]").forEach(b => b.addEventListene
 
 boot();
 </script>
-<script>if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js").catch(function(){});}</script>
+<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+<script>
+(function(){
+  var base = location.pathname.replace(/[^/]*$/, "");
+  window.OneSignalDeferred = window.OneSignalDeferred || [];
+  var ready = new Promise(function(res){
+    OneSignalDeferred.push(async function(OS){
+      try {
+        await OS.init({ appId: "febcbdcd-b552-4489-b331-294900387ad8", serviceWorkerPath: base.slice(1) + "sw.js", serviceWorkerParam: { scope: base }, notifyButton: { enable: false } });
+        res(OS);
+      } catch(e) { res(null); }
+    });
+  });
+  var OSref = null; ready.then(function(o){ OSref = o; });
+  window.AZ_PUSH = {
+    state: function(){
+      if (!("Notification" in window) || !("serviceWorker" in navigator)) return "na";
+      if (Notification.permission === "denied") return "blocked";
+      try { if (OSref && OSref.User.PushSubscription.optedIn) return "on"; } catch(e) {}
+      return "off";
+    },
+    toggle: async function(){
+      var OS = await ready; if (!OS) return;
+      var sub = OS.User.PushSubscription;
+      if (sub.optedIn) { await sub.optOut(); return; }
+      if (!OS.Notifications.permission) await OS.Notifications.requestPermission();
+      await sub.optIn();
+    }
+  };
+})();
+</script>
 </body>
 </html>

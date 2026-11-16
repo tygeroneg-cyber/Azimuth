@@ -1,4 +1,5 @@
-const CACHE = "azimuth-v2";
+importScripts("https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.sw.js");
+const CACHE = "azimuth-v3";
 self.addEventListener("install", e => { self.skipWaiting(); });
 self.addEventListener("activate", e => { e.waitUntil(self.clients.claim()); });
 // Network first: always try the latest edition, fall back to the last copy when offline.
