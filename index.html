@@ -1255,7 +1255,7 @@ boot();
   var ready = new Promise(function(res){
     OneSignalDeferred.push(async function(OS){
       try {
-        await OS.init({ appId: "febcbdcd-b552-4489-b331-294900387ad8", serviceWorkerPath: base.slice(1) + "sw.js", serviceWorkerParam: { scope: base }, notifyButton: { enable: false } });
+        await OS.init({ appId: "febcbdcd-b552-4489-b331-294900387ad8", safari_web_id: "web.onesignal.auto.47e61a84-7486-476e-83ad-85400aafc6ca", serviceWorkerPath: base.slice(1) + "sw.js", serviceWorkerParam: { scope: base }, notifyButton: { enable: false } });
         res(OS);
       } catch(e) { res(null); }
     });
