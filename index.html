@@ -474,6 +474,15 @@ html.theme-fade, html.theme-fade *, html.theme-fade *::before, html.theme-fade *
   .drawer{border-radius:0 28px 0 0; padding-bottom:calc(96px + env(safe-area-inset-bottom))}
   .overlay{bottom:auto; height:100vh; height:100dvh}
 }
+
+/* credite în meniu */
+.m-credits{margin:22px 4px 4px; padding:18px 14px 6px; border-top:1px solid var(--line); color:var(--muted); font-size:12.5px; line-height:1.5}
+.cr-logo{display:flex; align-items:center; gap:8px; color:var(--ink)}
+.cr-logo svg{width:20px; height:20px; color:var(--accent)} .cr-logo b{font:700 16px/1 var(--display); letter-spacing:-.02em} .cr-logo span{margin-left:auto; font-size:12px; color:var(--muted); font-variant-numeric:tabular-nums}
+.cr-by{margin:14px 0 12px} .cr-by small{display:block; font-size:12px; margin-bottom:3px} .cr-by b{display:block; color:var(--ink); font-size:14.5px; font-weight:600; line-height:1.4}
+.cr-facts{display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:0 0 12px}
+.cr-facts div{background:var(--soft); border-radius:12px; padding:9px 11px} .cr-facts dt{font-size:11.5px} .cr-facts dd{margin:2px 0 0; color:var(--ink); font-weight:600; font-size:13.5px; font-variant-numeric:tabular-nums}
+.m-credits p{margin:0 0 6px} .cr-note{font-weight:600} .cr-copy{margin-top:10px !important; font-size:11.5px}
 </style>
 </head>
 <body>
@@ -580,7 +589,7 @@ const I18N = {
   searching:"Loading the archive...", archiveFailShort:"The archive could not be loaded.", noResults:"No results.", savedStories:"Saved stories",
   noSaved:"You have not saved any stories yet. Use the bookmark button on a story.",
   fallback:"This briefing is only available in Romanian.",
-  jStories:"Stories", jMarkets:"Markets", jImpact:"Market impact", jWatch:"Watchlist", jSources:"Sources", jumpTo:"Jump to section", menu:"Menu", mSections:"Sections", mCats:"Story categories", mTools:"Tools", mTop:"Briefing", mCal:"Calendar and archive", mSearch:"Search", mLang:"Language", mPush:"Notifications", pushIOS:"Add to Home Screen first", mTheme:"Appearance", thAuto:"Auto", thLight:"Light", thDark:"Dark", pushOff:"Off", pushOn:"On", pushBlocked:"Blocked in settings", pushNA:"Not supported here", jFg:"Fear & Greed", fgTitle:"Fear & Greed", fgSub:"How nervous or confident investors are, on a scale from 0 (extreme fear) to 100 (extreme greed).", fgStocks:"US stocks", fgCrypto:"Crypto", fgStocksSrc:"CNN Fear & Greed, last US close", fgCryptoSrc:"Alternative.me, reading of the day", fgWords:["Extreme fear","Fear","Neutral","Greed","Extreme greed"], fgTrend:"Recent editions", fgDay:"Edition", fgNone:"No reading", fgNote:"These indices measure market mood, not value. They are not a forecast or a recommendation.",
+  jStories:"Stories", jMarkets:"Markets", jImpact:"Market impact", jWatch:"Watchlist", jSources:"Sources", jumpTo:"Jump to section", menu:"Menu", mSections:"Sections", mCats:"Story categories", mTools:"Tools", mTop:"Briefing", mCal:"Calendar and archive", mSearch:"Search", mLang:"Language", mPush:"Notifications", pushIOS:"Add to Home Screen first", mTheme:"Appearance", crBy:"Developed by", crFounded:"Founded", crFoundedDate:"12 November 2026", crEditions:"Editions published", crSchedule:"New edition every morning at 08:45, Romania time", crMade:"Written and checked against sources with Claude (Anthropic)", crData:"Market data and Fear & Greed from the sources cited in each edition", crNote:"For information only. Not financial advice.", crVersion:"Version", thAuto:"Auto", thLight:"Light", thDark:"Dark", pushOff:"Off", pushOn:"On", pushBlocked:"Blocked in settings", pushNA:"Not supported here", jFg:"Fear & Greed", fgTitle:"Fear & Greed", fgSub:"How nervous or confident investors are, on a scale from 0 (extreme fear) to 100 (extreme greed).", fgStocks:"US stocks", fgCrypto:"Crypto", fgStocksSrc:"CNN Fear & Greed, last US close", fgCryptoSrc:"Alternative.me, reading of the day", fgWords:["Extreme fear","Fear","Neutral","Greed","Extreme greed"], fgTrend:"Recent editions", fgDay:"Edition", fgNone:"No reading", fgNote:"These indices measure market mood, not value. They are not a forecast or a recommendation.",
   fxTitle:"Market impact", fxSub:"How today's events feed through to markets and the economy.", fxRisk:"Risk", fxStory:"Story",
   riskWords:["low","moderate","elevated","high","severe"], fxHow:"How it feeds through", fxWatch:"What to watch", fxOpen:"Open story",
   fxDisc:"For information only, not investment advice. Arrows show moves and pressures reported so far, not a forecast.",
@@ -606,7 +615,7 @@ const I18N = {
   searching:"Se încarcă arhiva...", archiveFailShort:"Arhiva nu a putut fi încărcată.", noResults:"Niciun rezultat.", savedStories:"Știri salvate",
   noSaved:"Nu ai salvat încă nicio știre. Folosește butonul de semn de carte de pe o știre.",
   fallback:"",
-  jStories:"Știri", jMarkets:"Piețe", jImpact:"Impact pe piețe", jWatch:"De urmărit", jSources:"Surse", jumpTo:"Mergi la secțiune", menu:"Meniu", mSections:"Secțiuni", mCats:"Categorii de știri", mTools:"Instrumente", mTop:"Rezumatul zilei", mCal:"Calendar și arhivă", mSearch:"Căutare", mLang:"Limbă", mPush:"Notificări", pushIOS:"Adaugă întâi pe ecranul principal", mTheme:"Aspect", thAuto:"Auto", thLight:"Luminos", thDark:"Întunecat", pushOff:"Oprite", pushOn:"Pornite", pushBlocked:"Blocate din setări", pushNA:"Indisponibile aici", jFg:"Frică și lăcomie", fgTitle:"Frică și lăcomie", fgSub:"Cât de temători sau de încrezători sunt investitorii, pe o scară de la 0 (frică extremă) la 100 (lăcomie extremă).", fgStocks:"Acțiuni SUA", fgCrypto:"Cripto", fgStocksSrc:"CNN Fear & Greed, ultima închidere din SUA", fgCryptoSrc:"Alternative.me, valoarea zilei", fgWords:["Frică extremă","Frică","Neutru","Lăcomie","Lăcomie extremă"], fgTrend:"Edițiile recente", fgDay:"Ediția", fgNone:"Fără valoare", fgNote:"Acești indici măsoară starea de spirit a pieței, nu valoarea. Nu sunt o prognoză și nici o recomandare.",
+  jStories:"Știri", jMarkets:"Piețe", jImpact:"Impact pe piețe", jWatch:"De urmărit", jSources:"Surse", jumpTo:"Mergi la secțiune", menu:"Meniu", mSections:"Secțiuni", mCats:"Categorii de știri", mTools:"Instrumente", mTop:"Rezumatul zilei", mCal:"Calendar și arhivă", mSearch:"Căutare", mLang:"Limbă", mPush:"Notificări", pushIOS:"Adaugă întâi pe ecranul principal", mTheme:"Aspect", crBy:"Dezvoltat de", crFounded:"Înființat", crFoundedDate:"12 noiembrie 2026", crEditions:"Ediții publicate", crSchedule:"Ediție nouă în fiecare dimineață la 08:45, ora României", crMade:"Redactat și verificat pe surse cu Claude (Anthropic)", crData:"Datele de piață și indicii Frică și lăcomie provin din sursele citate în fiecare ediție", crNote:"Doar cu scop informativ. Nu este consultanță financiară.", crVersion:"Versiunea", thAuto:"Auto", thLight:"Luminos", thDark:"Întunecat", pushOff:"Oprite", pushOn:"Pornite", pushBlocked:"Blocate din setări", pushNA:"Indisponibile aici", jFg:"Frică și lăcomie", fgTitle:"Frică și lăcomie", fgSub:"Cât de temători sau de încrezători sunt investitorii, pe o scară de la 0 (frică extremă) la 100 (lăcomie extremă).", fgStocks:"Acțiuni SUA", fgCrypto:"Cripto", fgStocksSrc:"CNN Fear & Greed, ultima închidere din SUA", fgCryptoSrc:"Alternative.me, valoarea zilei", fgWords:["Frică extremă","Frică","Neutru","Lăcomie","Lăcomie extremă"], fgTrend:"Edițiile recente", fgDay:"Ediția", fgNone:"Fără valoare", fgNote:"Acești indici măsoară starea de spirit a pieței, nu valoarea. Nu sunt o prognoză și nici o recomandare.",
   fxTitle:"Impact pe piețe", fxSub:"Cum se transmit evenimentele zilei în piețe și în economie.", fxRisk:"Risc", fxStory:"Știrea",
   riskWords:["scăzut","moderat","ridicat","mare","sever"], fxHow:"Cum se transmite", fxWatch:"De urmărit", fxOpen:"Deschide știrea",
   fxDisc:"Doar cu titlu informativ, nu reprezintă o recomandare de investiții. Săgețile arată mișcări și presiuni raportate până acum, nu o prognoză.",
@@ -1125,6 +1134,13 @@ function buildMenu(){
       seg("auto", t("thAuto"), '<rect x="5" y="2.5" width="14" height="19" rx="3"/><path d="M10 18.5h4"/>')+
       seg("light", t("thLight"), '<circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M4.6 4.6l1.4 1.4M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4L6 18M18 6l1.4-1.4"/>')+
       seg("dark", t("thDark"), '<path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/>')+'</div></div>'; }
+  h += '<footer class="m-credits">'+
+    '<div class="cr-logo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 12l4.5-4.5"/><circle cx="12" cy="12" r="1.3" fill="currentColor"/></svg><b>Azimuth</b><span>'+esc(t("crVersion"))+' 1.0</span></div>'+
+    '<div class="cr-by"><small>'+esc(t("crBy"))+'</small><b>Sergiu-Pompei Pavel</b><b>Dragoș Petrișor Verzia</b></div>'+
+    '<dl class="cr-facts"><div><dt>'+esc(t("crFounded"))+'</dt><dd>'+esc(t("crFoundedDate"))+'</dd></div>'+
+    '<div><dt>'+esc(t("crEditions"))+'</dt><dd>'+Object.keys(S.days || {}).length+'</dd></div></dl>'+
+    '<p>'+esc(t("crSchedule"))+'.</p><p>'+esc(t("crMade"))+'.</p><p>'+esc(t("crData"))+'.</p><p class="cr-note">'+esc(t("crNote"))+'</p>'+
+    '<p class="cr-copy">© 2026 Azimuth</p></footer>';
   $("#drawer").innerHTML = h;
 }
 function openMenu(){ buildMenu(); const o = $("#menuOv"); o.classList.add("show"); $("#drawer").style.transform = ""; lockScroll(true); }
