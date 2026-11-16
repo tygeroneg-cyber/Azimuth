@@ -483,6 +483,29 @@ html.theme-fade, html.theme-fade *, html.theme-fade *::before, html.theme-fade *
 .cr-facts{display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:0 0 12px}
 .cr-facts div{background:var(--soft); border-radius:12px; padding:9px 11px} .cr-facts dt{font-size:11.5px} .cr-facts dd{margin:2px 0 0; color:var(--ink); font-weight:600; font-size:13.5px; font-variant-numeric:tabular-nums}
 .m-credits p{margin:0 0 6px} .cr-note{font-weight:600} .cr-copy{margin-top:10px !important; font-size:11.5px}
+
+/* calendarul: ultimele 7 zile și ziua următoare */
+.cal{display:flex; flex-direction:column; gap:8px}
+.cal .cd{display:flex; align-items:center; gap:12px; width:100%; min-height:64px; padding:10px 12px; border:0; border-radius:16px; background:var(--soft); color:var(--ink); text-align:left; opacity:0; transform:translate3d(0,8px,0); animation:cdIn .38s cubic-bezier(.22,1,.36,1) forwards}
+.cal .cd:nth-child(2){animation-delay:.03s} .cal .cd:nth-child(3){animation-delay:.06s} .cal .cd:nth-child(4){animation-delay:.09s} .cal .cd:nth-child(5){animation-delay:.12s} .cal .cd:nth-child(6){animation-delay:.15s} .cal .cd:nth-child(7){animation-delay:.18s} .cal .cd:nth-child(8){animation-delay:.21s}
+@keyframes cdIn{to{opacity:1; transform:none}}
+.cal button.cd{cursor:pointer; transition:transform .15s ease, box-shadow .2s ease}
+.cal button.cd:active{transform:scale(.98)}
+@media (hover:hover){ .cal button.cd:hover{box-shadow:inset 0 0 0 1px var(--line)} }
+.cd-date{flex:none; width:46px; height:46px; border-radius:13px; display:flex; flex-direction:column; align-items:center; justify-content:center; background:var(--c, var(--none)); color:#fff; line-height:1}
+.cd-date b{font:700 18px/1 var(--display); font-variant-numeric:tabular-nums} .cd-date small{font-size:10.5px; font-weight:600; margin-top:3px; text-transform:uppercase; letter-spacing:.02em; opacity:.92}
+.cd-body{flex:1; min-width:0; display:flex; flex-direction:column; gap:3px}
+.cd-top{font-size:12px; font-weight:600; color:var(--muted)}
+.cd-title{font-size:14.5px; font-weight:600; line-height:1.3; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden}
+.cd-score{flex:none; min-width:30px; text-align:right; font:700 17px/1 var(--display); color:var(--c, var(--muted)); font-variant-numeric:tabular-nums}
+.cal .cd.sel{box-shadow:inset 0 0 0 2px var(--ink)}
+.cal .cd.empty .cd-date{background:var(--none); color:var(--none-ink)} .cal .cd.empty .cd-title{color:var(--muted); font-weight:500}
+.cal .cd.future{background:transparent; box-shadow:inset 0 0 0 1.5px var(--line); border-style:dashed; opacity:0; color:var(--muted)}
+.cal .cd.future .cd-date{background:var(--none); color:var(--none-ink)} .cal .cd.future .cd-title{font-weight:500; color:var(--muted)}
+.cal .cd.future{animation-name:cdInDim} @keyframes cdInDim{to{opacity:.7; transform:none}}
+#calOv .legend .none{display:none}
+@media (prefers-reduced-motion: reduce){ .cal .cd{animation:none; opacity:1; transform:none} .cal .cd.future{opacity:.7} }
+#calTitle{text-transform:none}
 </style>
 </head>
 <body>
@@ -516,8 +539,6 @@ html.theme-fade, html.theme-fade *, html.theme-fade *::before, html.theme-fade *
     <span class="grab" aria-hidden="true"></span>
     <div class="sheet-head">
       <h2 id="calTitle"></h2>
-      <button class="iconbtn" id="calPrev" aria-label="" data-i18n-aria="prevMonth"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
-      <button class="iconbtn" id="calNext" aria-label="" data-i18n-aria="nextMonth"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></button>
       <button class="iconbtn" id="calClose" aria-label="" data-i18n-aria="close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
     </div>
     <div class="cal" id="cal"></div>
@@ -573,7 +594,7 @@ const I18N = {
  en: {
   goTop:"Azimuth, back to top", prevDay:"Previous day", nextDay:"Next day", openCal:"Open the calendar", searchAria:"Search the archive", language:"Language",
   close:"Close", prevMonth:"Previous month", nextMonth:"Next month", legendLow:"Low impact", legendMid:"Medium", legendHigh:"Major impact", noBulletinDay:"Day without a briefing",
-  searchTitle:"Search and saved", searchLabel:"Word or country", searchPh:"e.g. Fed, Ukraine, oil",
+  searchTitle:"Search", searchLabel:"Word or country", searchPh:"e.g. Fed, Ukraine, oil",
   loadingArchive:"Loading the archive", oneMoment:"One moment.", archiveFail:"The archive could not be loaded", reload:"Reload the page.",
   loadingEd:"Loading the briefing", notFound:"Briefing not found", readFail:"The briefing could not be read", tryAgain:"Try again.",
   emptyT:"The archive is empty for now", emptyX:"The first briefing appears here after the morning run, around 09:30 Romanian time.",
@@ -585,7 +606,7 @@ const I18N = {
   details:"Details", happened:"What happened", context:"Context", why:"Why it matters", sources:"Sources", secondary:"Social media, tabloids, blogs",
   source:"Source", secondarySrc:"secondary source", overnight:"Overnight", unconfirmed:"Not confirmed by agencies", save:"Save story", unsave:"Remove from saved", saveFail:"Could not save. Try again.",
   markets:"Markets", gStocks:"Stock indices · daily change", gNews:"Stocks in the news", idxNote:"An index tracks a basket of company shares. Its level is counted in points, not money, so the daily % change is what shows how the market moved.", idxLevel:"Index level", gFx:"Currencies", gCmd:"Commodities and crypto", watch:"What to watch today", moreSrc:"More sources", secondaryMore:"Social media, tabloids, blogs and additional sources",
-  calNoScore:"briefing without an impact score", calNotYet:"not yet", calNone:"no briefing",
+  calNoScore:"briefing without an impact score", last7:"Last 7 days", nextEd:"Next edition", nextEdWhen:"Tomorrow at 08:45, not yet published", noEd:"No edition this day", calToday:"Today", calYesterday:"Yesterday", calNotYet:"not yet", calNone:"no briefing",
   searching:"Loading the archive...", archiveFailShort:"The archive could not be loaded.", noResults:"No results.", savedStories:"Saved stories",
   noSaved:"You have not saved any stories yet. Use the bookmark button on a story.",
   fallback:"This briefing is only available in Romanian.",
@@ -599,7 +620,7 @@ const I18N = {
  ro: {
   goTop:"Azimuth, mergi sus", prevDay:"Ziua anterioară", nextDay:"Ziua următoare", openCal:"Deschide calendarul", searchAria:"Caută în arhivă", language:"Limbă",
   close:"Închide", prevMonth:"Luna anterioară", nextMonth:"Luna următoare", legendLow:"Impact mic", legendMid:"Mediu", legendHigh:"Impact major", noBulletinDay:"Zi fără buletin",
-  searchTitle:"Caută și salvate", searchLabel:"Cuvânt sau țară", searchPh:"de exemplu: BNR, Ucraina, petrol",
+  searchTitle:"Caută", searchLabel:"Cuvânt sau țară", searchPh:"de exemplu: BNR, Ucraina, petrol",
   loadingArchive:"Se încarcă arhiva", oneMoment:"Un moment.", archiveFail:"Arhiva nu a putut fi încărcată", reload:"Reîncarcă pagina.",
   loadingEd:"Se încarcă buletinul", notFound:"Buletinul nu a fost găsit", readFail:"Buletinul nu a putut fi citit", tryAgain:"Încearcă din nou.",
   emptyT:"Arhiva e goală deocamdată", emptyX:"Primul buletin apare aici după rularea de dimineață, în jur de 09:30.",
@@ -611,7 +632,7 @@ const I18N = {
   details:"Detalii", happened:"Ce s-a întâmplat", context:"Context", why:"De ce contează", sources:"Surse", secondary:"Rețele sociale, tabloide, bloguri",
   source:"Sursă", secondarySrc:"sursă secundară", overnight:"Peste noapte", unconfirmed:"Neconfirmat de agenții", save:"Salvează știrea", unsave:"Scoate din salvate", saveFail:"Nu s-a putut salva. Încearcă din nou.",
   markets:"Piețe", gStocks:"Indici bursieri · variația zilei", gNews:"Acțiuni din știri", idxNote:"Un indice urmărește un coș de acțiuni. Nivelul lui se măsoară în puncte, nu în bani, așa că variația zilnică în % arată cum s-a mișcat piața.", idxLevel:"Nivelul indicelui", gFx:"Valute", gCmd:"Mărfuri și cripto", watch:"De urmărit azi", moreSrc:"Alte surse", secondaryMore:"Rețele sociale, tabloide, bloguri și surse suplimentare",
-  calNoScore:"buletin fără notă de impact", calNotYet:"încă nu", calNone:"fără buletin",
+  calNoScore:"buletin fără notă de impact", last7:"Ultimele 7 zile", nextEd:"Ediția următoare", nextEdWhen:"Mâine la 08:45, încă nepublicată", noEd:"Nicio ediție în această zi", calToday:"Azi", calYesterday:"Ieri", calNotYet:"încă nu", calNone:"fără buletin",
   searching:"Se încarcă arhiva...", archiveFailShort:"Arhiva nu a putut fi încărcată.", noResults:"Niciun rezultat.", savedStories:"Știri salvate",
   noSaved:"Nu ai salvat încă nicio știre. Folosește butonul de semn de carte de pe o știre.",
   fallback:"",
@@ -734,20 +755,7 @@ async function boot(){
   if (!S.current) { renderEmpty(); updateHeader(); }
   else openDay(S.current, false);
 
-  /* salvate: opțional, prin baza de date a aplicației */
-  try {
-    const db = await window.claude?.use?.("db"), user = await window.claude?.use?.("user");
-    if (db && user) {
-      S.db = db; S.uid = await user.id();
-      if (S.uid) S.db.collection("data/users/"+S.uid).where("kind","==","saved").onSnapshot(snap => {
-        const sv = {}; snap.docs.forEach(d => { sv[d.id] = d.data(); });
-        S.saved = sv;
-        if ($("#storyList")) { const open = new Set([...document.querySelectorAll(".card.open[data-n]")].map(c => c.dataset.n)); fillStories(open, false); }
-        else if (S.current && S.editions[S.current]) renderDay();
-      }, () => { S.uid = null; });
-      if (S.current && S.editions[S.current]) renderDay();
-    }
-  } catch(e) { S.uid = null; }
+  /* salvarea știrilor a fost scoasă: S.uid rămâne null, deci butoanele și filtrul „Salvate” nu apar */
 }
 const sortedDays = () => Object.keys(S.days).sort();
 const latestDay = () => { const k = sortedDays(); return k[k.length-1] || null; };
@@ -1224,23 +1232,31 @@ window.addEventListener("hashchange", () => { const m = location.hash.match(/^#d
 
 /* calendar */
 function renderCal(){
-  const base = S.calMonth || parseDate(S.current || todayIso());
-  const y = base.getFullYear(), m = base.getMonth();
-  $("#calTitle").textContent = fmt(new Date(y, m, 1), {month:"long", year:"numeric"});
-  const first = new Date(y, m, 1), offset = (first.getDay() + 6) % 7, nDays = new Date(y, m+1, 0).getDate();
-  const tIso = todayIso();
-  let h = [0,1,2,3,4,5,6].map(i => fmt(new Date(2024, 0, 1 + i), {weekday:"short"}).replace(".", "").slice(0, 2)).map(w => '<div class="wd">'+esc(w)+'</div>').join("");
-  for (let i = 0; i < offset; i++) h += '<div></div>';
-  for (let d = 1; d <= nDays; d++) {
-    const k = iso(new Date(y, m, d)), info = S.days[k], dv = info ? (dayImpact(k) || null) : null;
-    const cls = ["d"]; let style = "", label = fmt(new Date(y, m, d), {day:"numeric", month:"long"});
-    if (info && dv) { const v = dv; style = 'background:'+impactColor(v); if (v > 3.8 && v < 7) cls.push("dark-text"); label += ", "+t("impactOf")+" "+impactWord(v)+" "+v+"/10"; }
-    else if (info) { cls.push("noscore"); label += ", "+t("calNoScore"); }
-    else if (k > tIso) { cls.push("future"); label += ", "+t("calNotYet"); }
-    else { cls.push("empty"); label += ", "+t("calNone"); }
-    if (k === S.current) cls.push("sel");
-    if (k === tIso) cls.push("today");
-    h += '<button class="'+cls.join(" ")+'" style="'+style+'" data-day="'+k+'" aria-label="'+esc(label)+'"'+(info ? "" : " disabled")+'>'+d+'</button>';
+  /* ultimele 7 zile până azi, plus ziua de mâine, încă incertă */
+  $("#calTitle").textContent = t("last7");
+  const tIso = todayIso(), today = parseDate(tIso);
+  const dayAt = off => { const d = new Date(today); d.setDate(d.getDate() + off); return d; };
+  let h = "";
+  for (let off = 1; off >= -6; off--) {
+    const d = dayAt(off), k = iso(d), info = S.days[k];
+    const rel = off === 0 ? t("calToday") : off === -1 ? t("calYesterday") : "";
+    const wd = fmt(d, {weekday:"short"}).replace(".", "");
+    const dm = fmt(d, {day:"numeric", month:"short"}).replace(".", "");
+    const datePart = '<span class="cd-date"><b>'+d.getDate()+'</b><small>'+esc(wd)+'</small></span>';
+    if (off === 1) {
+      h += '<div class="cd future" aria-label="'+esc(t("nextEd")+", "+dm)+'">'+datePart+'<span class="cd-body"><span class="cd-top">'+esc(t("nextEd"))+'</span><span class="cd-title">'+esc(t("nextEdWhen"))+'</span></span><span class="cd-score">?</span></div>';
+      continue;
+    }
+    if (!info) {
+      h += '<div class="cd empty" aria-label="'+esc(dm+", "+t("noEd"))+'">'+datePart+'<span class="cd-body"><span class="cd-top">'+esc(rel || dm)+'</span><span class="cd-title">'+esc(t("noEd"))+'</span></span><span class="cd-score">–</span></div>';
+      continue;
+    }
+    const v = dayImpact(k) || null, col = v ? impactColor(v) : "var(--muted)";
+    const head = (LANG === "en" ? (info.headline_en || info.headline) : (info.headline || info.headline_en)) || "";
+    const cls = ["cd"]; if (k === S.current) cls.push("sel");
+    h += '<button type="button" class="'+cls.join(" ")+'" data-day="'+k+'" style="--c:'+col+'" aria-label="'+esc(dm+(v ? ", "+t("impactOf")+" "+impactWord(v)+" "+v+"/10" : "")+(head ? ". "+head : ""))+'"'+(k === S.current ? ' aria-current="date"' : '')+'>'+
+      datePart+'<span class="cd-body"><span class="cd-top">'+esc(rel ? rel+" · "+dm : dm)+(v ? ' · '+esc(impactWord(v)) : '')+'</span><span class="cd-title">'+esc(head)+'</span></span>'+
+      '<span class="cd-score">'+(v ? esc(String(v)) : '')+'</span></button>';
   }
   $("#cal").innerHTML = h;
 }
@@ -1260,8 +1276,6 @@ document.querySelectorAll(".overlay").forEach(o => {
   });
 });
 $("#dateBtn").onclick = () => { S.calMonth = parseDate(S.current || todayIso()); renderCal(); openOv("#calOv"); };
-$("#calPrev").onclick = () => { const b = S.calMonth; S.calMonth = new Date(b.getFullYear(), b.getMonth()-1, 1); renderCal(); };
-$("#calNext").onclick = () => { const b = S.calMonth; S.calMonth = new Date(b.getFullYear(), b.getMonth()+1, 1); renderCal(); };
 $("#calClose").onclick = () => closeOv("#calOv");
 $("#cal").addEventListener("click", e => { const b = e.target.closest("[data-day]"); if (!b || b.disabled) return; closeOv("#calOv"); openDay(b.dataset.day); window.scrollTo(0,0); });
 document.querySelectorAll(".overlay").forEach(o => o.addEventListener("click", e => { if (e.target === o) closeOv("#" + o.id); }));
