@@ -31,6 +31,7 @@ When working on the app from Claude Code:
 - No emoji anywhere in the interface or the content.
 - Themes: Auto (follows the phone), Light and Dark, chosen in the side menu. The theme is set before first paint by the small script in `<head>`; keep the `only light` / `only dark` color-scheme switch, which stops browsers from forcing their own dark mode and washing out the colors.
 - Test on narrow phones (320 to 430 px wide) and on desktop. Nothing may overflow the screen horizontally.
+- Logo: a faceted compass needle (north half blue #6FB1FF/#2F6FEB, south half #F4F5F8/#B9BCC7) over a globe with meridian and parallels, on a navy tile (gradient #1E2A4A to #0A0F1F) with a graduated bezel. The same drawing is used in the header (`#brandBtn`, needle spins on tap), in the credits (`.cr-logo`) and in `icons/` (maskable icons keep the drawing at 78% inside the safe zone). Changing the APK icon needs a new PWABuilder package.
 - The impact colors come from `impactColor()`; they are tuned separately for light and dark backgrounds to stay readable.
 
 ## Data format (summary)
