@@ -131,7 +131,7 @@ header.top{position:sticky; top:0; z-index:20; background:var(--bg); border-bott
 .tag.cat-eco{color:#0E7C66; background:var(--soft); background:color-mix(in srgb,#0E7C66 10%, var(--surface)); border-color:var(--line); border-color:color-mix(in srgb,#0E7C66 25%, var(--surface))}
 .tag.cat-alt{color:#B4540F; background:var(--soft); background:color-mix(in srgb,#B4540F 10%, var(--surface)); border-color:var(--line); border-color:color-mix(in srgb,#B4540F 25%, var(--surface))}
 :root[data-theme="dark"] .tag.cat-geo{color:#B99BFF} :root[data-theme="dark"] .tag.cat-eco{color:#5FD3B6} :root[data-theme="dark"] .tag.cat-alt{color:#F2A35E}
-@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .tag.cat-geo{color:#B99BFF} :root:not([data-theme="light"]) .tag.cat-eco{color:#5FD3B6} :root:not([data-theme="light"]) .tag.cat-alt{color:#F2A35E} }
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .tag.cat-geo{color:#C4A8FF} :root:not([data-theme="light"]) .tag.cat-eco{color:#4BE3BD} :root:not([data-theme="light"]) .tag.cat-alt{color:#FFAA5C} }
 .tag.night{color:var(--ink)}
 .tag.warn{color:#B42318; border-color:var(--line); border-color:color-mix(in srgb,#B42318 35%, var(--surface))}
 .essential{padding:12px 16px 0; margin:0; font-size:16px; overflow-wrap:anywhere}
@@ -185,8 +185,8 @@ tr:last-child td{border-bottom:0}
 .mk-c{font-size:13px; font-weight:600; padding:2px 8px; border-radius:999px; font-variant-numeric:tabular-nums; background:var(--soft); color:var(--muted)}
 .mk-c.up{color:#0E8A4A; background:var(--soft); background:color-mix(in srgb,#0E8A4A 14%, var(--surface))}
 .mk-c.down{color:#C4291C; background:var(--soft); background:color-mix(in srgb,#C4291C 14%, var(--surface))}
-:root[data-theme="dark"] .mk-c.up{color:#4ADE80} :root[data-theme="dark"] .mk-c.down{color:#F87171}
-@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .mk-c.up{color:#4ADE80} :root:not([data-theme="light"]) .mk-c.down{color:#F87171} }
+:root[data-theme="dark"] .mk-c.up{color:#32E875} :root[data-theme="dark"] .mk-c.down{color:#FF6B6B}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .mk-c.up{color:#32E875} :root:not([data-theme="light"]) .mk-c.down{color:#FF6B6B} }
 .jump{display:flex; gap:8px; overflow-x:auto; scrollbar-width:none; padding:14px 2px 2px; margin:0 -2px; scroll-snap-type:x proximity; overscroll-behavior-x:contain}
 .jump::-webkit-scrollbar{display:none}
 .jump button{flex:none; scroll-snap-align:start; display:inline-flex; align-items:center; gap:8px; min-height:42px; padding:0 14px; border-radius:12px; border:1px solid var(--line); background:var(--surface); box-shadow:var(--shadow); font-size:14px; font-weight:600; color:var(--ink); transition:transform .2s cubic-bezier(.22,1,.36,1), border-color .2s}
@@ -214,8 +214,8 @@ tr:last-child td{border-bottom:0}
 .fx-chip .ar{font-size:10px}
 .fx-chip .v{font-weight:500; color:var(--muted); font-variant-numeric:tabular-nums}
 .fx-chip.up .ar{color:#0E8A4A} .fx-chip.down .ar{color:#C4291C} .fx-chip.flat .ar{color:var(--muted)}
-:root[data-theme="dark"] .fx-chip.up .ar{color:#4ADE80} :root[data-theme="dark"] .fx-chip.down .ar{color:#F87171}
-@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .fx-chip.up .ar{color:#4ADE80} :root:not([data-theme="light"]) .fx-chip.down .ar{color:#F87171} }
+:root[data-theme="dark"] .fx-chip.up .ar{color:#32E875} :root[data-theme="dark"] .fx-chip.down .ar{color:#FF6B6B}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .fx-chip.up .ar{color:#32E875} :root:not([data-theme="light"]) .fx-chip.down .ar{color:#FF6B6B} }
 .fx-go{margin-left:auto; display:inline-flex; align-items:center; gap:6px; min-height:40px; padding:0 12px; border-radius:10px; border:1px solid var(--line); background:var(--surface); font-size:14px; font-weight:600}
 .fx-go svg{width:14px; height:14px}
 .fx-disc{margin:12px 2px 0; font-size:12px; color:var(--muted)}
@@ -365,6 +365,12 @@ header.top{border-bottom:0; box-shadow:0 1px 0 color-mix(in srgb, var(--ink) 8%,
 .brief li::before{border-radius:50%; width:6px; height:6px}
 @media (max-width:420px){ .day h1{font-size:29px} .card h2{font-size:19px} .section h2.sh{font-size:26px} .day{padding:20px} .card-head{padding:18px 18px 0} .essential{padding:10px 18px 0; font-size:16px} .card-actions{padding:14px 18px 18px} .flag{width:21px; height:15px} .flags{max-width:73px; gap:3px} .brief{font-size:16px} }
 @media (min-width:1100px){ .day h1{font-size:44px} .card h2{font-size:24px} .day{padding:32px} .brief{border:0} }
+
+/* contrast mai bun în modul întunecat */
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --ink:#FFFFFF; --muted:#AEAEB2; --accent:#3BA0FF } }
+:root[data-theme="dark"]{ --ink:#FFFFFF; --muted:#AEAEB2; --accent:#3BA0FF }
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .track{background:#3A3A3C} :root:not([data-theme="light"]) .dot{box-shadow:0 0 0 3px color-mix(in srgb, currentColor 30%, transparent)} }
+:root[data-theme="dark"] .track{background:#3A3A3C}
 </style>
 </head>
 <body>
@@ -528,12 +534,19 @@ function applyStatic(){
 applyStatic();
 
 /* Impact 1–10: verde (1) -> galben (5.5) -> roșu (10), interpolare continuă */
+function isDark(){
+  const th = document.documentElement.getAttribute("data-theme");
+  if (th === "dark") return true; if (th === "light") return false;
+  return !!(window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches);
+}
 function impactColor(v){
   const x = Math.min(10, Math.max(1, Number(v) || 1));
-  const t = (x - 1) / 9;
+  const t = (x - 1) / 9, mid = 1 - Math.abs(t - .5) * 2;
   const hue = t <= .5 ? 135 - 85 * (t / .5) : 50 - 50 * ((t - .5) / .5);
-  const light = 40 + 10 * (1 - Math.abs(t - .5) * 2);
-  const sat = 72 + 16 * (1 - Math.abs(t - .5) * 2);
+  /* pe fundal închis culorile au nevoie de mai multă lumină și saturație ca să nu pară șterse */
+  const dark = isDark();
+  const light = dark ? 54 + 8 * mid : 42 + 8 * mid;
+  const sat = dark ? 92 + 6 * mid : 82 + 12 * mid;
   return "hsl("+hue.toFixed(1)+" "+sat.toFixed(0)+"% "+light.toFixed(0)+"%)";
 }
 const impactWord = v => { const w = t("words"); return v >= 8.5 ? w[4] : v >= 6.5 ? w[3] : v >= 4.5 ? w[2] : v >= 2.5 ? w[1] : w[0]; };
@@ -554,7 +567,9 @@ function flagsHtml(list){
 const catClass = c => /geo/i.test(c) ? "cat-geo" : /eco/i.test(c) ? "cat-eco" : "cat-alt";
 
 /* legenda calendarului */
-$("#legendBar").style.background = "linear-gradient(90deg,"+[1,2,3,4,5,5.5,6,7,8,9,10].map(impactColor).join(",")+")";
+function paintLegend(){ $("#legendBar").style.background = "linear-gradient(90deg,"+[1,2,3,4,5,5.5,6,7,8,9,10].map(impactColor).join(",")+")"; }
+paintLegend();
+try { matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => { paintLegend(); if (S.current && S.editions[S.current]) renderDay(); }); } catch(e) {}
 
 /* ---------- stare ---------- */
 const S = { db:null, uid:null, days:{}, editions:{}, current:null, filter:"all", saved:{}, calMonth:null, allLoaded:false };
