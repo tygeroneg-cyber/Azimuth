@@ -1,12 +1,12 @@
 window.DM_DATA_EN = window.DM_DATA_EN || {};
 window.DM_DATA_EN["2026-11-16"] = {
  "date": "2026-11-16",
- "updated": "08:55",
+ "updated": "18:00",
  "impact": 7,
  "summary": [
-  "Drones hit three merchant ships near Sulina on Saturday evening, two inside Romanian territorial waters; the prime minister called it a violation of international law.",
-  "Israel's security cabinet met on Iran as Tehran said more tankers hit mines near Hormuz, while Reuters reported Hormuz flows nearly restored and oil eased to about $95.",
-  "Asian stocks fell on a Japanese contraction and chip worries before Nvidia's results, Anthropic heads into its IPO week, and Romania's GDP rose 2.1% in the third quarter."
+  "Romania asked in Brussels on Monday for closer EU-NATO coordination after four ships were hit by drones near Sulina in three days, one of them the first NATO-flagged ship attacked in the Black Sea.",
+  "Iran warns the southern Hormuz route is mined and Netanyahu is pushing for a unity government he would lead; oil still slipped to $95 as flows recover.",
+  "The tech sell-off spread to Wall Street before Nvidia's results, and the Francophonie postponed by a year the election of its secretary-general, in which Romania's Dacian Cioloș was a candidate."
  ],
  "stories": [
   {
@@ -27,9 +27,14 @@ window.DM_DATA_EN["2026-11-16"] = {
     "Crews put out the fires (IPN).",
     "Defence Ministry radars detected aerial targets in the area and the Air Force scrambled fighter jets twice, Prime Minister Luca Niculescu said (HotNews).",
     "Niculescu called the incidents unacceptable and a violation of international law, saying Romania will strengthen Black Sea security together with NATO and regional partners (Mediafax, HotNews).",
-    "An area offshore between Sulina and Sfântu Gheorghe was declared dangerous (Euronews România)."
+    "An area offshore between Sulina and Sfântu Gheorghe was declared dangerous (Euronews România).",
+    "Foreign Minister Dan Neculăescu asked EU partners in Brussels on Monday to keep providing defence capabilities and to coordinate more closely with NATO (Informat).",
+    "One of the ships sailed under the Greek flag, the first vessel of a NATO member attacked in the Black Sea since the war began, according to the Institute for the Study of War (Info Sud-Est).",
+    "The Romanian Navy prepared missions on Monday to neutralise two drifting drones spotted by a French Atlantique 2 aircraft (Curs de guvernare, ProTV).",
+    "NATO said it had taken additional measures to strengthen Black Sea security (Euronews România)."
    ],
    "context": [
+    "On Friday evening the cargo ship Larissa 1, flying the Palau flag, was hit while anchored off Sulina, bringing the total to four ships in three days (Curs de guvernare).",
     "Five ships have been attacked in Romanian territorial waters in the past month, and another ship was hit near Sfântu Gheorghe the day before (Aleph News).",
     "ProTV said it is the first time since the start of the war in Ukraine that attacks have taken place so close to the Romanian coast, four to five nautical miles out (ProTV).",
     "No country has claimed the attacks."
@@ -38,6 +43,22 @@ window.DM_DATA_EN["2026-11-16"] = {
     "Sulina is a main gateway for Danube shipping; repeated strikes there raise insurance and freight costs for Romanian ports and test NATO's response on its eastern flank."
    ],
    "sources": [
+    {
+     "t": "Informat – România cere coordonare UE–NATO după atacurile de lângă Sulina",
+     "u": "https://informat.ro/ue/romania-coordonare-ue-nato-nave-lovite-drone-marea-neagra-148556"
+    },
+    {
+     "t": "Info Sud-Est – Patru nave lovite de drone lângă Sulina în trei zile",
+     "u": "https://www.info-sud-est.ro/nou-bilant-al-razboiului-in-marea-neagra-o-nava-sub-pavilionul-unui-stat-nato-atacata-in-premiera-patru-nave-lovite-de-drone-langa-sulina-in-trei-zile/"
+    },
+    {
+     "t": "Curs de guvernare – Misiune pentru neutralizarea a două drone în derivă",
+     "u": "https://cursdeguvernare.ro/2-drone-aeriene-plutesc-in-deriva-in-marea-neagra.html"
+    },
+    {
+     "t": "Euronews România – NATO a luat măsuri suplimentare la Marea Neagră",
+     "u": "https://www.euronews.ro/articole/masuri-de-protectie-in-marea-neagra-navele-folosesc-plase-speciale-impotriva-dronelor"
+    },
     {
      "t": "IPN (Mediafax) – Două nave comerciale lovite de drone",
      "u": "https://ipn.md/doua-nave-comerciale-lovite-in-drone-in-apele-teritoriale-ale-romaniei/"
@@ -86,7 +107,10 @@ window.DM_DATA_EN["2026-11-16"] = {
     "Yedioth Ahronoth reported the cabinet could consider authorising military action against Iran; no decision has been announced (A News).",
     "The heads of the Mossad and the National Security Council reportedly favour striking Iran as soon as possible, while the military chief of staff sees no reason to rush (Tel Aviv Diary).",
     "Iran's Revolutionary Guards say three tankers in total hit mines and caught fire in or near the Strait of Hormuz (Straits Daily Brief, citing multiple outlets).",
-    "Anadolu reported the deployment of a third US aircraft carrier to the Middle East, and the Saudi-led coalition said it intercepted drones over Medina; the Houthis called the claim a fabrication (Anadolu)."
+    "Anadolu reported the deployment of a third US aircraft carrier to the Middle East, and the Saudi-led coalition said it intercepted drones over Medina; the Houthis called the claim a fabrication (Anadolu).",
+    "The Revolutionary Guards warned oil companies that the southern Hormuz route is mined (Newsquawk).",
+    "On Monday evening Netanyahu called in a video for a unity government under his leadership, while Gadi Eisenkot, who holds the mandate, works to assemble a coalition (Ynet).",
+    "Bahraini prosecutors said scores of Bahrainis were sentenced to life in prison for colluding with the Revolutionary Guards (Just Security)."
    ],
    "context": [
     "Israel is run by a caretaker government while Gadi Eisenkot holds the mandate to form a new one."
@@ -95,6 +119,18 @@ window.DM_DATA_EN["2026-11-16"] = {
     "A new Israeli strike on Iran would hit oil supply expectations and Gulf shipping again."
    ],
    "sources": [
+    {
+     "t": "Ynet – Netanyahu calls for unity government but insists on leading it",
+     "u": "https://www.ynetnews.com/article/hjs8ptjcfx"
+    },
+    {
+     "t": "Newsquawk – US opening news, 16 November",
+     "u": "https://newsquawk.com/headlines/newsquawk-daily-us-opening-news---16th-november-2026"
+    },
+    {
+     "t": "Just Security – Early Edition, 16 November",
+     "u": "https://www.justsecurity.org/164727/early-edition-november-16-2026/"
+    },
     {
      "t": "Times of Israel – Mossad chief returns, will update security cabinet",
      "u": "https://www.timesofisrael.com/liveblog_entry/mossad-chief-returns-from-us-after-meeting-ratcliffe-witkoff-on-iran-will-update-security-cabinet"
@@ -122,7 +158,7 @@ window.DM_DATA_EN["2026-11-16"] = {
    ]
   },
   {
-   "title": "Asian stocks fall as Japan's economy shrinks and chipmakers slide before Nvidia results",
+   "title": "Tech sell-off spreads: Asian stocks fall and Wall Street opens lower before Nvidia",
    "cat": "Economy",
    "region": "Asia-Pacific",
    "overnight": true,
@@ -139,7 +175,9 @@ window.DM_DATA_EN["2026-11-16"] = {
     "South Korea's Kospi lost 2.8% to 5,142.84 (AP).",
     "Chinese industrial production and retail sales data disappointed, pressuring mainland shares (Newsquawk).",
     "Chipmakers were hit hard, with SK Hynix sliding more than 6% on Nvidia and export-curb worries; US futures turned lower (investingLive).",
-    "The yen was little changed at 159.67 per dollar (CNBC TV18)."
+    "The yen was little changed at 159.67 per dollar (CNBC TV18).",
+    "European shares were little changed: the STOXX 600 and DAX were flat, while the CAC 40 and FTSE 100 gained about 0.2% (Yahoo Finance).",
+    "In New York at 09:35, the S&P 500 was down 0.9%, the Nasdaq 1.5% and the Dow 0.1%, while Nvidia lost 2.4% (AP)."
    ],
    "context": [
     "Investors are watching Nvidia's results on Tuesday and Anthropic's stock market debut later this week (AP)."
@@ -148,6 +186,14 @@ window.DM_DATA_EN["2026-11-16"] = {
     "Weak Asian demand and tech sell-offs can spill into European markets when they open this morning."
    ],
    "sources": [
+    {
+     "t": "AP (BNN Bloomberg) – Nvidia and other AI stocks drag Wall Street lower",
+     "u": "https://www.bnnbloomberg.ca/markets/nasdaq/2026/11/16/stocks-decline-on-tech-sell-off-as-concerns-over-the-nvidia-fallout-persist/"
+    },
+    {
+     "t": "Yahoo Finance – European shares steady before Nvidia and Anthropic",
+     "u": "https://uk.finance.yahoo.com/news/european-shares-steady-investors-await-095151589.html"
+    },
     {
      "t": "AP (WSLS) – Stocks decline in Asia over Nvidia fallout",
      "u": "https://www.wsls.com/business/2026/11/16/stocks-decline-in-asia-as-investor-concerns-over-nvidia-fallout-extend-into-another-week/"
@@ -180,7 +226,7 @@ window.DM_DATA_EN["2026-11-16"] = {
     "US",
     "IR"
    ],
-   "essential": "Oil prices fell on Monday on expectations of a supply surplus, as shipments through the Strait of Hormuz have been nearly restored to pre-war levels, Reuters reported; Brent traded at $95.53 a barrel, down 0.3% (Reuters, UNN).",
+   "essential": "Oil fell on Monday on signs that flows through Hormuz are recovering; Brent dropped 69 cents, or 0.7%, to $95.15 a barrel (CNBC, citing Reuters).",
    "what": [
     "The US extended for 90 days a waiver of the Jones Act, opening more tankers to move fuel between US ports (Reuters).",
     "The International Energy Agency said 71 million barrels from its record emergency stock release will be made available by the end of February, including 15 million barrels of diesel (Reuters, via Newswire).",
@@ -193,6 +239,10 @@ window.DM_DATA_EN["2026-11-16"] = {
     "Oil near $95 keeps fuel prices high in Europe; a renewed strike on Iran could reverse the easing."
    ],
    "sources": [
+    {
+     "t": "CNBC (Reuters) – Oil falls as recovering Middle East exports bolster surplus outlook",
+     "u": "https://www.cnbc.com/amp/2026/11/16/oil-prices-brent-wti-latest.html"
+    },
     {
      "t": "Reuters (MarketScreener) – Oil prices fall on expectations of supply surplus",
      "u": "https://www.marketscreener.com/news/oil-prices-fall-on-expectations-of-coming-supply-surplus-ce785ededf81f320"
@@ -382,7 +432,7 @@ window.DM_DATA_EN["2026-11-16"] = {
    ]
   },
   {
-   "title": "Francophonie picks a secretary-general today by secret ballot; Cioloș is one of four candidates",
+   "title": "Francophonie postpones its secretary-general election by a year; Mushikiwabo stays on",
    "cat": "Geopolitics",
    "region": "Global",
    "overnight": false,
@@ -394,18 +444,26 @@ window.DM_DATA_EN["2026-11-16"] = {
     "RW",
     "FR"
    ],
-   "essential": "The International Organisation of La Francophonie will choose its secretary-general on Monday by secret ballot for the first time, instead of by consensus; Dacian Cioloș is one of four candidates (AFP via HotNews).",
+   "essential": "The election of the Francophonie's secretary-general was postponed by a year on Monday in Phnom Penh for lack of consensus, and Emmanuel Macron hailed a \"compromise\" (France 24).",
    "what": [
-    "Emmanuel Macron opened the summit on Sunday calling for unity and consensus (Daily News Egypt).",
-    "The race has turned into a proxy contest between Rwanda and DR Congo, Le Monde wrote (Antena 3 CNN)."
+    "Louise Mushikiwabo, whose term was due to end in late 2026, stays in office until the next election (FPOP).",
+    "The vote was to be held by secret ballot for the first time, with four candidates including Dacian Cioloș (AFP via HotNews)."
    ],
    "context": [
     "President Nicușor Dan is in Phnom Penh to support Cioloș."
    ],
    "why": [
-    "A win would give Romania the top post in a 90-member organisation."
+    "Romania's candidate, Cioloș, remains in the race for next year."
    ],
    "sources": [
+    {
+     "t": "France 24 – Francophonie : l'élection du secrétaire général reportée",
+     "u": "https://www.france24.com/fr/france/20261116-francophonie-oif-vote-%C3%A9lection-secr%C3%A9taire-g%C3%A9n%C3%A9ral-louise-mushikiwabo-rwanda-rd-congo-juliana-lumumba-dacian-ciolos-coumba-ba"
+    },
+    {
+     "t": "FPOP – Élection repoussée, Mushikiwabo prolongée",
+     "u": "https://www.fpop.media/francophonie-lelection-du-secretaire-general-repoussee-mushikiwabo-prolongee/"
+    },
     {
      "t": "HotNews (AFP) – Suspans în competiția în care este și Cioloș",
      "u": "https://hotnews.ro/suspans-pana-in-ultimul-moment-in-competitia-in-care-este-si-ciolos-disputa-care-poate-provoca-un-cutremur-in-lumea-francofoniei-nicusor-dan-e-si-el-la-phnom-penh-2405175"
@@ -421,6 +479,27 @@ window.DM_DATA_EN["2026-11-16"] = {
    ]
   },
   {
+   "title": "Estonia to close all border crossings with Russia from 1 December",
+   "cat": "Geopolitics",
+   "region": "Europe",
+   "overnight": true,
+   "impact": 3.4,
+   "countries": [
+    "EE",
+    "RU"
+   ],
+   "essential": "Estonia will close all border crossings with Russia from 1 December after a \"failed sabotage attempt\" targeting an Estonian defence company, Foreign Minister Margus Tsahkna said (Anadolu).",
+   "what": [],
+   "context": [],
+   "why": [],
+   "sources": [
+    {
+     "t": "Anadolu – Morning Briefing, 16 November",
+     "u": "https://www.aa.com.tr/en/world/morning-briefing-nov-16-2026/4126094"
+    }
+   ]
+  },
+  {
    "title": "US air traffic expected back to normal on Monday",
    "cat": "Other",
    "region": "North America",
@@ -430,12 +509,22 @@ window.DM_DATA_EN["2026-11-16"] = {
     "US"
    ],
    "essential": "US Transportation Secretary Sean Duffy said nationwide air traffic will return to normal by Monday after the communication outage that triggered Friday's ground stop (Anadolu).",
-   "what": [],
+   "what": [
+    "Investigators are examining equipment from two FAA facilities in Arkansas and Texas (WORLD Radio)."
+   ],
    "context": [
     "Airlines cancelled thousands of flights over the weekend as they repositioned planes and crews."
    ],
    "why": [],
    "sources": [
+    {
+     "t": "WORLD Radio – Monday morning news, 16 November",
+     "u": "https://wng.org/podcasts/monday-morning-news-november-16-2026-1794789486"
+    },
+    {
+     "t": "NPR – Up First, 16 November",
+     "u": "https://www.npr.org/sections/news/"
+    },
     {
      "t": "Anadolu – Morning Briefing, 16 November",
      "u": "https://www.aa.com.tr/en/world/morning-briefing-nov-16-2026/4126094"
@@ -467,28 +556,25 @@ window.DM_DATA_EN["2026-11-16"] = {
    ]
   },
   {
-   "title": "US extends Jones Act waiver for 90 days to ease fuel shipments",
+   "title": "EU unlocks nearly 8 billion euros for Ukraine",
    "cat": "Economy",
-   "region": "North America",
+   "region": "Europe",
    "overnight": false,
-   "impact": 2.8,
+   "impact": 3.0,
    "countries": [
-    "US"
+    "UA",
+    "EU"
    ],
-   "essential": "Donald Trump extended for 90 days a waiver of the Jones Act, which requires US-flagged ships to carry cargo between US ports, a White House official said (Reuters).",
+   "essential": "The EU Council adopted a decision enabling Ukraine to receive nearly 8 billion euros under the Ukraine Facility (Mezha).",
    "what": [
-    "The waiver increases the number of tankers available to carry fuel between US ports (Reuters)."
+    "Zelensky said he expects the last two EU accession negotiating clusters to open after Ukraine meets more than 20 reform commitments (Mezha)."
    ],
    "context": [],
    "why": [],
    "sources": [
     {
-     "t": "Reuters (Lufkin Daily News) – Oil prices fall",
-     "u": "https://lufkindailynews.com/news_reuters/business/oil-prices-fall-on-expectations-of-coming-supply-surplus/article_ba87280e-7775-5791-b7b1-c65d933a652d.html"
-    },
-    {
-     "t": "Newswire (Reuters) – Oil prices fall",
-     "u": "https://www.newswire.lk/2026/11/16/oil-prices-fall-on-expectations-of-coming-supply-surplus/"
+     "t": "Mezha – News feed, 16 November",
+     "u": "https://mezha.net/eng/news/mezha-0e5cdb39a1a00e73a63330e0_zelensky_expects_the"
     }
    ]
   },
@@ -509,26 +595,6 @@ window.DM_DATA_EN["2026-11-16"] = {
     {
      "t": "Euronews – Latest news bulletin, 16 November",
      "u": "https://www.euronews.com/video/2026/11/16/latest-news-bulletin-november-16th-2026-morning"
-    }
-   ]
-  },
-  {
-   "title": "Mexico: cartel founder Miguel Ángel Félix Gallardo dies at 80",
-   "cat": "Other",
-   "region": "Latin America",
-   "overnight": true,
-   "impact": 2.0,
-   "countries": [
-    "MX"
-   ],
-   "essential": "Miguel Ángel Félix Gallardo, founder of a Mexican cartel, has died at the age of 80 (Mezha news feed).",
-   "what": [],
-   "context": [],
-   "why": [],
-   "sources": [
-    {
-     "t": "Mezha – Nikkei 225 and Hang Seng set for higher open (news feed)",
-     "u": "https://mezha.net/eng/news/mezha-ae57150bbef7ac8413d4e13f_nikkei_225_and/"
     }
    ]
   }
@@ -597,21 +663,21 @@ window.DM_DATA_EN["2026-11-16"] = {
    ],
    [
     "EUR/RON (NBR)",
-    "5.3498 RON",
-    "+0.0039 RON",
-    "NBR rate, Friday"
+    "5.3494 RON",
+    "-0.0004 RON",
+    "NBR rate, Monday"
    ],
    [
     "USD/RON (NBR)",
-    "4.8428 RON",
-    "+0.0273 RON",
-    "NBR rate, Friday"
+    "4.8600 RON",
+    "+0.0172 RON",
+    "NBR rate, Monday"
    ],
    [
     "Brent",
-    "95.53 USD/bbl",
-    "-0.3%",
-    "Monday morning"
+    "95.15 USD/bbl",
+    "-0.7%",
+    "Monday, intraday"
    ],
    [
     "Gold",
@@ -626,8 +692,20 @@ window.DM_DATA_EN["2026-11-16"] = {
     "Monday, 24 hours"
    ]
   ],
-  "note": "Monday morning: Nikkei 225 and Hang Seng are Monday session readings, Brent and Bitcoin are Monday-morning quotes; US and European rows are Friday closes and the NBR rates are Friday's.",
+  "note": "Evening edition: Nikkei 225 and Hang Seng are Monday closes, Brent and Bitcoin are Monday quotes, NBR rates are Monday's; US and European rows are still Friday closes until today's session ends.",
   "sources": [
+   {
+    "t": "Digi24 – Curs BNR, 16 noiembrie",
+    "u": "https://www.digi24.ro/digieconomic/financiar/curs-bnr-euro-scade-dolarul-ajunge-la-un-nou-record-127223"
+   },
+   {
+    "t": "Bugetul.ro – Curs valutar BNR, 16 noiembrie",
+    "u": "https://www.bugetul.ro/curs-valutar-bnr-16-noiembrie-2026/"
+   },
+   {
+    "t": "CNBC (Reuters) – Oil falls as recovering Middle East exports bolster surplus outlook",
+    "u": "https://www.cnbc.com/amp/2026/11/16/oil-prices-brent-wti-latest.html"
+   },
    {
     "t": "Yahoo Finance – Nvidia slides after HSBC downgrade",
     "u": "https://finance.yahoo.com/markets/stocks/articles/stock-market-today-nov-13-222002466.html"
@@ -688,7 +766,7 @@ window.DM_DATA_EN["2026-11-16"] = {
     {
      "a": "Brent",
      "d": "down",
-     "v": "95.53 USD, -0.3%"
+     "v": "95.15 USD, -0.7%"
     },
     {
      "a": "Gulf shipping insurance",
@@ -774,7 +852,7 @@ window.DM_DATA_EN["2026-11-16"] = {
     {
      "a": "Brent",
      "d": "down",
-     "v": "95.53 USD"
+     "v": "95.15 USD, -0.7%"
     },
     {
      "a": "WTI",
@@ -824,7 +902,7 @@ window.DM_DATA_EN["2026-11-16"] = {
     {
      "a": "EUR/RON",
      "d": "flat",
-     "v": "5.3498, Friday"
+     "v": "5.3494, Monday"
     },
     {
      "a": "BET",
@@ -840,8 +918,7 @@ window.DM_DATA_EN["2026-11-16"] = {
   }
  ],
  "watch": [
-  "Today: the Francophonie elects its secretary-general by secret ballot, with Dacian Cioloș among four candidates; Trump leaves for the ASEAN summit.",
-  "Tuesday, 17 November: Nvidia results and Bosnia and Herzegovina vs Romania in Zenica.",
+  "Tomorrow, Tuesday 17 November: Nvidia results and Bosnia and Herzegovina vs Romania in Zenica; Trump arrives for the ASEAN summit.",
   "Wednesday and Thursday: Anthropic's IPO pricing and first trading day; the Putin-Xi-Trump trilateral in Shenzhen on Thursday."
  ],
  "secondary": [

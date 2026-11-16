@@ -1,12 +1,12 @@
 window.DM_DATA = window.DM_DATA || {};
 window.DM_DATA["2026-11-16"] = {
  "date": "2026-11-16",
- "updated": "08:55",
+ "updated": "18:00",
  "impact": 7,
  "summary": [
-  "Drone au lovit sâmbătă seara trei nave comerciale lângă Sulina, două în apele teritoriale ale României; premierul a numit atacurile o încălcare a dreptului internațional.",
-  "Cabinetul de securitate israelian s-a reunit pe tema Iranului, iar Teheranul spune că alte petroliere au lovit mine lângă Ormuz; Reuters relatează că fluxurile prin Ormuz au revenit aproape la normal, iar petrolul a coborât la circa 95 de dolari.",
-  "Bursele asiatice au scăzut după contracția economiei japoneze și pe fondul îngrijorărilor legate de cipuri, Anthropic intră în săptămâna listării, iar PIB-ul României a crescut cu 2,1% în trimestrul III."
+  "România a cerut luni la Bruxelles o coordonare mai strânsă UE–NATO, după ce patru nave au fost lovite de drone lângă Sulina în trei zile, una dintre ele prima navă sub pavilion NATO atacată în Marea Neagră.",
+  "Iranul avertizează că ruta sudică prin Ormuz este minată, iar Netanyahu cere un guvern de uniune condus de el; petrolul a scăzut totuși la 95 de dolari, pe fondul revenirii fluxurilor.",
+  "Vânzările din tehnologie s-au extins la Wall Street înaintea rezultatelor Nvidia, iar Francofonia și-a amânat cu un an alegerea secretarului general, pentru care candida și Dacian Cioloș."
  ],
  "stories": [
   {
@@ -27,9 +27,14 @@ window.DM_DATA["2026-11-16"] = {
     "Echipajele au stins incendiile (IPN).",
     "Radarele MApN au detectat ținte aeriene în zonă, iar Forțele Aeriene au ridicat de două ori avioane de vânătoare, a spus premierul Luca Niculescu (HotNews).",
     "Niculescu a numit incidentele inacceptabile și o încălcare a dreptului internațional și a spus că România va întări securitatea la Marea Neagră împreună cu NATO și cu partenerii regionali (Mediafax, HotNews).",
-    "O zonă din larg, între Sulina și Sfântu Gheorghe, a fost declarată periculoasă (Euronews România)."
+    "O zonă din larg, între Sulina și Sfântu Gheorghe, a fost declarată periculoasă (Euronews România).",
+    "Ministrul de externe Dan Neculăescu a cerut luni, la Bruxelles, ca partenerii din UE să pună în continuare la dispoziție capabilități de apărare și o coordonare mai strânsă între UE și NATO (Informat).",
+    "Una dintre nave naviga sub pavilion grec, prima navă sub pavilionul unui stat NATO atacată în Marea Neagră de la începutul războiului, potrivit Institutului pentru Studiul Războiului (Info Sud-Est).",
+    "Forțele Navale au pregătit luni misiuni de neutralizare a două drone aflate în derivă, identificate de o aeronavă franceză Atlantique 2 (Curs de guvernare, ProTV).",
+    "NATO a transmis că a luat măsuri suplimentare pentru securitatea Mării Negre (Euronews România)."
    ],
    "context": [
+    "Vineri seara, cargoul Larissa 1, sub pavilion Palau, a fost lovit în timp ce era ancorat în largul Sulinei, astfel că patru nave au fost lovite în trei zile (Curs de guvernare).",
     "Cinci nave au fost atacate în ultima lună în apele teritoriale ale României, iar o altă navă a fost lovită lângă Sfântu Gheorghe cu o zi înainte (Aleph News).",
     "Potrivit ProTV, este prima dată de la începutul războiului din Ucraina când atacurile au loc atât de aproape de țărmul românesc, la 4–5 mile marine (ProTV).",
     "Nicio țară nu a revendicat atacurile."
@@ -38,6 +43,22 @@ window.DM_DATA["2026-11-16"] = {
     "Sulina este o poartă principală pentru transportul pe Dunăre; loviturile repetate cresc costurile de asigurare și transport pentru porturile românești și testează răspunsul NATO pe flancul estic."
    ],
    "sources": [
+    {
+     "t": "Informat – România cere coordonare UE–NATO după atacurile de lângă Sulina",
+     "u": "https://informat.ro/ue/romania-coordonare-ue-nato-nave-lovite-drone-marea-neagra-148556"
+    },
+    {
+     "t": "Info Sud-Est – Patru nave lovite de drone lângă Sulina în trei zile",
+     "u": "https://www.info-sud-est.ro/nou-bilant-al-razboiului-in-marea-neagra-o-nava-sub-pavilionul-unui-stat-nato-atacata-in-premiera-patru-nave-lovite-de-drone-langa-sulina-in-trei-zile/"
+    },
+    {
+     "t": "Curs de guvernare – Misiune pentru neutralizarea a două drone în derivă",
+     "u": "https://cursdeguvernare.ro/2-drone-aeriene-plutesc-in-deriva-in-marea-neagra.html"
+    },
+    {
+     "t": "Euronews România – NATO a luat măsuri suplimentare la Marea Neagră",
+     "u": "https://www.euronews.ro/articole/masuri-de-protectie-in-marea-neagra-navele-folosesc-plase-speciale-impotriva-dronelor"
+    },
     {
      "t": "IPN (Mediafax) – Două nave comerciale lovite de drone",
      "u": "https://ipn.md/doua-nave-comerciale-lovite-in-drone-in-apele-teritoriale-ale-romaniei/"
@@ -86,7 +107,10 @@ window.DM_DATA["2026-11-16"] = {
     "Yedioth Ahronoth a scris că cabinetul ar putea lua în calcul autorizarea unei acțiuni militare împotriva Iranului; nu a fost anunțată nicio decizie (A News).",
     "Șefii Mossad și ai Consiliului de Securitate Națională ar susține un atac cât mai rapid asupra Iranului, în timp ce șeful Statului Major nu vede motive de grabă (Tel Aviv Diary).",
     "Gărzile Revoluționare iraniene spun că, în total, trei petroliere au lovit mine și au luat foc în strâmtoarea Ormuz sau în apropiere (Straits Daily Brief, pe baza mai multor publicații).",
-    "Anadolu a relatat desfășurarea unui al treilea portavion american în Orientul Mijlociu, iar coaliția condusă de Arabia Saudită a anunțat interceptarea unor drone deasupra Medinei; houthii au numit afirmația o fabricație (Anadolu)."
+    "Anadolu a relatat desfășurarea unui al treilea portavion american în Orientul Mijlociu, iar coaliția condusă de Arabia Saudită a anunțat interceptarea unor drone deasupra Medinei; houthii au numit afirmația o fabricație (Anadolu).",
+    "Gărzile Revoluționare au avertizat companiile petroliere că ruta sudică prin Ormuz este minată (Newsquawk).",
+    "Luni seara, Netanyahu a cerut într-un mesaj video un guvern de uniune națională condus de el, în timp ce Gadi Eisenkot, care are mandatul de a forma guvernul, își construiește coaliția (Ynet).",
+    "Procurorii din Bahrain au anunțat că zeci de bahreinieni au fost condamnați la închisoare pe viață pentru colaborare cu Gărzile Revoluționare (Just Security)."
    ],
    "context": [
     "Israelul este condus de un guvern interimar, în timp ce Gadi Eisenkot are mandatul de a forma unul nou."
@@ -95,6 +119,18 @@ window.DM_DATA["2026-11-16"] = {
     "Un nou atac israelian asupra Iranului ar afecta din nou așteptările privind oferta de petrol și transportul naval din Golf."
    ],
    "sources": [
+    {
+     "t": "Ynet – Netanyahu calls for unity government but insists on leading it",
+     "u": "https://www.ynetnews.com/article/hjs8ptjcfx"
+    },
+    {
+     "t": "Newsquawk – US opening news, 16 November",
+     "u": "https://newsquawk.com/headlines/newsquawk-daily-us-opening-news---16th-november-2026"
+    },
+    {
+     "t": "Just Security – Early Edition, 16 November",
+     "u": "https://www.justsecurity.org/164727/early-edition-november-16-2026/"
+    },
     {
      "t": "Times of Israel – Mossad chief returns, will update security cabinet",
      "u": "https://www.timesofisrael.com/liveblog_entry/mossad-chief-returns-from-us-after-meeting-ratcliffe-witkoff-on-iran-will-update-security-cabinet"
@@ -122,7 +158,7 @@ window.DM_DATA["2026-11-16"] = {
    ]
   },
   {
-   "title": "Bursele asiatice scad după contracția economiei Japoniei, iar producătorii de cipuri pierd înaintea rezultatelor Nvidia",
+   "title": "Vânzările din tehnologie se extind: bursele din Asia scad, Wall Street deschide pe minus înaintea Nvidia",
    "cat": "Economie",
    "region": "Asia-Pacific",
    "overnight": true,
@@ -139,7 +175,9 @@ window.DM_DATA["2026-11-16"] = {
     "Kospi din Coreea de Sud a pierdut 2,8%, la 5.142,84 puncte (AP).",
     "Datele din China privind producția industrială și vânzările cu amănuntul au dezamăgit, ceea ce a pus presiune pe bursele din China continentală (Newsquawk).",
     "Producătorii de cipuri au fost loviți puternic: SK Hynix a scăzut cu peste 6%, pe fondul îngrijorărilor legate de Nvidia și de restricțiile la export; contractele futures americane au trecut pe minus (investingLive).",
-    "Yenul a rămas aproape neschimbat, la 159,67 pentru un dolar (CNBC TV18)."
+    "Yenul a rămas aproape neschimbat, la 159,67 pentru un dolar (CNBC TV18).",
+    "Bursele europene au fost aproape neschimbate: STOXX 600 și DAX au stagnat, iar CAC 40 și FTSE 100 au urcat cu circa 0,2% (Yahoo Finance).",
+    "La New York, la 09:35, S&P 500 scădea cu 0,9%, Nasdaq cu 1,5% și Dow Jones cu 0,1%, iar Nvidia pierdea 2,4% (AP)."
    ],
    "context": [
     "Investitorii urmăresc rezultatele Nvidia de marți și debutul la bursă al Anthropic, mai târziu în această săptămână (AP)."
@@ -148,6 +186,14 @@ window.DM_DATA["2026-11-16"] = {
     "Cererea slabă din Asia și vânzările de acțiuni tehnologice se pot transmite bursele europene la deschiderea de azi."
    ],
    "sources": [
+    {
+     "t": "AP (BNN Bloomberg) – Nvidia and other AI stocks drag Wall Street lower",
+     "u": "https://www.bnnbloomberg.ca/markets/nasdaq/2026/11/16/stocks-decline-on-tech-sell-off-as-concerns-over-the-nvidia-fallout-persist/"
+    },
+    {
+     "t": "Yahoo Finance – European shares steady before Nvidia and Anthropic",
+     "u": "https://uk.finance.yahoo.com/news/european-shares-steady-investors-await-095151589.html"
+    },
     {
      "t": "AP (WSLS) – Stocks decline in Asia over Nvidia fallout",
      "u": "https://www.wsls.com/business/2026/11/16/stocks-decline-in-asia-as-investor-concerns-over-nvidia-fallout-extend-into-another-week/"
@@ -180,7 +226,7 @@ window.DM_DATA["2026-11-16"] = {
     "US",
     "IR"
    ],
-   "essential": "Prețul petrolului a scăzut luni pe fondul așteptărilor de surplus, pentru că transporturile prin strâmtoarea Ormuz au revenit aproape la nivelul de dinainte de război, potrivit Reuters; Brent era cotat la 95,53 dolari pe baril, în scădere cu 0,3% (Reuters, UNN).",
+   "essential": "Petrolul s-a ieftinit luni, pe fondul semnelor că fluxurile prin Ormuz își revin; Brent a scăzut cu 69 de cenți, sau 0,7%, la 95,15 dolari pe baril (CNBC, pe baza Reuters).",
    "what": [
     "SUA au prelungit cu 90 de zile o derogare de la Jones Act, ceea ce permite mai multor petroliere să transporte carburanți între porturile americane (Reuters).",
     "Agenția Internațională a Energiei a anunțat că 71 de milioane de barili din eliberarea record din rezervele de urgență vor fi disponibili până la sfârșitul lui februarie, inclusiv 15 milioane de barili de motorină (Reuters, prin Newswire).",
@@ -193,6 +239,10 @@ window.DM_DATA["2026-11-16"] = {
     "Petrolul în jur de 95 de dolari menține carburanții scumpi în Europa; un nou atac asupra Iranului ar putea inversa scăderea."
    ],
    "sources": [
+    {
+     "t": "CNBC (Reuters) – Oil falls as recovering Middle East exports bolster surplus outlook",
+     "u": "https://www.cnbc.com/amp/2026/11/16/oil-prices-brent-wti-latest.html"
+    },
     {
      "t": "Reuters (MarketScreener) – Oil prices fall on expectations of supply surplus",
      "u": "https://www.marketscreener.com/news/oil-prices-fall-on-expectations-of-coming-supply-surplus-ce785ededf81f320"
@@ -382,7 +432,7 @@ window.DM_DATA["2026-11-16"] = {
    ]
   },
   {
-   "title": "Francofonia își alege azi secretarul general prin vot secret; Cioloș este unul dintre cei patru candidați",
+   "title": "Francofonia amână cu un an alegerea secretarului general; Mushikiwabo rămâne în funcție",
    "cat": "Geopolitică",
    "region": "Global",
    "overnight": false,
@@ -394,18 +444,26 @@ window.DM_DATA["2026-11-16"] = {
     "RW",
     "FR"
    ],
-   "essential": "Organizația Internațională a Francofoniei își alege luni secretarul general, pentru prima dată prin vot secret, nu prin consens; Dacian Cioloș este unul dintre cei patru candidați (AFP prin HotNews).",
+   "essential": "Alegerea secretarului general al Francofoniei a fost amânată cu un an, luni, la Phnom Penh, din lipsă de consens, iar Emmanuel Macron a salutat un „compromis” (France 24).",
    "what": [
-    "Emmanuel Macron a deschis duminică summitul cu un apel la unitate și consens (Daily News Egypt).",
-    "Cursa s-a transformat într-o confruntare prin interpuși între Rwanda și RD Congo, scrie Le Monde (Antena 3 CNN)."
+    "Louise Mushikiwabo, al cărei mandat se încheia la sfârșitul lui 2026, rămâne în funcție până la următoarea alegere (FPOP).",
+    "Votul fusese organizat, pentru prima dată, prin vot secret, cu patru candidați, între care Dacian Cioloș (AFP prin HotNews)."
    ],
    "context": [
     "Președintele Nicușor Dan se află la Phnom Penh pentru a-l susține pe Cioloș."
    ],
    "why": [
-    "O victorie i-ar aduce României conducerea unei organizații cu 90 de membri."
+    "Candidatura lui Cioloș, susținută de România, rămâne deschisă pentru anul viitor."
    ],
    "sources": [
+    {
+     "t": "France 24 – Francophonie : l'élection du secrétaire général reportée",
+     "u": "https://www.france24.com/fr/france/20261116-francophonie-oif-vote-%C3%A9lection-secr%C3%A9taire-g%C3%A9n%C3%A9ral-louise-mushikiwabo-rwanda-rd-congo-juliana-lumumba-dacian-ciolos-coumba-ba"
+    },
+    {
+     "t": "FPOP – Élection repoussée, Mushikiwabo prolongée",
+     "u": "https://www.fpop.media/francophonie-lelection-du-secretaire-general-repoussee-mushikiwabo-prolongee/"
+    },
     {
      "t": "HotNews (AFP) – Suspans în competiția în care este și Cioloș",
      "u": "https://hotnews.ro/suspans-pana-in-ultimul-moment-in-competitia-in-care-este-si-ciolos-disputa-care-poate-provoca-un-cutremur-in-lumea-francofoniei-nicusor-dan-e-si-el-la-phnom-penh-2405175"
@@ -421,6 +479,27 @@ window.DM_DATA["2026-11-16"] = {
    ]
   },
   {
+   "title": "Estonia închide toate punctele de trecere a frontierei cu Rusia de la 1 decembrie",
+   "cat": "Geopolitică",
+   "region": "Europa",
+   "overnight": true,
+   "impact": 3.4,
+   "countries": [
+    "EE",
+    "RU"
+   ],
+   "essential": "Estonia va închide toate punctele de trecere a frontierei cu Rusia de la 1 decembrie, după o „tentativă eșuată de sabotaj” împotriva unei companii estoniene din industria de apărare, a anunțat ministrul de externe Margus Tsahkna (Anadolu).",
+   "what": [],
+   "context": [],
+   "why": [],
+   "sources": [
+    {
+     "t": "Anadolu – Morning Briefing, 16 November",
+     "u": "https://www.aa.com.tr/en/world/morning-briefing-nov-16-2026/4126094"
+    }
+   ]
+  },
+  {
    "title": "Traficul aerian din SUA ar urma să revină la normal luni",
    "cat": "Altele",
    "region": "America de Nord",
@@ -430,12 +509,22 @@ window.DM_DATA["2026-11-16"] = {
     "US"
    ],
    "essential": "Secretarul american al Transporturilor, Sean Duffy, a spus că traficul aerian la nivel național va reveni la normal până luni, după pana de comunicații care a dus la oprirea zborurilor de vineri (Anadolu).",
-   "what": [],
+   "what": [
+    "Anchetatorii examinează echipamente de la două centre FAA din Arkansas și Texas (WORLD Radio)."
+   ],
    "context": [
     "Companiile aeriene au anulat mii de zboruri în weekend, pentru a-și repoziționa avioanele și echipajele."
    ],
    "why": [],
    "sources": [
+    {
+     "t": "WORLD Radio – Monday morning news, 16 November",
+     "u": "https://wng.org/podcasts/monday-morning-news-november-16-2026-1794789486"
+    },
+    {
+     "t": "NPR – Up First, 16 November",
+     "u": "https://www.npr.org/sections/news/"
+    },
     {
      "t": "Anadolu – Morning Briefing, 16 November",
      "u": "https://www.aa.com.tr/en/world/morning-briefing-nov-16-2026/4126094"
@@ -467,28 +556,25 @@ window.DM_DATA["2026-11-16"] = {
    ]
   },
   {
-   "title": "SUA prelungesc cu 90 de zile derogarea de la Jones Act pentru transportul de carburanți",
+   "title": "UE deblochează aproape 8 miliarde de euro pentru Ucraina",
    "cat": "Economie",
-   "region": "America de Nord",
+   "region": "Europa",
    "overnight": false,
-   "impact": 2.8,
+   "impact": 3.0,
    "countries": [
-    "US"
+    "UA",
+    "EU"
    ],
-   "essential": "Donald Trump a prelungit cu 90 de zile derogarea de la Jones Act, legea care cere ca mărfurile transportate între porturile americane să fie duse de nave sub pavilion american, a anunțat un oficial al Casei Albe (Reuters).",
+   "essential": "Consiliul UE a adoptat o decizie care permite Ucrainei să primească aproape 8 miliarde de euro prin Facilitatea pentru Ucraina (Mezha).",
    "what": [
-    "Derogarea mărește numărul de petroliere disponibile pentru transportul carburanților între porturile americane (Reuters)."
+    "Zelenski a spus că se așteaptă la deschiderea ultimelor două grupuri de negocieri pentru aderarea la UE după îndeplinirea a peste 20 de angajamente de reformă (Mezha)."
    ],
    "context": [],
    "why": [],
    "sources": [
     {
-     "t": "Reuters (Lufkin Daily News) – Oil prices fall",
-     "u": "https://lufkindailynews.com/news_reuters/business/oil-prices-fall-on-expectations-of-coming-supply-surplus/article_ba87280e-7775-5791-b7b1-c65d933a652d.html"
-    },
-    {
-     "t": "Newswire (Reuters) – Oil prices fall",
-     "u": "https://www.newswire.lk/2026/11/16/oil-prices-fall-on-expectations-of-coming-supply-surplus/"
+     "t": "Mezha – News feed, 16 November",
+     "u": "https://mezha.net/eng/news/mezha-0e5cdb39a1a00e73a63330e0_zelensky_expects_the"
     }
    ]
   },
@@ -509,26 +595,6 @@ window.DM_DATA["2026-11-16"] = {
     {
      "t": "Euronews – Latest news bulletin, 16 November",
      "u": "https://www.euronews.com/video/2026/11/16/latest-news-bulletin-november-16th-2026-morning"
-    }
-   ]
-  },
-  {
-   "title": "Mexic: fondatorul de cartel Miguel Ángel Félix Gallardo a murit la 80 de ani",
-   "cat": "Altele",
-   "region": "America Latină",
-   "overnight": true,
-   "impact": 2.0,
-   "countries": [
-    "MX"
-   ],
-   "essential": "Miguel Ángel Félix Gallardo, fondatorul unui cartel mexican, a murit la vârsta de 80 de ani (flux de știri Mezha).",
-   "what": [],
-   "context": [],
-   "why": [],
-   "sources": [
-    {
-     "t": "Mezha – Nikkei 225 and Hang Seng set for higher open (news feed)",
-     "u": "https://mezha.net/eng/news/mezha-ae57150bbef7ac8413d4e13f_nikkei_225_and/"
     }
    ]
   }
@@ -597,21 +663,21 @@ window.DM_DATA["2026-11-16"] = {
    ],
    [
     "EUR/RON (BNR)",
-    "5,3498 lei",
-    "+0,0039 lei",
-    "curs BNR vineri"
+    "5,3494 lei",
+    "-0,0004 lei",
+    "curs BNR luni"
    ],
    [
     "USD/RON (BNR)",
-    "4,8428 lei",
-    "+0,0273 lei",
-    "curs BNR vineri"
+    "4,8600 lei",
+    "+0,0172 lei",
+    "curs BNR luni"
    ],
    [
     "Brent",
-    "95,53 USD/baril",
-    "-0,3%",
-    "luni dimineață"
+    "95,15 USD/baril",
+    "-0,7%",
+    "luni, în cursul zilei"
    ],
    [
     "Aur",
@@ -626,8 +692,20 @@ window.DM_DATA["2026-11-16"] = {
     "luni, ultimele 24 de ore"
    ]
   ],
-  "note": "Luni dimineață: Nikkei 225 și Hang Seng sunt cotații din sesiunea de luni, Brent și Bitcoin sunt cotații de luni dimineață; rândurile pentru SUA și Europa sunt închideri de vineri, iar cursurile BNR sunt cele de vineri.",
+  "note": "Ediția de seară: Nikkei 225 și Hang Seng sunt închideri de luni, Brent și Bitcoin sunt cotații de luni, cursurile BNR sunt cele de luni; rândurile pentru SUA și Europa sunt încă închideri de vineri, până la închiderea ședinței de azi.",
   "sources": [
+   {
+    "t": "Digi24 – Curs BNR, 16 noiembrie",
+    "u": "https://www.digi24.ro/digieconomic/financiar/curs-bnr-euro-scade-dolarul-ajunge-la-un-nou-record-127223"
+   },
+   {
+    "t": "Bugetul.ro – Curs valutar BNR, 16 noiembrie",
+    "u": "https://www.bugetul.ro/curs-valutar-bnr-16-noiembrie-2026/"
+   },
+   {
+    "t": "CNBC (Reuters) – Oil falls as recovering Middle East exports bolster surplus outlook",
+    "u": "https://www.cnbc.com/amp/2026/11/16/oil-prices-brent-wti-latest.html"
+   },
    {
     "t": "Yahoo Finance – Nvidia slides after HSBC downgrade",
     "u": "https://finance.yahoo.com/markets/stocks/articles/stock-market-today-nov-13-222002466.html"
@@ -688,7 +766,7 @@ window.DM_DATA["2026-11-16"] = {
     {
      "a": "Brent",
      "d": "down",
-     "v": "95,53 USD, -0,3%"
+     "v": "95,15 USD, -0,7%"
     },
     {
      "a": "Asigurările navale din Golf",
@@ -774,7 +852,7 @@ window.DM_DATA["2026-11-16"] = {
     {
      "a": "Brent",
      "d": "down",
-     "v": "95,53 USD"
+     "v": "95,15 USD, -0,7%"
     },
     {
      "a": "WTI",
@@ -824,7 +902,7 @@ window.DM_DATA["2026-11-16"] = {
     {
      "a": "EUR/RON",
      "d": "flat",
-     "v": "5,3498, vineri"
+     "v": "5,3494, luni"
     },
     {
      "a": "BET",
@@ -840,8 +918,7 @@ window.DM_DATA["2026-11-16"] = {
   }
  ],
  "watch": [
-  "Azi: Francofonia își alege secretarul general prin vot secret, iar Dacian Cioloș este unul dintre cei patru candidați; Trump pleacă la summitul ASEAN.",
-  "Marți, 17 noiembrie: rezultatele Nvidia și meciul Bosnia-Herțegovina – România de la Zenica.",
+  "Mâine, marți, 17 noiembrie: rezultatele Nvidia și meciul Bosnia-Herțegovina – România de la Zenica; Trump ajunge la summitul ASEAN.",
   "Miercuri și joi: stabilirea prețului și prima zi de tranzacționare pentru Anthropic; joi, trilaterala Putin–Xi–Trump de la Shenzhen."
  ],
  "secondary": [
