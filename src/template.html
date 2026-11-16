@@ -1,0 +1,1369 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark" id="csMeta">
+<meta name="theme-color" content="#000000" id="tcMeta">
+<script>
+/* temă: auto (după telefon), luminoasă sau întunecată; aplicată înainte de afișare, ca să nu clipească */
+(function(){
+  var pref = "auto";
+  try { var v = localStorage.getItem("az-theme"); if (v === "light" || v === "dark" || v === "auto") pref = v; } catch(e) {}
+  var mq = window.matchMedia ? matchMedia("(prefers-color-scheme: dark)") : null;
+  function apply(){
+    var dark = pref === "dark" || (pref === "auto" && !!(mq && mq.matches));
+    var r = document.documentElement;
+    r.setAttribute("data-theme", dark ? "dark" : "light");
+    r.style.colorScheme = dark ? "dark" : "light";
+    /* „only” oprește întunecarea forțată a browserului, care spăla culorile */
+    var cs = document.getElementById("csMeta"); if (cs) cs.content = dark ? "only dark" : "only light";
+    var tc = document.getElementById("tcMeta"); if (tc) tc.content = dark ? "#000000" : "#F5F5F7";
+    return dark;
+  }
+  window.AZ_THEME = {
+    get pref(){ return pref; },
+    set: function(p){ pref = p; try { localStorage.setItem("az-theme", p); } catch(e) {} return apply(); },
+    apply: apply,
+    onSystemChange: null
+  };
+  apply();
+  if (mq) { var h = function(){ if (pref === "auto") { apply(); if (window.AZ_THEME.onSystemChange) window.AZ_THEME.onSystemChange(); } };
+    if (mq.addEventListener) mq.addEventListener("change", h); else if (mq.addListener) mq.addListener(h); }
+})();
+</script>
+<meta name="format-detection" content="telephone=no, date=no, address=no, email=no">
+<title>Azimuth</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Layout: o singură coloană de lectură (max 760px), antet fix cu data, carduri de știri cu bulină de impact și steaguri în colț. */
+:root{
+  --bg:#EDF0F4; --surface:#FFFFFF; --ink:#12161C; --muted:#5A6473; --line:#DCE1E8; --accent:#2445D6;
+  --soft:#F4F6F9; --none:#C9CFD8; --none-ink:#8A93A1;
+  --display:"Newsreader", Georgia, "Times New Roman", serif;
+  --body:"Instrument Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --mono:"JetBrains Mono", ui-monospace, "SF Mono", Consolas, monospace;
+  --radius:14px; --shadow:0 1px 2px rgba(18,22,28,.05), 0 4px 16px rgba(18,22,28,.05);
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0B0E13; --surface:#141922; --ink:#E8ECF2; --muted:#8E98A8; --line:#262D39; --accent:#8299FF;
+    --soft:#1A202B; --none:#2A313D; --none-ink:#5F6878; --shadow:0 1px 2px rgba(0,0,0,.3);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0B0E13; --surface:#141922; --ink:#E8ECF2; --muted:#8E98A8; --line:#262D39; --accent:#8299FF;
+  --soft:#1A202B; --none:#2A313D; --none-ink:#5F6878; --shadow:0 1px 2px rgba(0,0,0,.3);
+  color-scheme: dark;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%; text-size-adjust:100%}
+button, a, input{-webkit-tap-highlight-color:transparent}
+button{touch-action:manipulation}
+.iconbtn, .datebtn, .save-btn, .more-btn{position:relative}
+.iconbtn::after, .datebtn::after, .save-btn::after, .more-btn::after{content:""; position:absolute; inset:-5px}
+html,body{margin:0}
+body{background:var(--bg); color:var(--ink); font:16px/1.55 var(--body); -webkit-font-smoothing:antialiased}
+button{font:inherit; color:inherit; cursor:pointer}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:6px}
+.wrap{max-width:760px; margin:0 auto; padding:0 max(16px, env(safe-area-inset-right)) calc(64px + env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left))}
+
+/* Antet */
+header.top{position:sticky; top:0; z-index:20; background:var(--bg); border-bottom:1px solid var(--line); padding-top:env(safe-area-inset-top)}
+@supports ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))) and (background:color-mix(in srgb, red 50%, blue)) {
+  header.top{background:color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px)}
+}
+.top-in{max-width:760px; margin:0 auto; padding:10px max(16px, env(safe-area-inset-right)) 10px max(16px, env(safe-area-inset-left)); display:flex; align-items:center; gap:10px}
+.brand{display:flex; align-items:center; gap:9px; margin-right:auto; padding:4px 6px 4px 0; border:0; background:none; color:var(--ink); font:700 22px/1 var(--display); letter-spacing:-.01em; white-space:nowrap; border-radius:10px}
+.brand svg{width:30px; height:30px; flex:none; transition:transform .6s cubic-bezier(.22,1,.36,1)}
+@media (hover:hover){ .brand:hover svg{transform:rotate(-20deg)} }
+.brand .needle{transform-origin:50px 50px; transform-box:view-box; transition:transform .7s cubic-bezier(.22,1,.36,1)}
+.brand.spin .needle{transform:rotate(-60deg)}
+.iconbtn{display:inline-grid; place-items:center; width:38px; height:38px; border-radius:10px; border:1px solid var(--line); background:var(--surface)}
+.iconbtn:disabled{opacity:.35; cursor:default}
+.iconbtn svg{width:18px; height:18px}
+.datebtn{display:flex; align-items:center; gap:8px; height:38px; padding:0 12px; border-radius:10px; border:1px solid var(--line); background:var(--surface); font-weight:600; font-size:14px; white-space:nowrap}
+.datebtn .dot{width:10px; height:10px}
+
+/* Bulina de impact */
+.dot{display:inline-block; width:12px; height:12px; border-radius:50%; flex:none; box-shadow:0 0 0 3px color-mix(in srgb, currentColor 18%, transparent)}
+
+/* Ziua */
+.day{margin-top:20px; background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:20px; box-shadow:var(--shadow)}
+.day-head{display:flex; align-items:flex-end; justify-content:space-between; gap:12px; flex-wrap:wrap}
+.eyebrow{font:500 12px/1.2 var(--mono); text-transform:uppercase; letter-spacing:.06em; color:var(--muted)}
+.day h1{font:700 32px/1.1 var(--display); margin:4px 0 0; text-wrap:balance; overflow-wrap:anywhere}
+.impact-chip{display:inline-flex; align-items:center; gap:8px; padding:6px 12px; border-radius:999px; font-weight:600; font-size:14px; border:1px solid var(--line); background:var(--soft)}
+.impact-chip .dot{width:10px;height:10px}
+.rank-head{display:flex; justify-content:space-between; align-items:baseline; gap:8px; margin:20px 0 8px}
+.rank{list-style:none; margin:0; padding:0; display:grid; gap:6px}
+.rank button{width:100%; display:grid; grid-template-columns:auto 1fr auto; gap:4px 12px; align-items:center; text-align:left; background:var(--soft); border:1px solid var(--line); border-radius:12px; padding:10px 12px; transition:border-color .2s, transform .2s}
+@media (hover:hover){ .rank button:hover{border-color:var(--muted)} }
+.rank button:active{transform:scale(.99)}
+.rank .rn{font:500 12px/1 var(--mono); color:var(--muted); grid-row:span 2}
+.rank .rt{font-size:14px; font-weight:600; line-height:1.3; min-width:0; overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2; line-clamp:2; overflow-wrap:anywhere}
+.rank .rs{font:500 13px/1 var(--mono); grid-row:span 2; font-variant-numeric:tabular-nums}
+.rank .track{height:6px; border-radius:999px; background:var(--line); overflow:hidden}
+.rank .fill{height:100%; border-radius:999px}
+.scale{display:flex; align-items:center; gap:8px; margin-top:10px; font-size:12px; color:var(--muted)}
+.scale i{flex:1; height:6px; border-radius:999px; max-width:160px}
+.card{scroll-margin-top:72px}
+@keyframes flash{0%{box-shadow:0 0 0 0 var(--accent)} 20%{box-shadow:0 0 0 3px var(--accent)} 100%{box-shadow:0 0 0 0 transparent}}
+.card.flash{animation:flash 1.8s ease}
+.strip-note{font-size:13px; color:var(--muted)}
+.brief{margin:14px 0 0; padding:0; list-style:none; display:grid; gap:8px}
+.brief li{padding-left:18px; position:relative}
+.brief li::before{content:""; position:absolute; left:2px; top:.62em; width:7px; height:7px; border-radius:2px; background:var(--accent)}
+
+/* Filtre */
+.seg{position:relative; display:flex; gap:2px; padding:4px; margin:20px 0 8px; background:var(--surface); border:1px solid var(--line); border-radius:999px; overflow-x:auto; scrollbar-width:none; box-shadow:var(--shadow)}
+.seg::-webkit-scrollbar{display:none}
+.seg button{position:relative; z-index:1; flex:none; height:40px; padding:0 16px; border:0; background:transparent; border-radius:999px; font-size:14px; font-weight:600; color:var(--muted); transition:color .35s ease}
+@media (hover:hover){ .seg button:not([aria-checked="true"]):hover{color:var(--ink)} }
+.seg button[aria-checked="true"]{color:var(--bg)}
+.seg-ind{position:absolute; z-index:0; top:4px; left:0; height:40px; width:0; border-radius:999px; background:var(--ink); transition:transform .5s cubic-bezier(.22,1,.36,1), width .5s cubic-bezier(.22,1,.36,1)}
+.count-line{font-size:13px; color:var(--muted); margin:0 6px 12px; transition:opacity .25s}
+@keyframes cardIn{from{opacity:0; transform:translateY(16px) scale(.985)} to{opacity:1; transform:none}}
+.stories{transition:opacity .2s ease, transform .2s ease}
+.stories.leave{opacity:0; transform:translateY(8px)}
+.stories.enter > *{animation:cardIn .55s cubic-bezier(.22,1,.36,1) both; animation-delay:calc(var(--i, 0) * 50ms)}
+.count{font-size:13px; color:var(--muted); margin-left:auto}
+
+/* Card știre */
+.stories{display:grid; gap:12px}
+.card{background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden}
+.card-head{display:grid; grid-template-columns:1fr auto; gap:12px; padding:16px 16px 0}
+.title-row{display:flex; align-items:flex-start; gap:10px}
+.title-row .dot{margin-top:9px}
+.card h2{font:600 21px/1.25 var(--display); margin:0; text-wrap:balance; overflow-wrap:anywhere; hyphens:auto}
+.num{font:500 12px/1 var(--mono); color:var(--muted); margin-bottom:6px; display:block}
+.flags{display:flex; flex-wrap:wrap; justify-content:flex-end; align-content:flex-start; gap:4px; max-width:112px}
+.flag{width:26px; height:18px; border-radius:3px; overflow:hidden; box-shadow:0 0 0 1px var(--line); display:block; background:var(--soft)}
+.flag svg{width:100%; height:100%; display:block}
+.flag.more{display:grid; place-items:center; font:500 10px/1 var(--mono); color:var(--muted)}
+.meta{display:flex; flex-wrap:wrap; gap:6px; padding:10px 16px 0}
+.tag{font-size:12px; font-weight:600; padding:3px 9px; border-radius:6px; background:var(--soft); color:var(--muted); border:1px solid var(--line)}
+.tag.cat-geo{color:#7A3FD1; background:var(--soft); background:color-mix(in srgb,#7A3FD1 10%, var(--surface)); border-color:var(--line); border-color:color-mix(in srgb,#7A3FD1 25%, var(--surface))}
+.tag.cat-eco{color:#0E7C66; background:var(--soft); background:color-mix(in srgb,#0E7C66 10%, var(--surface)); border-color:var(--line); border-color:color-mix(in srgb,#0E7C66 25%, var(--surface))}
+.tag.cat-alt{color:#B4540F; background:var(--soft); background:color-mix(in srgb,#B4540F 10%, var(--surface)); border-color:var(--line); border-color:color-mix(in srgb,#B4540F 25%, var(--surface))}
+:root[data-theme="dark"] .tag.cat-geo{color:#B99BFF} :root[data-theme="dark"] .tag.cat-eco{color:#5FD3B6} :root[data-theme="dark"] .tag.cat-alt{color:#F2A35E}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .tag.cat-geo{color:#C4A8FF} :root:not([data-theme="light"]) .tag.cat-eco{color:#4BE3BD} :root:not([data-theme="light"]) .tag.cat-alt{color:#FFAA5C} }
+.tag.night{color:var(--ink)}
+.tag.warn{color:#B42318; border-color:var(--line); border-color:color-mix(in srgb,#B42318 35%, var(--surface))}
+.essential{padding:12px 16px 0; margin:0; font-size:16px; overflow-wrap:anywhere}
+.card-actions{display:flex; gap:8px; padding:14px 16px 16px; align-items:center}
+.more-btn{display:inline-flex; align-items:center; gap:6px; min-height:40px; padding:0 14px; border-radius:10px; border:1px solid var(--line); background:var(--soft); font-size:14px; font-weight:600}
+.more-btn svg{width:14px;height:14px; transition:transform .45s cubic-bezier(.22,1,.36,1)}
+.card.open .more-btn svg{transform:rotate(180deg)}
+.save-btn{margin-left:auto; width:40px; height:40px; border-radius:10px; border:1px solid var(--line); background:var(--surface); display:grid; place-items:center}
+.save-btn svg{width:16px;height:16px}
+.save-btn[aria-pressed="true"]{background:var(--accent); border-color:var(--accent); color:#fff}
+/* Detalii: înălțime animată (grid 0fr -> 1fr) + cascadă pe rânduri */
+.details{display:grid; grid-template-rows:0fr; transition:grid-template-rows .5s cubic-bezier(.22,1,.36,1)}
+.card.open .details{grid-template-rows:1fr}
+.details-in{min-height:0; overflow:hidden}
+.dz{border-top:1px solid var(--line); padding:4px 16px 16px; background:var(--soft); opacity:0; transition:opacity .3s ease}
+.card.open .dz{opacity:1; transition-duration:.15s}
+.card.open .dz .cas{animation:cascadeIn .55s cubic-bezier(.22,1,.36,1) both; animation-delay:calc(var(--k, 0) * 38ms + 70ms)}
+@keyframes cascadeIn{from{opacity:0; transform:translate3d(0,-10px,0)} to{opacity:1; transform:none}}
+.card.closing .dz .cas{animation:cascadeOut .24s cubic-bezier(.4,0,1,1) both; animation-delay:calc((var(--n, 0) - var(--k, 0)) * 20ms)}
+@keyframes cascadeOut{from{opacity:1; transform:none} to{opacity:0; transform:translate3d(0,-8px,0)}}
+.card.static .details, .card.static .dz, .card.static .more-btn svg{transition:none}
+.card.static .dz .cas{animation:none}
+.dz h3, .srcpanel h3{font:500 12px/1 var(--mono); text-transform:uppercase; letter-spacing:.06em; color:var(--muted); margin:16px 0 8px}
+.dz ul, .srcpanel ul{margin:0; padding-left:18px; display:grid; gap:6px}
+.dz .src a, .srcpanel .src a{word-break:break-word}
+.srcpanel{padding:4px 16px 16px}
+.src .sec{font-size:12px; color:var(--muted)}
+
+/* Secțiuni */
+.section{margin-top:28px}
+.section h2.sh{font:700 24px/1.2 var(--display); margin:0 0 12px}
+.panel{background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden}
+.tablewrap{overflow-x:auto}
+table{width:100%; border-collapse:collapse; font-size:14px; font-variant-numeric:tabular-nums}
+th,td{text-align:left; padding:10px 14px; border-bottom:1px solid var(--line); white-space:nowrap}
+th{font:500 11px/1 var(--mono); text-transform:uppercase; letter-spacing:.06em; color:var(--muted); background:var(--soft)}
+tr:last-child td{border-bottom:0}
+.up{color:#0E8A4A} .down{color:#C4291C}
+.mk-group{font:500 11px/1 var(--mono); text-transform:uppercase; letter-spacing:.06em; color:var(--muted); background:var(--soft); padding:10px 14px; border-bottom:1px solid var(--line)}
+.mk{list-style:none; margin:0; padding:0}
+.mk li{display:flex; justify-content:space-between; align-items:center; gap:12px; padding:12px 14px; border-bottom:1px solid var(--line)}
+.mk-l{min-width:0; display:grid; gap:2px}
+.mk-l b{font-weight:600; font-size:15px; overflow-wrap:anywhere}
+.mk-l span{font-size:12px; color:var(--muted)}
+.mk-r{display:grid; justify-items:end; gap:4px; text-align:right; flex:none; max-width:58%}
+.mk-c.big{font-size:15px; padding:4px 10px}
+.mk-lvl{font-size:12px; color:var(--muted); font-variant-numeric:tabular-nums; white-space:nowrap}
+.mk-note{margin:0; padding:10px 14px; font-size:13px; line-height:1.45; color:var(--muted); border-bottom:1px solid var(--line)}
+.mk-v{font-weight:600; font-size:16px; font-variant-numeric:tabular-nums}
+.mk-v small{font-weight:500; font-size:12px; color:var(--muted)}
+.mk-c{font-size:13px; font-weight:600; padding:2px 8px; border-radius:999px; font-variant-numeric:tabular-nums; background:var(--soft); color:var(--muted)}
+.mk-c.up{color:#0E8A4A; background:var(--soft); background:color-mix(in srgb,#0E8A4A 14%, var(--surface))}
+.mk-c.down{color:#C4291C; background:var(--soft); background:color-mix(in srgb,#C4291C 14%, var(--surface))}
+:root[data-theme="dark"] .mk-c.up{color:#32E875} :root[data-theme="dark"] .mk-c.down{color:#FF6B6B}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .mk-c.up{color:#32E875} :root:not([data-theme="light"]) .mk-c.down{color:#FF6B6B} }
+.jump{display:flex; gap:8px; overflow-x:auto; scrollbar-width:none; padding:14px 2px 2px; margin:0 -2px; scroll-snap-type:x proximity; overscroll-behavior-x:contain}
+.jump::-webkit-scrollbar{display:none}
+.jump button{flex:none; scroll-snap-align:start; display:inline-flex; align-items:center; gap:8px; min-height:42px; padding:0 14px; border-radius:12px; border:1px solid var(--line); background:var(--surface); box-shadow:var(--shadow); font-size:14px; font-weight:600; color:var(--ink); transition:transform .2s cubic-bezier(.22,1,.36,1), border-color .2s}
+.jump button:active{transform:scale(.96)}
+@media (hover:hover){ .jump button:hover{border-color:var(--muted)} }
+.jump svg{width:16px; height:16px; color:var(--muted); flex:none}
+.jump .n{font:500 12px/1 var(--mono); color:var(--muted); font-variant-numeric:tabular-nums}
+.jump .dot{width:8px; height:8px}
+.section, #sec-stories{scroll-margin-top:72px}
+@keyframes secFlash{0%{box-shadow:0 0 0 0 transparent} 25%{box-shadow:0 0 0 3px var(--accent)} 100%{box-shadow:0 0 0 0 transparent}}
+.sec-flash{animation:secFlash 1.4s ease}
+.fx-sub{margin:-6px 0 12px; color:var(--muted); font-size:14px}
+.fx-list{display:grid; gap:12px}
+.fx-top{display:flex; align-items:center; gap:8px; padding:14px 16px 0; font:500 12px/1 var(--mono); letter-spacing:.05em; text-transform:uppercase; color:var(--muted)}
+.fx-top .dot{width:10px; height:10px}
+.fx-top .lvl{font-weight:600}
+.fx-top .ref{margin-left:auto}
+.fx h3.fx-t{font:600 19px/1.25 var(--display); margin:8px 16px 0; text-wrap:balance; overflow-wrap:anywhere}
+.fx-sum{margin:8px 16px 0; font-size:15px; overflow-wrap:anywhere}
+.fx-bar{margin:12px 16px 0; height:6px; border-radius:999px; background:var(--line); overflow:hidden}
+.fx-bar i{display:block; height:100%; width:0; border-radius:999px; transition:width .9s cubic-bezier(.22,1,.36,1); transition-delay:calc(var(--i, 0) * 90ms)}
+.fx-list.seen .fx-bar i{width:var(--w)}
+.fx-chips{display:flex; flex-wrap:wrap; gap:6px; padding:12px 16px 0}
+.fx-chip{display:inline-flex; align-items:center; gap:5px; font-size:13px; font-weight:600; padding:4px 10px; border-radius:999px; border:1px solid var(--line); background:var(--soft); color:var(--ink)}
+.fx-chip .ar{font-size:10px}
+.fx-chip .v{font-weight:500; color:var(--muted); font-variant-numeric:tabular-nums}
+.fx-chip.up .ar{color:#0E8A4A} .fx-chip.down .ar{color:#C4291C} .fx-chip.flat .ar{color:var(--muted)}
+:root[data-theme="dark"] .fx-chip.up .ar{color:#32E875} :root[data-theme="dark"] .fx-chip.down .ar{color:#FF6B6B}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .fx-chip.up .ar{color:#32E875} :root:not([data-theme="light"]) .fx-chip.down .ar{color:#FF6B6B} }
+.fx-go{margin-left:auto; display:inline-flex; align-items:center; gap:6px; min-height:40px; padding:0 12px; border-radius:10px; border:1px solid var(--line); background:var(--surface); font-size:14px; font-weight:600}
+.fx-go svg{width:14px; height:14px}
+.fx-disc{margin:12px 2px 0; font-size:12px; color:var(--muted)}
+.panel-note{padding:12px 14px; font-size:14px; color:var(--muted); border-top:1px solid var(--line)}
+.watch{list-style:none; margin:0; padding:0}
+.watch li{padding:12px 14px; border-bottom:1px solid var(--line)}
+.watch li:last-child{border-bottom:0}
+.watch b{display:block}
+.watch span{color:var(--muted); font-size:14px}
+
+/* Calendar */
+.overlay{position:fixed; inset:0; z-index:50; background:rgba(8,10,14,.45); display:none; align-items:flex-end; justify-content:center}
+.overlay.show{display:flex}
+@media (min-width:640px){ .overlay{align-items:center} }
+.sheet{background:var(--surface); width:100%; max-width:440px; border-radius:18px 18px 0 0; padding:10px max(18px, env(safe-area-inset-right)) calc(22px + env(safe-area-inset-bottom)) max(18px, env(safe-area-inset-left)); box-shadow:0 -8px 40px rgba(0,0,0,.25); max-height:calc(100% - env(safe-area-inset-top) - 16px); overflow:auto; overscroll-behavior:contain; -webkit-overflow-scrolling:touch; transform:translateY(0); transition:transform .28s cubic-bezier(.22,1,.36,1)}
+.sheet.dragging{transition:none}
+.grab{display:block; width:40px; height:5px; border-radius:3px; background:var(--line); margin:0 auto 10px; touch-action:none}
+.overlay{overscroll-behavior:contain}
+.overlay.show .sheet{animation:sheetIn .32s cubic-bezier(.22,1,.36,1)}
+@keyframes sheetIn{from{transform:translateY(40px); opacity:.4} to{transform:none; opacity:1}}
+@media (min-width:640px){ .grab{display:none} .sheet{padding-top:18px} }
+@media (min-width:640px){ .sheet{border-radius:18px} }
+.sheet-head{display:flex; align-items:center; gap:8px; margin-bottom:12px}
+.sheet-head h2{font:700 22px/1 var(--display); margin:0 auto 0 0; text-transform:capitalize}
+.cal{display:grid; grid-template-columns:repeat(7,1fr); gap:6px}
+.cal .wd{font:500 11px/1 var(--mono); color:var(--muted); text-align:center; padding:4px 0; text-transform:uppercase}
+.cal button.d{aspect-ratio:1; border:0; border-radius:10px; font-weight:600; font-size:14px; color:#fff; font-variant-numeric:tabular-nums; position:relative}
+.cal button.d.noscore{background:var(--muted)}
+.cal button.d.empty{background:var(--none); color:var(--none-ink); cursor:default}
+.cal button.d.future{background:transparent; color:var(--none-ink); box-shadow:inset 0 0 0 1px var(--line); cursor:default}
+.cal button.d.dark-text{color:#2A2100}
+.cal button.d.sel{box-shadow:0 0 0 2px var(--surface), 0 0 0 4px var(--ink)}
+.cal button.d.today::after{content:""; position:absolute; left:50%; bottom:5px; width:4px; height:4px; margin-left:-2px; border-radius:50%; background:currentColor}
+.legend{margin-top:16px}
+.legend .bar{height:10px; border-radius:999px}
+.legend .lbl{display:flex; justify-content:space-between; font-size:12px; color:var(--muted); margin-top:6px}
+.legend .none{display:flex; align-items:center; gap:6px; font-size:12px; color:var(--muted); margin-top:10px}
+.legend .none i{width:14px; height:14px; border-radius:4px; background:var(--none); display:inline-block}
+
+/* Căutare */
+.search-in{width:100%; height:46px; border-radius:12px; border:1px solid var(--line); background:var(--soft); padding:0 14px; font:inherit; font-size:16px; color:var(--ink); -webkit-appearance:none; appearance:none}
+.results{list-style:none; margin:12px 0 0; padding:0; display:grid; gap:4px}
+.results button{width:100%; text-align:left; background:none; border:0; padding:10px 8px; border-radius:10px; display:flex; gap:10px; align-items:flex-start}
+@media (hover:hover){ .results button:hover{background:var(--soft)} }
+.results .dot{margin-top:6px; width:10px; height:10px}
+.results small{display:block; color:var(--muted); font-size:12px}
+
+.state{padding:40px 20px; text-align:center; color:var(--muted)}
+.state b{display:block; color:var(--ink); font:600 20px/1.3 var(--display); margin-bottom:6px}
+.banner{margin-top:12px; font-size:13px; color:var(--muted); text-align:center}
+.langbtn{width:auto; min-width:38px; padding:0 9px; font:600 12px/1 var(--mono); letter-spacing:.04em; gap:5px; display:inline-flex; align-items:center}
+.langbtn svg{width:15px; height:15px}
+.langs{list-style:none; margin:0; padding:0; display:grid; gap:8px}
+.lang-opt{width:100%; display:flex; align-items:center; gap:12px; padding:13px 14px; border:1px solid var(--line); border-radius:12px; background:var(--surface); text-align:left; font-size:16px; font-weight:500}
+.lang-opt .code{font:600 12px/1 var(--mono); color:var(--muted); width:26px; flex:none}
+.lang-opt .ck{margin-left:auto; width:18px; height:18px; color:var(--accent); opacity:0}
+.lang-opt[aria-checked="true"]{border-color:var(--accent); box-shadow:inset 0 0 0 1px var(--accent)}
+.lang-opt[aria-checked="true"] .ck{opacity:1}
+.lang-opt:disabled{cursor:not-allowed; color:var(--muted); background:var(--soft)}
+.badge{margin-left:auto; font:600 11px/1 var(--body); padding:5px 9px; border-radius:999px; border:1px solid var(--line); background:var(--surface); color:var(--muted); letter-spacing:.03em; white-space:nowrap}
+.fallback{margin:12px 0 0; padding:10px 12px; border-radius:10px; background:var(--soft); border:1px solid var(--line); font-size:14px; color:var(--muted)}
+
+/* Layout: mobil = o coloană ordonată; desktop = două coloane */
+.layout{display:flex; flex-direction:column}
+.col-main, .col-side{display:contents}
+.layout .jump{order:1} .layout .day{order:2} .layout .seg{order:3} .layout .count-line{order:4} .layout .stories{order:5}
+.layout #sec-markets{order:6} .layout #sec-fg{order:7} .layout #sec-fx{order:8} .layout #sec-watch{order:9} .layout #sec-src{order:10}
+@media (min-width:1100px){
+  .wrap, .top-in{max-width:1320px; padding-left:32px; padding-right:32px}
+  .layout{display:grid; grid-template-columns:minmax(0,1fr) 400px; gap:32px; align-items:start}
+  .col-main, .col-side{display:block; min-width:0}
+  .col-side{padding-top:14px}
+  .col-side .section:first-child{margin-top:0}
+  .col-side .section h2.sh{font-size:22px}
+  .day{display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,1fr); column-gap:32px; padding:28px}
+  .day-head{grid-column:1/-1}
+  .rank-head, .rank, .scale, .fallback{grid-column:1}
+  .brief{grid-column:2; grid-row:2 / span 4; align-self:start; margin-top:20px; padding:18px; border-radius:12px; background:var(--soft); border:1px solid var(--line); font-size:15px; line-height:1.5}
+  .day h1{font-size:40px}
+  .card h2{font-size:23px}
+  .fx-list{grid-template-columns:1fr 1fr; align-items:start}
+}
+@media (min-width:1500px){ .wrap, .top-in{max-width:1440px} .layout{grid-template-columns:minmax(0,1fr) 440px} }
+@media (max-width:420px){ .day h1{font-size:27px} .card h2{font-size:19px} .top-in{gap:6px} .iconbtn,.datebtn{height:34px} .iconbtn{width:34px} .langbtn{width:auto; min-width:34px; padding:0 8px} .langbtn svg{display:none} .datebtn{padding:0 10px} .brand{font-size:18px; gap:7px} .brand svg{width:24px; height:24px} }
+@media (max-width:370px){ #prevBtn, #nextBtn{display:none} }
+@media (prefers-reduced-motion: reduce){ *{transition:none!important; animation:none!important} }
+
+/* ===== Stil rotunjit, aerisit (inspirat de site-urile de produs moderne) ===== */
+:root{
+  --bg:#F5F5F7; --surface:#FFFFFF; --ink:#1D1D1F; --muted:#6E6E73; --line:#E5E5EA; --accent:#0071E3;
+  --soft:#F5F5F7; --none:#D2D2D7; --none-ink:#86868B;
+  --display:-apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --body:-apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono:var(--body);
+  --radius:24px; --shadow:0 1px 2px rgba(0,0,0,.03), 0 8px 28px rgba(0,0,0,.06);
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --bg:#000; --surface:#1C1C1E; --ink:#F5F5F7; --muted:#A1A1A6; --line:#38383A; --accent:#2997FF; --soft:#2C2C2E; --none:#3A3A3C; --none-ink:#8E8E93; --shadow:none } }
+:root[data-theme="dark"]{ --bg:#000; --surface:#1C1C1E; --ink:#F5F5F7; --muted:#A1A1A6; --line:#38383A; --accent:#2997FF; --soft:#2C2C2E; --none:#3A3A3C; --none-ink:#8E8E93; --shadow:none }
+body{font-size:17px; line-height:1.5; letter-spacing:-.011em; font-feature-settings:"tnum" 0}
+/* etichete mici: fără majuscule tehnice, text calm */
+.eyebrow, .mk-group, .num, .fx-top, .dz h3, .srcpanel h3, th, .rank .rn, .rank .rs, .jump .n{font-family:var(--body); text-transform:none; letter-spacing:-.005em; font-weight:600}
+.eyebrow{font-size:14px; color:var(--muted)}
+.mk-group{font-size:13px; background:transparent; padding:18px 18px 6px; border-bottom:0; color:var(--muted)}
+.dz h3, .srcpanel h3{font-size:15px; color:var(--ink); margin:22px 0 8px}
+.num{font-size:13px}
+.fx-top{font-size:13px}
+/* titluri mari și strânse */
+.day h1{font-weight:700; letter-spacing:-.03em; font-size:34px; line-height:1.08}
+.card h2{font-weight:600; letter-spacing:-.02em; font-size:21px; line-height:1.22}
+.section h2.sh{font-weight:700; letter-spacing:-.025em; font-size:30px; margin:0 0 16px}
+.fx h3.fx-t{font-weight:600; letter-spacing:-.018em}
+.brand{font-family:var(--display); font-weight:700; letter-spacing:-.025em}
+/* carduri fără contur, colțuri mari, umbre moi */
+.day, .card, .panel, .fx, .seg{border:0}
+.day{padding:24px; border-radius:28px}
+.card-head{padding:22px 22px 0}
+.essential{padding:12px 22px 0; font-size:17px; color:var(--ink)}
+.card-actions{padding:16px 22px 22px}
+.stories, .fx-list{gap:16px}
+.section{margin-top:48px}
+.panel{border-radius:var(--radius)}
+.mk li{padding:14px 18px; border-bottom:1px solid var(--line)}
+.mk li:last-child{border-bottom:0}
+.mk-note{padding:2px 18px 12px; border-bottom:0; font-size:14px}
+.panel-note{padding:16px 18px; font-size:15px; line-height:1.5}
+/* butoane tip pastilă */
+.iconbtn, .datebtn{border:0; border-radius:999px; background:var(--soft)}
+header.top .iconbtn, header.top .datebtn{background:color-mix(in srgb, var(--ink) 6%, transparent)}
+.more-btn{border:0; border-radius:999px; background:var(--accent); color:#fff; padding:0 18px}
+.save-btn{border:0; border-radius:999px; background:var(--soft)}
+.fx-go{border:0; border-radius:999px; background:var(--soft); color:var(--accent)}
+.jump button{border:0; border-radius:999px; padding:0 16px}
+.jump svg{color:var(--accent)}
+.rank button{border:0; border-radius:18px; padding:12px 14px}
+.rank .track, .fx-bar{height:5px}
+.tag{border:0; border-radius:999px; padding:4px 10px}
+.tag.cat-geo, .tag.cat-eco, .tag.cat-alt, .tag.warn{border:0}
+.fx-chip{border:0}
+.impact-chip{border:0}
+.seg{padding:5px}
+.seg button{height:38px}
+.seg-ind{top:5px; height:38px}
+.flag{border-radius:4px}
+.sheet{border-radius:28px 28px 0 0}
+@media (min-width:640px){ .sheet{border-radius:28px} }
+header.top{border-bottom:0; box-shadow:0 1px 0 color-mix(in srgb, var(--ink) 8%, transparent)}
+.brief li::before{border-radius:50%; width:6px; height:6px}
+@media (max-width:420px){ .day h1{font-size:29px} .card h2{font-size:19px} .section h2.sh{font-size:26px} .day{padding:20px} .card-head{padding:18px 18px 0} .essential{padding:10px 18px 0; font-size:16px} .card-actions{padding:14px 18px 18px} .flag{width:21px; height:15px} .flags{max-width:73px; gap:3px} .brief{font-size:16px} }
+@media (min-width:1100px){ .day h1{font-size:44px} .card h2{font-size:24px} .day{padding:32px} .brief{border:0} }
+
+/* contrast mai bun în modul întunecat */
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --ink:#FFFFFF; --muted:#AEAEB2; --accent:#3BA0FF } }
+:root[data-theme="dark"]{ --ink:#FFFFFF; --muted:#AEAEB2; --accent:#3BA0FF }
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .track{background:#3A3A3C} :root:not([data-theme="light"]) .dot{box-shadow:0 0 0 3px color-mix(in srgb, currentColor 30%, transparent)} }
+:root[data-theme="dark"] .track{background:#3A3A3C}
+
+/* meniul lateral */
+.menubtn{flex:none}
+.drawer-ov{position:fixed; inset:0; z-index:60; background:rgba(0,0,0,0); visibility:hidden; transition:background .32s ease, visibility 0s linear .32s; overscroll-behavior:contain}
+.drawer-ov.show{background:rgba(0,0,0,.5); visibility:visible; transition:background .32s ease, visibility 0s}
+.drawer{position:absolute; top:0; bottom:0; left:0; width:min(84vw, 330px); background:var(--surface); border-radius:0 28px 28px 0; padding:calc(10px + env(safe-area-inset-top)) 12px calc(18px + env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left)); overflow-y:auto; overscroll-behavior:contain; -webkit-overflow-scrolling:touch; transform:translate3d(-105%,0,0); transition:transform .38s cubic-bezier(.22,1,.36,1); box-shadow:12px 0 48px rgba(0,0,0,.28); will-change:transform}
+.drawer-ov.show .drawer{transform:none}
+.m-head{display:flex; align-items:center; justify-content:space-between; padding:6px 4px 6px 12px}
+.m-head b{font:700 22px/1 var(--display); letter-spacing:-.025em}
+.m-lbl{font-size:13px; font-weight:600; color:var(--muted); padding:16px 12px 6px}
+.m-it{width:100%; display:flex; align-items:center; gap:12px; min-height:46px; padding:0 12px; border:0; border-radius:14px; background:none; color:var(--ink); font-size:16px; font-weight:500; text-align:left; opacity:0; transform:translate3d(-14px,0,0)}
+.drawer-ov.show .m-it{opacity:1; transform:none; transition:opacity .3s ease, transform .42s cubic-bezier(.22,1,.36,1), background .15s}
+.drawer-ov.show .m-it:nth-of-type(n+2){transition-delay:.03s} .drawer-ov.show .m-it:nth-of-type(n+4){transition-delay:.06s} .drawer-ov.show .m-it:nth-of-type(n+7){transition-delay:.09s} .drawer-ov.show .m-it:nth-of-type(n+10){transition-delay:.12s} .drawer-ov.show .m-it:nth-of-type(n+13){transition-delay:.15s}
+.m-it:active{background:var(--soft)} @media (hover:hover){ .m-it:hover{background:var(--soft)} }
+.m-it.on{background:var(--soft); font-weight:600}
+.m-it svg{width:20px; height:20px; color:var(--accent); flex:none}
+.m-it span{flex:1; min-width:0}
+.m-it em{font-style:normal; font-size:13px; font-weight:600; color:var(--muted); font-variant-numeric:tabular-nums}
+.m-dot{width:10px; height:10px; margin:0 5px; border-radius:50%; flex:none; background:var(--muted)}
+.m-dot.all{background:var(--ink)} .m-dot.cat-geo{background:#A78BFA} .m-dot.cat-eco{background:#2DD4A8} .m-dot.cat-alt{background:#FB923C} .m-dot.night{background:var(--accent)} .m-dot.saved{background:#FACC15}
+@media (prefers-reduced-motion: reduce){ .drawer, .drawer-ov, .m-it{transition:none !important} }
+@media (max-width:460px){ .brand span{display:none} .brand{padding-right:0} }
+html, body{overflow-x:clip; max-width:100%}
+.top-in{min-width:0} .top-in > *{flex-shrink:0} .datebtn{flex-shrink:1; min-width:0}
+/* frică și lăcomie */
+.fg{padding:4px 0 0}
+.fg-row{padding:16px 18px 14px; border-bottom:1px solid var(--line)}
+.fg-top{display:flex; align-items:flex-end; justify-content:space-between; gap:12px}
+.fg-top b{font-size:16px} .fg-top small{display:block; font-size:12px; color:var(--muted); margin-top:2px}
+.fg-val{text-align:right; flex:none} .fg-val b{font:700 30px/1 var(--display); letter-spacing:-.02em; font-variant-numeric:tabular-nums} .fg-val span{display:block; font-size:13px; font-weight:600; margin-top:2px}
+.fg-bar{position:relative; height:10px; border-radius:999px; margin-top:14px}
+.fg-bar i{position:absolute; top:50%; width:18px; height:18px; border-radius:50%; background:var(--surface); border:4px solid var(--ink); transform:translate(-50%,-50%); box-shadow:0 1px 4px rgba(0,0,0,.35)}
+.fg-ends{display:flex; justify-content:space-between; font-size:11px; color:var(--muted); margin-top:7px; font-variant-numeric:tabular-nums}
+.fg-h{font-size:13px; font-weight:600; color:var(--muted); padding:16px 18px 4px}
+.fg-chart{display:block; width:100%; height:auto; padding:0 10px}
+.fg-chart .g{stroke:var(--line); stroke-width:1} .fg-chart .ax{font:500 9.5px var(--body); fill:var(--muted)}
+.fg-chart polyline{stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round}
+.fg-chart .ls{stroke:var(--accent)} .fg-chart circle.ls{fill:var(--accent); stroke:var(--surface); stroke-width:1.5}
+.fg-chart .lc{stroke:#F59E0B} .fg-chart polyline.lc{stroke-dasharray:5 4} .fg-chart circle.lc{fill:#F59E0B; stroke:var(--surface); stroke-width:1.5}
+.fg-leg{display:flex; gap:18px; padding:6px 18px 4px; font-size:13px; color:var(--muted)}
+.fg-leg i{display:inline-block; width:18px; height:0; border-top:3px solid var(--accent); vertical-align:middle; margin-right:7px; border-radius:2px} .fg-leg i.lc{border-top:3px dashed #F59E0B}
+.fg-tab{width:100%; border-collapse:collapse; margin-top:8px; font-size:14px}
+.fg-tab th{font-size:12px; color:var(--muted); text-align:left; padding:8px 18px; border-bottom:1px solid var(--line)}
+.fg-tab td{padding:10px 18px; border-bottom:1px solid var(--line); font-variant-numeric:tabular-nums} .fg-tab td span{color:var(--muted); font-size:12px}
+.fg-tab tr.cur td{background:var(--soft)} .fg-tab tr.cur td:first-child{font-weight:700}
+.fg .panel-note a{color:var(--accent)}
+
+/* selectorul de temă din meniu */
+.m-theme{padding:6px 12px 4px}
+.m-theme-h{display:flex; align-items:center; gap:12px; min-height:40px; font-size:16px; font-weight:500}
+.m-theme-h svg{width:20px; height:20px; color:var(--accent); flex:none}
+.m-seg{display:grid; grid-template-columns:repeat(3,1fr); gap:4px; padding:4px; border-radius:16px; background:var(--soft); margin-top:4px}
+.m-segb{display:flex; flex-direction:column; align-items:center; gap:4px; padding:9px 4px 8px; border:0; border-radius:12px; background:none; color:var(--muted); font-size:12.5px; font-weight:600; transition:background .25s ease, color .25s ease, box-shadow .25s ease}
+.m-segb svg{width:20px; height:20px}
+.m-segb.on{background:var(--surface); color:var(--ink); box-shadow:0 1px 3px rgba(0,0,0,.18)}
+.m-segb.on svg{color:var(--accent)}
+.m-segb:active{transform:scale(.96)}
+/* animația: dezvăluire circulară cu View Transitions, altfel trecere lină de culori */
+::view-transition-old(root), ::view-transition-new(root){animation:none; mix-blend-mode:normal}
+html.vt-theme::view-transition-old(root){z-index:1} html.vt-theme::view-transition-new(root){z-index:2}
+html.theme-fade, html.theme-fade *, html.theme-fade *::before, html.theme-fade *::after{transition:background-color .5s ease, color .5s ease, border-color .5s ease, fill .5s ease, stroke .5s ease, box-shadow .5s ease !important}
+
+/* compatibilitate iPhone / Samsung / desktop */
+.m-it span{flex:1 0 auto; white-space:nowrap}
+.m-it em{flex:0 1 auto; min-width:0; text-align:right; line-height:1.2; white-space:normal; overflow-wrap:anywhere}
+.card h2{-webkit-hyphens:auto}
+@supports not (overflow:clip){ body{overflow-x:hidden} }
+.section:focus, .section:focus-visible{outline:none}
+.drawer, .sheet{-webkit-overflow-scrolling:touch}
+@supports (-webkit-touch-callout:none){ input, select, textarea{font-size:16px} }
+
+/* Safari pe iPhone: meniul lateral acoperă tot ecranul, inclusiv sub bara Safari, iar ultimele rânduri rămân accesibile */
+@supports (-webkit-touch-callout:none){
+  .drawer-ov{bottom:auto; height:100vh; height:100lvh}
+  .drawer{border-radius:0 28px 0 0; padding-bottom:calc(96px + env(safe-area-inset-bottom))}
+  .overlay{bottom:auto; height:100vh; height:100dvh}
+}
+
+/* credite în meniu */
+.m-credits{margin:22px 4px 4px; padding:18px 14px 6px; border-top:1px solid var(--line); color:var(--muted); font-size:12.5px; line-height:1.5}
+.cr-logo{display:flex; align-items:center; gap:8px; color:var(--ink)}
+.cr-logo svg{width:20px; height:20px; color:var(--accent)} .cr-logo b{font:700 16px/1 var(--display); letter-spacing:-.02em} .cr-logo span{margin-left:auto; font-size:12px; color:var(--muted); font-variant-numeric:tabular-nums}
+.cr-by{margin:14px 0 12px} .cr-by small{display:block; font-size:12px; margin-bottom:3px} .cr-by b{display:block; color:var(--ink); font-size:14.5px; font-weight:600; line-height:1.4}
+.cr-facts{display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:0 0 12px}
+.cr-facts div{background:var(--soft); border-radius:12px; padding:9px 11px} .cr-facts dt{font-size:11.5px} .cr-facts dd{margin:2px 0 0; color:var(--ink); font-weight:600; font-size:13.5px; font-variant-numeric:tabular-nums}
+.m-credits p{margin:0 0 6px} .cr-note{font-weight:600} .cr-copy{margin-top:10px !important; font-size:11.5px}
+
+/* calendarul: ultimele 7 zile și ziua următoare */
+.cal{display:flex; flex-direction:column; gap:8px}
+.cal .cd{display:flex; align-items:center; gap:12px; width:100%; min-height:64px; padding:10px 12px; border:0; border-radius:16px; background:var(--soft); color:var(--ink); text-align:left; opacity:0; transform:translate3d(0,8px,0); animation:cdIn .38s cubic-bezier(.22,1,.36,1) forwards}
+.cal .cd:nth-child(2){animation-delay:.03s} .cal .cd:nth-child(3){animation-delay:.06s} .cal .cd:nth-child(4){animation-delay:.09s} .cal .cd:nth-child(5){animation-delay:.12s} .cal .cd:nth-child(6){animation-delay:.15s} .cal .cd:nth-child(7){animation-delay:.18s} .cal .cd:nth-child(8){animation-delay:.21s}
+@keyframes cdIn{to{opacity:1; transform:none}}
+.cal button.cd{cursor:pointer; transition:transform .15s ease, box-shadow .2s ease}
+.cal button.cd:active{transform:scale(.98)}
+@media (hover:hover){ .cal button.cd:hover{box-shadow:inset 0 0 0 1px var(--line)} }
+.cd-date{flex:none; width:46px; height:46px; border-radius:13px; display:flex; flex-direction:column; align-items:center; justify-content:center; background:var(--c, var(--none)); color:#fff; line-height:1}
+.cd-date b{font:700 18px/1 var(--display); font-variant-numeric:tabular-nums} .cd-date small{font-size:10.5px; font-weight:600; margin-top:3px; text-transform:uppercase; letter-spacing:.02em; opacity:.92}
+.cd-body{flex:1; min-width:0; display:flex; flex-direction:column; gap:3px}
+.cd-top{font-size:12px; font-weight:600; color:var(--muted)}
+.cd-title{font-size:14.5px; font-weight:600; line-height:1.3; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden}
+.cd-score{flex:none; min-width:30px; text-align:right; font:700 17px/1 var(--display); color:var(--c, var(--muted)); font-variant-numeric:tabular-nums}
+.cal .cd.sel{box-shadow:inset 0 0 0 2px var(--ink)}
+.cal .cd.empty .cd-date{background:var(--none); color:var(--none-ink)} .cal .cd.empty .cd-title{color:var(--muted); font-weight:500}
+.cal .cd.future{background:transparent; box-shadow:inset 0 0 0 1.5px var(--line); border-style:dashed; opacity:0; color:var(--muted)}
+.cal .cd.future .cd-date{background:var(--none); color:var(--none-ink)} .cal .cd.future .cd-title{font-weight:500; color:var(--muted)}
+.cal .cd.future{animation-name:cdInDim} @keyframes cdInDim{to{opacity:.7; transform:none}}
+#calOv .legend .none{display:none}
+@media (prefers-reduced-motion: reduce){ .cal .cd{animation:none; opacity:1; transform:none} .cal .cd.future{opacity:.7} }
+#calTitle{text-transform:none}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="top-in">
+    <button class="iconbtn menubtn" id="menuBtn" aria-label="" data-i18n-aria="menu" aria-haspopup="dialog"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg></button>
+    <button class="brand" id="brandBtn" type="button" aria-label="Azimuth" data-i18n-aria="goTop"><svg viewBox="0 0 100 100" aria-hidden="true">
+<circle cx="50" cy="50" r="40" fill="none" stroke="currentColor" stroke-width="7"></circle>
+<path d="M50 10 A40 40 0 0 1 63.68 12.41" fill="none" stroke="#22A447" stroke-width="7"></path>
+<path d="M63.68 12.41 A40 40 0 0 1 75.71 19.36" fill="none" stroke="#EFC20F" stroke-width="7"></path>
+<path d="M75.71 19.36 A40 40 0 0 1 84.64 30" fill="none" stroke="#D7261E" stroke-width="7"></path>
+<path class="needle" d="M75.98 35 L52.5 54.33 L47.5 45.67 Z" fill="var(--accent)"></path>
+<circle cx="50" cy="50" r="6" fill="currentColor"></circle>
+</svg><span>Azimuth</span></button>
+    <button class="iconbtn" id="prevBtn" aria-label="" data-i18n-aria="prevDay"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+    <button class="datebtn" id="dateBtn" aria-label="" data-i18n-aria="openCal"><span class="dot" id="dateDot" style="color:var(--none);background:var(--none)"></span><span id="dateLabel">Calendar</span></button>
+    <button class="iconbtn" id="nextBtn" aria-label="" data-i18n-aria="nextDay"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></button>
+    <button class="iconbtn" id="searchBtn" aria-label="" data-i18n-aria="searchAria"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg></button>
+    <button class="iconbtn langbtn" id="langBtn" aria-label="" data-i18n-aria="language"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/></svg><span id="langCode">EN</span></button>
+  </div>
+</header>
+
+<main class="wrap" id="main">
+  <div class="state" id="loading"><b data-i18n="loadingArchive">Loading the archive</b><span data-i18n="oneMoment">One moment.</span></div>
+</main>
+
+<div class="drawer-ov" id="menuOv" role="dialog" aria-modal="true" aria-label="" data-i18n-aria="menu"><aside class="drawer" id="drawer"></aside></div>
+
+<div class="overlay" id="calOv" role="dialog" aria-modal="true" aria-labelledby="calTitle">
+  <div class="sheet">
+    <span class="grab" aria-hidden="true"></span>
+    <div class="sheet-head">
+      <h2 id="calTitle"></h2>
+      <button class="iconbtn" id="calClose" aria-label="" data-i18n-aria="close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+    <div class="cal" id="cal"></div>
+    <div class="legend">
+      <div class="bar" id="legendBar"></div>
+      <div class="lbl"><span data-i18n="legendLow"></span><span data-i18n="legendMid"></span><span data-i18n="legendHigh"></span></div>
+      <div class="none"><i></i><span data-i18n="noBulletinDay"></span></div>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="searchOv" role="dialog" aria-modal="true" aria-label="" data-i18n-aria="searchAria">
+  <div class="sheet">
+    <span class="grab" aria-hidden="true"></span>
+    <div class="sheet-head">
+      <h2 data-i18n="searchTitle"></h2>
+      <button class="iconbtn" id="searchClose" aria-label="" data-i18n-aria="close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+    <label for="q" class="eyebrow" data-i18n="searchLabel"></label>
+    <input class="search-in" id="q" type="search" placeholder="" data-i18n-ph="searchPh" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="search">
+    <ul class="results" id="results"></ul>
+  </div>
+</div>
+
+<div class="overlay" id="langOv" role="dialog" aria-modal="true" aria-labelledby="langTitle">
+  <div class="sheet">
+    <span class="grab" aria-hidden="true"></span>
+    <div class="sheet-head">
+      <h2 id="langTitle" data-i18n="language"></h2>
+      <button class="iconbtn" id="langClose" aria-label="" data-i18n-aria="close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+    <div class="langs" role="radiogroup" aria-labelledby="langTitle">
+      <button class="lang-opt" role="radio" data-lang="en" aria-checked="false"><span class="code">EN</span><span lang="en">English</span><svg class="ck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button>
+      <button class="lang-opt" role="radio" data-lang="ro" aria-checked="false"><span class="code">RO</span><span lang="ro">Română</span><svg class="ck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button>
+      <button class="lang-opt" disabled aria-disabled="true"><span class="code">ES</span><span lang="es">Español</span><span class="badge">Coming soon</span></button>
+      <button class="lang-opt" disabled aria-disabled="true"><span class="code">FR</span><span lang="fr">Français</span><span class="badge">Coming soon</span></button>
+      <button class="lang-opt" disabled aria-disabled="true"><span class="code">DE</span><span lang="de">Deutsch</span><span class="badge">Coming soon</span></button>
+    </div>
+  </div>
+</div>
+
+<script>
+const FLAGS = __FLAGS__;
+
+/* ---------- utilitare ---------- */
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const safeUrl = u => /^https?:\/\//i.test(String(u||"")) ? String(u) : null;
+const arr = v => Array.isArray(v) ? v : [];
+/* ---------- limbă / language ---------- */
+const LANGS = ["en", "ro"];
+const I18N = {
+ en: {
+  goTop:"Azimuth, back to top", prevDay:"Previous day", nextDay:"Next day", openCal:"Open the calendar", searchAria:"Search the archive", language:"Language",
+  close:"Close", prevMonth:"Previous month", nextMonth:"Next month", legendLow:"Low impact", legendMid:"Medium", legendHigh:"Major impact", noBulletinDay:"Day without a briefing",
+  searchTitle:"Search", searchLabel:"Word or country", searchPh:"e.g. Fed, Ukraine, oil",
+  loadingArchive:"Loading the archive", oneMoment:"One moment.", archiveFail:"The archive could not be loaded", reload:"Reload the page.",
+  loadingEd:"Loading the briefing", notFound:"Briefing not found", readFail:"The briefing could not be read", tryAgain:"Try again.",
+  emptyT:"The archive is empty for now", emptyX:"The first briefing appears here after the morning run, around 09:30 Romanian time.",
+  morning:"Morning briefing", updated:"updated", dayImpact:"Impact of the day", top5:"Top 5 by impact", outOf10:"score out of 10",
+  low:"Low", high:"Major", tapDetails:"Tap for details", openStory:"Open story", impactOf:"impact", of10:"out of 10",
+  words:["minor","low","medium","high","major"],
+  filter:"Filter", fAll:"All", fGeo:"Geopolitics", fEco:"Economy", fAlt:"Other", fNight:"Overnight", fSaved:"Saved",
+  count:(a,b)=>a+" of "+b+" stories", noneHere:"Nothing here", emptyNight:"No overnight stories on this day.", emptySaved:"You have not saved any stories from this day.", emptyCat:"No stories in this category today.",
+  details:"Details", happened:"What happened", context:"Context", why:"Why it matters", sources:"Sources", secondary:"Social media, tabloids, blogs",
+  source:"Source", secondarySrc:"secondary source", overnight:"Overnight", unconfirmed:"Not confirmed by agencies", save:"Save story", unsave:"Remove from saved", saveFail:"Could not save. Try again.",
+  markets:"Markets", gStocks:"Stock indices · daily change", gNews:"Stocks in the news", idxNote:"An index tracks a basket of company shares. Its level is counted in points, not money, so the daily % change is what shows how the market moved.", idxLevel:"Index level", gFx:"Currencies", gCmd:"Commodities and crypto", watch:"What to watch today", moreSrc:"More sources", secondaryMore:"Social media, tabloids, blogs and additional sources",
+  calNoScore:"briefing without an impact score", last7:"Last 7 days", nextEd:"Next edition", nextEdWhen:"Tomorrow at 08:45, not yet published", noEd:"No edition this day", calToday:"Today", calYesterday:"Yesterday", calNotYet:"not yet", calNone:"no briefing",
+  searching:"Loading the archive...", archiveFailShort:"The archive could not be loaded.", noResults:"No results.", savedStories:"Saved stories",
+  noSaved:"You have not saved any stories yet. Use the bookmark button on a story.",
+  fallback:"This briefing is only available in Romanian.",
+  jStories:"Stories", jMarkets:"Markets", jImpact:"Market impact", jWatch:"Watchlist", jSources:"Sources", jumpTo:"Jump to section", menu:"Menu", mSections:"Sections", mCats:"Story categories", mTools:"Tools", mTop:"Briefing", mCal:"Calendar and archive", mSearch:"Search", mLang:"Language", mPush:"Notifications", pushIOS:"Add to Home Screen first", mTheme:"Appearance", crBy:"Developed by", crFounded:"Founded", crFoundedDate:"12 November 2026", crEditions:"Editions published", crSchedule:"New edition every morning at 08:45, Romania time", crMade:"Written and checked against sources with Claude (Anthropic)", crData:"Market data and Fear & Greed from the sources cited in each edition", crNote:"For information only. Not financial advice.", crVersion:"Version", thAuto:"Auto", thLight:"Light", thDark:"Dark", pushOff:"Off", pushOn:"On", pushBlocked:"Blocked in settings", pushNA:"Not supported here", jFg:"Fear & Greed", fgTitle:"Fear & Greed", fgSub:"How nervous or confident investors are, on a scale from 0 (extreme fear) to 100 (extreme greed).", fgStocks:"US stocks", fgCrypto:"Crypto", fgStocksSrc:"CNN Fear & Greed, last US close", fgCryptoSrc:"Alternative.me, reading of the day", fgWords:["Extreme fear","Fear","Neutral","Greed","Extreme greed"], fgTrend:"Recent editions", fgDay:"Edition", fgNone:"No reading", fgNote:"These indices measure market mood, not value. They are not a forecast or a recommendation.",
+  fxTitle:"Market impact", fxSub:"How today's events feed through to markets and the economy.", fxRisk:"Risk", fxStory:"Story",
+  riskWords:["low","moderate","elevated","high","severe"], fxHow:"How it feeds through", fxWatch:"What to watch", fxOpen:"Open story",
+  fxDisc:"For information only, not investment advice. Arrows show moves and pressures reported so far, not a forecast.",
+  dirUp:"up", dirDown:"down", dirFlat:"no clear move",
+  units:{points:"points", ron:"RON", oil:"USD/bbl", gold:"USD/oz", usd:"USD", gas:"EUR/MWh"}
+ },
+ ro: {
+  goTop:"Azimuth, mergi sus", prevDay:"Ziua anterioară", nextDay:"Ziua următoare", openCal:"Deschide calendarul", searchAria:"Caută în arhivă", language:"Limbă",
+  close:"Închide", prevMonth:"Luna anterioară", nextMonth:"Luna următoare", legendLow:"Impact mic", legendMid:"Mediu", legendHigh:"Impact major", noBulletinDay:"Zi fără buletin",
+  searchTitle:"Caută", searchLabel:"Cuvânt sau țară", searchPh:"de exemplu: BNR, Ucraina, petrol",
+  loadingArchive:"Se încarcă arhiva", oneMoment:"Un moment.", archiveFail:"Arhiva nu a putut fi încărcată", reload:"Reîncarcă pagina.",
+  loadingEd:"Se încarcă buletinul", notFound:"Buletinul nu a fost găsit", readFail:"Buletinul nu a putut fi citit", tryAgain:"Încearcă din nou.",
+  emptyT:"Arhiva e goală deocamdată", emptyX:"Primul buletin apare aici după rularea de dimineață, în jur de 09:30.",
+  morning:"Buletinul de dimineață", updated:"actualizat", dayImpact:"Impactul zilei", top5:"Top 5 după impact", outOf10:"notă din 10",
+  low:"Mic", high:"Major", tapDetails:"Atinge pentru detalii", openStory:"Deschide știrea", impactOf:"impact", of10:"din 10",
+  words:["mic","redus","mediu","ridicat","major"],
+  filter:"Filtru", fAll:"Toate", fGeo:"Geopolitică", fEco:"Economie", fAlt:"Altele", fNight:"Peste noapte", fSaved:"Salvate",
+  count:(a,b)=>a+" din "+b+" știri", noneHere:"Nicio știre aici", emptyNight:"Nicio știre petrecută peste noapte în această zi.", emptySaved:"Nu ai salvat nicio știre din această zi.", emptyCat:"Nicio știre în această categorie azi.",
+  details:"Detalii", happened:"Ce s-a întâmplat", context:"Context", why:"De ce contează", sources:"Surse", secondary:"Rețele sociale, tabloide, bloguri",
+  source:"Sursă", secondarySrc:"sursă secundară", overnight:"Peste noapte", unconfirmed:"Neconfirmat de agenții", save:"Salvează știrea", unsave:"Scoate din salvate", saveFail:"Nu s-a putut salva. Încearcă din nou.",
+  markets:"Piețe", gStocks:"Indici bursieri · variația zilei", gNews:"Acțiuni din știri", idxNote:"Un indice urmărește un coș de acțiuni. Nivelul lui se măsoară în puncte, nu în bani, așa că variația zilnică în % arată cum s-a mișcat piața.", idxLevel:"Nivelul indicelui", gFx:"Valute", gCmd:"Mărfuri și cripto", watch:"De urmărit azi", moreSrc:"Alte surse", secondaryMore:"Rețele sociale, tabloide, bloguri și surse suplimentare",
+  calNoScore:"buletin fără notă de impact", last7:"Ultimele 7 zile", nextEd:"Ediția următoare", nextEdWhen:"Mâine la 08:45, încă nepublicată", noEd:"Nicio ediție în această zi", calToday:"Azi", calYesterday:"Ieri", calNotYet:"încă nu", calNone:"fără buletin",
+  searching:"Se încarcă arhiva...", archiveFailShort:"Arhiva nu a putut fi încărcată.", noResults:"Niciun rezultat.", savedStories:"Știri salvate",
+  noSaved:"Nu ai salvat încă nicio știre. Folosește butonul de semn de carte de pe o știre.",
+  fallback:"",
+  jStories:"Știri", jMarkets:"Piețe", jImpact:"Impact pe piețe", jWatch:"De urmărit", jSources:"Surse", jumpTo:"Mergi la secțiune", menu:"Meniu", mSections:"Secțiuni", mCats:"Categorii de știri", mTools:"Instrumente", mTop:"Rezumatul zilei", mCal:"Calendar și arhivă", mSearch:"Căutare", mLang:"Limbă", mPush:"Notificări", pushIOS:"Adaugă întâi pe ecranul principal", mTheme:"Aspect", crBy:"Dezvoltat de", crFounded:"Înființat", crFoundedDate:"12 noiembrie 2026", crEditions:"Ediții publicate", crSchedule:"Ediție nouă în fiecare dimineață la 08:45, ora României", crMade:"Redactat și verificat pe surse cu Claude (Anthropic)", crData:"Datele de piață și indicii Frică și lăcomie provin din sursele citate în fiecare ediție", crNote:"Doar cu scop informativ. Nu este consultanță financiară.", crVersion:"Versiunea", thAuto:"Auto", thLight:"Luminos", thDark:"Întunecat", pushOff:"Oprite", pushOn:"Pornite", pushBlocked:"Blocate din setări", pushNA:"Indisponibile aici", jFg:"Frică și lăcomie", fgTitle:"Frică și lăcomie", fgSub:"Cât de temători sau de încrezători sunt investitorii, pe o scară de la 0 (frică extremă) la 100 (lăcomie extremă).", fgStocks:"Acțiuni SUA", fgCrypto:"Cripto", fgStocksSrc:"CNN Fear & Greed, ultima închidere din SUA", fgCryptoSrc:"Alternative.me, valoarea zilei", fgWords:["Frică extremă","Frică","Neutru","Lăcomie","Lăcomie extremă"], fgTrend:"Edițiile recente", fgDay:"Ediția", fgNone:"Fără valoare", fgNote:"Acești indici măsoară starea de spirit a pieței, nu valoarea. Nu sunt o prognoză și nici o recomandare.",
+  fxTitle:"Impact pe piețe", fxSub:"Cum se transmit evenimentele zilei în piețe și în economie.", fxRisk:"Risc", fxStory:"Știrea",
+  riskWords:["scăzut","moderat","ridicat","mare","sever"], fxHow:"Cum se transmite", fxWatch:"De urmărit", fxOpen:"Deschide știrea",
+  fxDisc:"Doar cu titlu informativ, nu reprezintă o recomandare de investiții. Săgețile arată mișcări și presiuni raportate până acum, nu o prognoză.",
+  dirUp:"în creștere", dirDown:"în scădere", dirFlat:"fără mișcare clară",
+  units:{points:"puncte", ron:"lei", oil:"USD/baril", gold:"USD/uncie", usd:"USD", gas:"EUR/MWh"}
+ }
+};
+let LANG = "en";
+try { const saved = localStorage.getItem("az-lang"); if (LANGS.includes(saved)) LANG = saved; } catch(e) {}
+const t = k => (I18N[LANG] && I18N[LANG][k] !== undefined) ? I18N[LANG][k] : I18N.en[k];
+const LOC = () => LANG === "ro" ? "ro-RO" : "en-GB";
+const regionCache = {};
+const countryName = c => {
+  if (c === "EU") return LANG === "ro" ? "Uniunea Europeană" : "European Union";
+  try { regionCache[LANG] = regionCache[LANG] || new Intl.DisplayNames([LANG], {type:"region"}); return regionCache[LANG].of(c); } catch(e) { return c; }
+};
+const parseDate = s => { const [y,m,d] = s.split("-").map(Number); return new Date(y, m-1, d); };
+const iso = d => d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+const todayIso = () => iso(new Date());
+const fmt = (s, o) => { try { return new Intl.DateTimeFormat(LOC(), o).format(typeof s === "string" ? parseDate(s) : s); } catch(e) { return String(s); } };
+const longDate = s => fmt(s, {weekday:"long", day:"numeric", month:"long", year:"numeric"});
+const shortDate = s => fmt(s, {day:"numeric", month:"short"});
+function applyStatic(){
+  document.documentElement.lang = LANG;
+  document.querySelectorAll("[data-i18n]").forEach(el => { el.textContent = t(el.dataset.i18n); });
+  document.querySelectorAll("[data-i18n-aria]").forEach(el => { el.setAttribute("aria-label", t(el.dataset.i18nAria)); });
+  document.querySelectorAll("[data-i18n-ph]").forEach(el => { el.setAttribute("placeholder", t(el.dataset.i18nPh)); });
+  document.getElementById("langCode").textContent = LANG.toUpperCase();
+  document.querySelectorAll(".lang-opt[data-lang]").forEach(b => b.setAttribute("aria-checked", String(b.dataset.lang === LANG)));
+}
+applyStatic();
+
+/* Impact 1–10: verde (1) -> galben (5.5) -> roșu (10), interpolare continuă */
+function isDark(){
+  const th = document.documentElement.getAttribute("data-theme");
+  if (th === "dark") return true; if (th === "light") return false;
+  return !!(window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches);
+}
+function impactColor(v){
+  const x = Math.min(10, Math.max(1, Number(v) || 1));
+  const t = (x - 1) / 9, mid = 1 - Math.abs(t - .5) * 2;
+  const hue = t <= .5 ? 135 - 85 * (t / .5) : 50 - 50 * ((t - .5) / .5);
+  /* pe fundal închis culorile au nevoie de mai multă lumină și saturație ca să nu pară șterse */
+  const dark = isDark();
+  /* pe fundal deschis galbenul/portocaliul are nevoie de mai puțină lumină ca să rămână lizibil */
+  const light = dark ? 54 + 8 * mid : 43 - 9 * mid;
+  const sat = dark ? 92 + 6 * mid : 88 + 8 * mid;
+  return "hsl("+hue.toFixed(1)+" "+sat.toFixed(0)+"% "+light.toFixed(0)+"%)";
+}
+const impactWord = v => { const w = t("words"); return v >= 8.5 ? w[4] : v >= 6.5 ? w[3] : v >= 4.5 ? w[2] : v >= 2.5 ? w[1] : w[0]; };
+const dotHtml = v => '<span class="dot" style="background:'+impactColor(v)+';color:'+impactColor(v)+'" title="Impact '+esc(v)+'/10"></span>';
+function flagHtml(code){
+  const c = String(code||"").toUpperCase();
+  const svg = FLAGS[c];
+  if (!svg) return "";
+  return '<span class="flag" role="img" aria-label="'+esc(countryName(c))+'" title="'+esc(countryName(c))+'">'+svg+'</span>';
+}
+function flagsHtml(list){
+  const codes = arr(list).map(c => String(c).toUpperCase()).filter(c => FLAGS[c]);
+  const shown = codes.slice(0, 6);
+  let h = shown.map(flagHtml).join("");
+  if (codes.length > 6) h += '<span class="flag more" title="'+esc(codes.slice(6).map(countryName).join(", "))+'">+'+(codes.length-6)+'</span>';
+  return h;
+}
+const catClass = c => /geo/i.test(c) ? "cat-geo" : /eco/i.test(c) ? "cat-eco" : "cat-alt";
+
+/* legenda calendarului */
+function paintLegend(){ $("#legendBar").style.background = "linear-gradient(90deg,"+[1,2,3,4,5,5.5,6,7,8,9,10].map(impactColor).join(",")+")"; }
+paintLegend();
+
+
+/* ---------- stare ---------- */
+const S = { db:null, uid:null, days:{}, editions:{}, current:null, filter:"all", saved:{}, calMonth:null, allLoaded:false };
+
+/* ---------- date (fișiere data/*.js) ---------- */
+function loadScript(src){
+  return new Promise((res, rej) => { const s = document.createElement("script"); s.src = src; s.onload = res; s.onerror = () => rej(new Error(src)); document.head.appendChild(s); });
+}
+const num = v => { const x = Number(v); return isFinite(x) && x > 0 ? Math.min(10, Math.max(1, x)) : null; };
+function normEdition(raw, date){
+  const stories = arr(raw.stories).map((s, i) => ({
+    n: s.n || i + 1,
+    title: s.title, category: s.cat || s.category || t("fAlt"), region: s.region, overnight: !!s.overnight,
+    impact: num(s.impact) || 5, countries: arr(s.countries), essential: s.essential,
+    happened: arr(s.what || s.happened), context: arr(s.context), why: arr(s.why),
+    unconfirmed: !!s.unconfirmed,
+    sources: arr(s.sources).map(x => ({title: x.t || x.title, url: x.u || x.url, type: x.type || "principal", platform: x.platform, status: x.status}))
+  }));
+  const m = raw.markets || {};
+  const rows = Array.isArray(m) ? m.map(r => [r.name, r.value, r.change, r.when]) : arr(m.rows);
+  const dayInfo = S.days[date] || {};
+  return {
+    date, updated: raw.updated,
+    impact: num(raw.impact) || num(dayInfo.impact) || (stories.length ? Math.max(...stories.map(s => s.impact)) : 5),
+    summary: arr(raw.summary), stories,
+    markets: rows.map(r => ({name: r[0], value: r[1], change: r[2], when: r[3]})),
+    marketsNote: Array.isArray(m) ? raw.marketsNote : m.note,
+    marketSources: arr(m.sources).map(x => ({title: x.t || x.title, url: x.u || x.url})),
+    watch: arr(raw.watch),
+    effects: arr(raw.effects).filter(x => x && x.title).map(x => ({n: x.n, title: x.title, risk: num(x.risk) || 5, summary: x.summary, assets: arr(x.assets), how: arr(x.how), watch: x.watch})).sort((a,b) => b.risk - a.risk),
+    secondary: arr(raw.secondary).map(x => ({title: x.t || x.title, url: x.u || x.url}))
+  };
+}
+async function boot(){
+  window.DM_DATA = window.DM_DATA || {}; window.DM_DATA_EN = window.DM_DATA_EN || {};
+  try { await loadScript("data/days.js?v=" + Date.now()); }
+  catch(e) { showState(t("archiveFail"), t("reload")); return; }
+  const days = {};
+  arr(window.DM_DAYS).forEach(d => {
+    const o = typeof d === "string" ? {date: d} : d;
+    if (o && /^\d{4}-\d{2}-\d{2}$/.test(o.date)) days[o.date] = o;
+  });
+  S.days = days;
+  const fromHash = (location.hash.match(/^#d-(\d{4}-\d{2}-\d{2})$/) || [])[1];
+  S.current = (fromHash && days[fromHash]) ? fromHash : latestDay();
+  if (!S.current) { renderEmpty(); updateHeader(); }
+  else openDay(S.current, false);
+
+  /* salvarea știrilor a fost scoasă: S.uid rămâne null, deci butoanele și filtrul „Salvate” nu apar */
+}
+const sortedDays = () => Object.keys(S.days).sort();
+const latestDay = () => { const k = sortedDays(); return k[k.length-1] || null; };
+function dayImpact(date){ return S.editions[date]?.impact || num(S.days[date]?.impact); }
+
+async function loadEdition(date){
+  if (S.editions[date]) return S.editions[date];
+  let raw = null, fallback = false;
+  if (LANG === "en") {
+    if (!window.DM_DATA_EN[date]) { try { await loadScript("data/" + date + ".en.js"); } catch(e) {} }
+    raw = window.DM_DATA_EN[date] || null;
+  }
+  if (!raw) {
+    if (!window.DM_DATA[date]) await loadScript("data/" + date + ".js");
+    raw = window.DM_DATA[date] || null;
+    fallback = LANG !== "ro" && !!raw;
+  }
+  if (!raw) return null;
+  S.editions[date] = normEdition(raw, date);
+  S.editions[date].fallback = fallback;
+  return S.editions[date];
+}
+async function openDay(date, push = true){
+  S.current = date;
+  if (push) { try { history.replaceState(null, "", "#d-"+date); } catch(e) { location.hash = "d-"+date; } }
+  updateHeader();
+  if (!S.editions[date]) $("#main").innerHTML = '<div class="state"><b>'+esc(t("loadingEd"))+'</b>'+esc(longDate(date))+'</div>';
+  try {
+    const ed = await loadEdition(date);
+    if (S.current !== date) return;
+    if (!ed) { showState(t("notFound"), longDate(date)); return; }
+    renderDay();
+  } catch(e) { showState(t("readFail"), t("tryAgain")); }
+}
+
+/* ---------- randare ---------- */
+function showState(title, text){ $("#main").innerHTML = '<div class="state"><b>'+esc(title)+'</b>'+esc(text)+'</div>'; }
+function renderEmpty(){
+  $("#main").innerHTML = '<div class="state"><b>'+esc(t("emptyT"))+'</b>'+esc(t("emptyX"))+'</div>';
+}
+function updateHeader(){
+  const k = sortedDays(), i = k.indexOf(S.current);
+  $("#prevBtn").disabled = i <= 0;
+  $("#nextBtn").disabled = i < 0 || i >= k.length - 1;
+  if (S.current) {
+    $("#dateLabel").textContent = shortDate(S.current);
+    const v = dayImpact(S.current);
+    const dd = $("#dateDot"); dd.style.background = v ? impactColor(v) : "var(--none)"; dd.style.color = dd.style.background;
+  }
+}
+const storyKey = (date, n) => "s-"+date+"-"+n;
+
+function storyCard(s, date){
+  const key = storyKey(date, s.n);
+  const saved = !!S.saved[key];
+  const srcs = arr(s.sources);
+  const prim = srcs.filter(x => x.type !== "secundar"), sec = srcs.filter(x => x.type === "secundar");
+  let k = 0;
+  const cas = () => ' class="cas" style="--k:'+(Math.min(k++, 14))+'"';
+  const li = list => arr(list).map(t => '<li'+cas()+'>'+esc(t)+'</li>').join("");
+  const srcLi = x => { const u = safeUrl(x.url); const label = esc(x.title || x.url || t("source"));
+    const extra = x.type === "secundar" ? ' <span class="sec">['+esc(x.platform || t("secondarySrc"))+(x.status ? ", "+esc(x.status) : "")+']</span>' : "";
+    return '<li'+cas()+'>'+(u ? '<a href="'+esc(u)+'" target="_blank" rel="noopener noreferrer">'+label+'</a>' : label)+extra+'</li>'; };
+  let det = "";
+  if (arr(s.happened).length) det += '<h3'+cas()+'>'+esc(t("happened"))+'</h3><ul>'+li(s.happened)+'</ul>';
+  if (arr(s.context).length) det += '<h3'+cas()+'>'+esc(t("context"))+'</h3><ul>'+li(s.context)+'</ul>';
+  if (arr(s.why).length) det += '<h3'+cas()+'>'+esc(t("why"))+'</h3><ul>'+li(s.why)+'</ul>';
+  if (prim.length) det += '<h3'+cas()+'>'+esc(t("sources"))+'</h3><ul class="src">'+prim.map(srcLi).join("")+'</ul>';
+  if (sec.length) det += '<h3'+cas()+'>'+esc(t("secondary"))+'</h3><ul class="src">'+sec.map(srcLi).join("")+'</ul>';
+  return '<article class="card" id="st-'+esc(s.n)+'" data-n="'+esc(s.n)+'">'+
+    '<div class="card-head"><div><span class="num">'+String(s.n).padStart(2,"0")+' / '+impactWord(s.impact)+' · '+esc(s.impact)+'/10</span>'+
+    '<div class="title-row">'+dotHtml(s.impact)+'<h2>'+esc(s.title)+'</h2></div></div>'+
+    '<div class="flags">'+flagsHtml(s.countries)+'</div></div>'+
+    '<div class="meta"><span class="tag '+catClass(s.category)+'">'+esc(s.category)+'</span>'+(s.region ? '<span class="tag">'+esc(s.region)+'</span>' : "")+
+    (s.overnight ? '<span class="tag night">'+esc(t("overnight"))+'</span>' : "")+(s.unconfirmed ? '<span class="tag warn">'+esc(t("unconfirmed"))+'</span>' : "")+'</div>'+
+    '<p class="essential">'+esc(s.essential)+'</p>'+
+    '<div class="card-actions">'+(det ? '<button class="more-btn" data-act="toggle" aria-expanded="false">'+esc(t("details"))+'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button>' : "")+
+    (S.uid ? '<button class="save-btn" data-act="save" aria-pressed="'+saved+'" aria-label="'+esc(saved?t("unsave"):t("save"))+'"><svg viewBox="0 0 24 24" fill="'+(saved?"currentColor":"none")+'" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M6 3h12v18l-6-4-6 4z"/></svg></button>' : "")+
+    '</div><div class="details"><div class="details-in"><div class="dz">'+det+'</div></div></div></article>';
+}
+
+function filtered(date){
+  const stories = arr(S.editions[date]?.stories).slice().sort((a,b) => (a.n||0) - (b.n||0));
+  const f = S.filter;
+  const list = f === "all" ? stories
+    : f === "night" ? stories.filter(s => s.overnight)
+    : f === "saved" ? stories.filter(s => S.saved[storyKey(date, s.n)])
+    : stories.filter(s => catClass(s.category) === f);
+  return {list, total: stories.length};
+}
+const EMPTY = () => ({"night":t("emptyNight"),"saved":t("emptySaved")});
+function fillStories(openSet, animate){
+  const box = $("#storyList"); if (!box) return;
+  const {list, total} = filtered(S.current);
+  box.innerHTML = list.length ? list.map(s => storyCard(s, S.current)).join("") : '<div class="state"><b>'+esc(t("noneHere"))+'</b>'+esc(EMPTY()[S.filter] || t("emptyCat"))+'</div>';
+  [...box.children].forEach((c, i) => c.style.setProperty("--i", Math.min(i, 8)));
+  if (openSet) openSet.forEach(n => { const c = document.getElementById("st-"+n); if (c) { c.classList.add("open", "static"); c.querySelector('[data-act="toggle"]')?.setAttribute("aria-expanded","true"); } });
+  $("#countLine").textContent = t("count")(list.length, total);
+  if (animate) { box.classList.remove("enter"); void box.offsetWidth; box.classList.add("enter"); }
+}
+function moveIndicator(smooth){
+  const seg = document.querySelector(".seg"), ind = seg?.querySelector(".seg-ind"), btn = seg?.querySelector('[aria-checked="true"]');
+  if (!btn) return;
+  if (!smooth) { ind.style.transition = "none"; }
+  ind.style.width = btn.offsetWidth + "px";
+  ind.style.transform = "translateX(" + (btn.offsetLeft - 0) + "px)";
+  if (!smooth) { void ind.offsetWidth; ind.style.transition = ""; }
+  const l = btn.offsetLeft, r = l + btn.offsetWidth;
+  if (l < seg.scrollLeft + 8 || r > seg.scrollLeft + seg.clientWidth - 8) seg.scrollTo({left: l - (seg.clientWidth - btn.offsetWidth) / 2, behavior: smooth ? "smooth" : "auto"});
+}
+let switching = null;
+function setFilter(val){
+  if (val === S.filter) return;
+  S.filter = val;
+  document.querySelectorAll(".seg [data-filter]").forEach(b => b.setAttribute("aria-checked", String(b.dataset.filter === val)));
+  moveIndicator(true);
+  const box = $("#storyList");
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduce) { fillStories(null, false); return; }
+  clearTimeout(switching);
+  box.classList.remove("enter"); box.classList.add("leave");
+  switching = setTimeout(() => { box.classList.remove("leave"); fillStories(null, true); }, 200);
+}
+window.addEventListener("resize", () => moveIndicator(false));
+
+const hasVal = v => !!String(v ?? "").trim() && !/^[-−–—]$/.test(String(v).trim());
+function mkGroup(name){
+  if (!/\//.test(String(name)) && !/\((NBR|BNR)\)/.test(String(name)) && /\([A-Z0-9.]{1,7}\)\s*$/.test(String(name))) return 3;
+  const n = String(name).toLowerCase();
+  if (/\b[a-z]{3}\/[a-z]{3}\b/.test(n) || /curs|dolar|dollar|euro\b|leu|yen/.test(n)) return 1;
+  if (/brent|wti|petrol|oil|aur|gold|argint|silver|gaz|gas|bitcoin|btc|ether|cupru|copper/.test(n)) return 2;
+  return 0;
+}
+function mkUnit(name, value){
+  const v = String(value);
+  if (/[a-zA-Z$€£%]/.test(v.replace(/^(circa|aprox\.?|aproximativ|peste|sub|puțin sub|puțin peste|aproape)\s+/i, ""))) return "";
+  if (!/\d/.test(v)) return "";
+  const n = String(name).toLowerCase();
+  const fx = n.match(/\b([a-z]{3})\/([a-z]{3})\b/);
+  const U = t("units");
+  if (fx) return fx[2] === "ron" ? U.ron : fx[2].toUpperCase();
+  if (/brent|wti|petrol|oil/.test(n)) return U.oil;
+  if (/aur|gold|argint|silver/.test(n)) return U.gold;
+  if (/bitcoin|btc|ether/.test(n)) return U.usd;
+  if (/gaz|gas/.test(n)) return U.gas;
+  return U.points;
+}
+function mkIdx(m){
+  const ch = hasVal(m.change) ? String(m.change).trim() : "";
+  const dir = /[-−–]\s*\d/.test(ch) ? "down" : /\+\s*\d/.test(ch) ? "up" : "flat";
+  const arrow = dir === "up" ? "▲ " : dir === "down" ? "▼ " : "";
+  const lvl = hasVal(m.value) ? String(m.value).trim().replace(/\s*(points?|puncte|pct\.?)\s*$/i, "") : "";
+  return '<li><div class="mk-l"><b>'+esc(m.name)+'</b>'+(m.when ? '<span>'+esc(m.when)+'</span>' : '')+'</div>'+
+    '<div class="mk-r">'+(ch ? '<span class="mk-c big '+dir+'">'+arrow+esc(ch)+'</span>' : '')+
+    (lvl ? '<span class="mk-lvl">'+esc(t("idxLevel"))+' '+esc(lvl)+'</span>' : '')+'</div></li>';
+}
+function mkRow(m){
+  const ch = hasVal(m.change) ? String(m.change).trim() : "";
+  const dir = /[-−–]\s*\d/.test(ch) ? "down" : /\+\s*\d/.test(ch) ? "up" : "flat";
+  const arrow = dir === "up" ? "▲ " : dir === "down" ? "▼ " : "";
+  let val = hasVal(m.value) ? String(m.value).trim() : "";
+  let unit = val ? mkUnit(m.name, val) : "";
+  const sp = val.match(/^([\d.,]+)\s+(\S.*)$/);
+  if (sp && !unit) { val = sp[1]; unit = sp[2]; }
+  return '<li><div class="mk-l"><b>'+esc(m.name)+'</b>'+(m.when ? '<span>'+esc(m.when)+'</span>' : '')+'</div>'+
+    '<div class="mk-r">'+(val ? '<span class="mk-v">'+esc(val)+(unit ? ' <small>'+esc(unit)+'</small>' : '')+'</span>' : '')+
+    (ch ? '<span class="mk-c '+dir+'">'+arrow+esc(ch.replace(/^[+]/, "+"))+'</span>' : '')+'</div></li>';
+}
+
+const riskWord = v => { const w = t("riskWords"); return v >= 8.5 ? w[4] : v >= 6.5 ? w[3] : v >= 4.5 ? w[2] : v >= 2.5 ? w[1] : w[0]; };
+function fxCard(x, i){
+  let k = 0;
+  const cas = () => ' class="cas" style="--k:'+(Math.min(k++, 14))+'"';
+  const col = impactColor(x.risk);
+  const chips = arr(x.assets).map(a => { const d = a.d === "up" ? "up" : a.d === "down" ? "down" : "flat";
+    const ar = d === "up" ? "▲" : d === "down" ? "▼" : "●";
+    return '<span class="fx-chip '+d+'"><span class="ar" role="img" aria-label="'+esc(t(d === "up" ? "dirUp" : d === "down" ? "dirDown" : "dirFlat"))+'">'+ar+'</span>'+esc(a.a)+(a.v ? ' <span class="v">'+esc(a.v)+'</span>' : '')+'</span>'; }).join("");
+  let det = "";
+  if (x.how.length) det += '<h3'+cas()+'>'+esc(t("fxHow"))+'</h3><ul>'+x.how.map(s => '<li'+cas()+'>'+esc(s)+'</li>').join("")+'</ul>';
+  if (x.watch) det += '<h3'+cas()+'>'+esc(t("fxWatch"))+'</h3><ul><li'+cas()+'>'+esc(x.watch)+'</li></ul>';
+  return '<article class="card fx" style="--i:'+Math.min(i, 8)+'">'+
+    '<div class="fx-top"><span class="dot" style="background:'+col+';color:'+col+'"></span><span class="lvl" style="color:'+col+'">'+esc(t("fxRisk"))+' '+esc(riskWord(x.risk))+'</span><span>'+esc(Number(x.risk).toFixed(1))+'/10</span>'+
+    (x.n ? '<span class="ref">'+esc(t("fxStory"))+' '+String(x.n).padStart(2,"0")+'</span>' : '')+'</div>'+
+    '<h3 class="fx-t">'+esc(x.title)+'</h3>'+
+    (x.summary ? '<p class="fx-sum">'+esc(x.summary)+'</p>' : '')+
+    '<div class="fx-bar" aria-hidden="true"><i style="--w:'+(x.risk*10)+'%;background:'+col+'"></i></div>'+
+    (chips ? '<div class="fx-chips">'+chips+'</div>' : '')+
+    '<div class="card-actions">'+(det ? '<button class="more-btn" data-act="toggle" aria-expanded="false">'+esc(t("details"))+'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button>' : '')+
+    (x.n ? '<button class="fx-go" data-jump="'+esc(x.n)+'">'+esc(t("fxOpen"))+'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></button>' : '')+
+    '</div><div class="details"><div class="details-in"><div class="dz">'+det+'</div></div></div></article>';
+}
+let fxObs = null;
+function watchFx(){
+  const el = $("#fxList"); if (!el) return;
+  if (fxObs) fxObs.disconnect();
+  if (!("IntersectionObserver" in window) || matchMedia("(prefers-reduced-motion: reduce)").matches) { el.classList.add("seen"); return; }
+  fxObs = new IntersectionObserver(es => { es.forEach(e => { if (e.isIntersecting) { el.classList.add("seen"); fxObs.disconnect(); } }); }, {threshold: 0.12});
+  fxObs.observe(el);
+}
+
+function renderDay(){
+  const date = S.current, ed = S.editions[date]; if (!ed) return;
+  const stories = arr(ed.stories).slice().sort((a,b) => (a.n||0) - (b.n||0));
+  const dImp = ed.impact;
+  const openSet = new Set([...document.querySelectorAll(".card.open[data-n]")].map(c => c.dataset.n));
+
+  const top = stories.slice().sort((a,b) => (b.impact||0) - (a.impact||0)).slice(0, 5);
+  const rank = top.map(s => '<li><button data-jump="'+esc(s.n)+'" aria-label="'+esc(t("openStory"))+' '+esc(s.n)+': '+esc(s.title)+', '+esc(t("impactOf"))+' '+esc(s.impact)+' '+esc(t("of10"))+'">'+
+    '<span class="rn">'+String(s.n).padStart(2,"0")+'</span><span class="rt">'+esc(s.title)+'</span>'+
+    '<span class="rs" style="color:'+impactColor(s.impact)+'">'+esc(Number(s.impact).toFixed(1))+'</span>'+
+    '<span class="track"><span class="fill" style="display:block;width:'+(Math.max(1, Math.min(10, s.impact))*10)+'%;background:'+impactColor(s.impact)+'"></span></span></button></li>').join("");
+  const chip = (val, label) => '<button role="radio" data-filter="'+val+'" aria-checked="'+(S.filter===val)+'">'+label+'</button>';
+
+  const IC = S.IC = {
+    stories:'<path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3z"/><path d="M9 9h6M9 13h6"/>',
+    markets:'<path d="M4 19V5"/><path d="M4 19h16"/><path d="M8 15l3.5-4 3 2.5L20 7"/>',
+    impact:'<circle cx="12" cy="12" r="8"/><path d="M12 12l4-4"/><circle cx="12" cy="12" r="1.2"/>',
+    watch:'<path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/>',
+    fg:'<path d="M4 16a8 8 0 0 1 16 0"/><path d="M12 16l3.5-5"/><circle cx="12" cy="16" r="1.2"/>',
+    sources:'<path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/>'
+  };
+  const jb = (id, ic, label, extra) => '<button type="button" data-sec="'+id+'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+IC[ic]+'</svg>'+esc(label)+(extra || '')+'</button>';
+  const mkCount = arr(ed.markets).filter(m => m && m.name && (hasVal(m.value) || hasVal(m.change))).length;
+  const fxMax = ed.effects.length ? Math.max(...ed.effects.map(x => x.risk)) : 0;
+  const hasSrc = ed.marketSources.length || ed.secondary.length;
+  let nav = '<nav class="jump" aria-label="'+esc(t("jumpTo"))+'">'+
+    jb("sec-stories", "stories", t("jStories"), '<span class="n">'+stories.length+'</span>')+
+    (mkCount ? jb("sec-markets", "markets", t("jMarkets"), '<span class="n">'+mkCount+'</span>') : '')+
+    (fgOf(date) ? jb("sec-fg", "fg", t("jFg"), '<span class="dot" style="background:'+fgColor(fgMain(date))+';color:'+fgColor(fgMain(date))+'"></span>') : '')+
+    (ed.effects.length ? jb("sec-fx", "impact", t("jImpact"), '<span class="dot" style="background:'+impactColor(fxMax)+';color:'+impactColor(fxMax)+'"></span>') : '')+
+    (arr(ed.watch).length ? jb("sec-watch", "watch", t("jWatch"), '<span class="n">'+arr(ed.watch).length+'</span>') : '')+
+    (hasSrc ? jb("sec-src", "sources", t("jSources")) : '')+
+    '</nav>';
+  let h = '<section class="day"><div class="day-head"><div><div class="eyebrow">'+esc(t("morning"))+(ed.updated ? ' · '+esc(t("updated"))+' '+esc(ed.updated) : '')+'</div><h1>'+esc(longDate(date))+'</h1></div>'+
+    '<span class="impact-chip">'+dotHtml(dImp)+esc(t("dayImpact"))+': '+impactWord(dImp)+' · '+esc(Math.round(dImp*10)/10)+'/10</span></div>'+
+    '<div class="rank-head"><span class="eyebrow">'+esc(t("top5"))+'</span><span class="strip-note">'+esc(t("outOf10"))+'</span></div>'+
+    '<ul class="rank">'+rank+'</ul>'+
+    '<div class="scale">'+esc(t("low"))+'<i style="background:'+$("#legendBar").style.background+'"></i>'+esc(t("high"))+'<span style="margin-left:auto">'+esc(t("tapDetails"))+'</span></div>'+
+    (ed.fallback && t("fallback") ? '<p class="fallback">'+esc(t("fallback"))+'</p>' : '')+
+    (arr(ed.summary).length ? '<ul class="brief">'+arr(ed.summary).map(t => '<li>'+esc(t)+'</li>').join("")+'</ul>' : "")+'</section>';
+
+  if (S.filter === "saved" && !S.uid) S.filter = "all";
+  let seg = '<div class="seg" id="sec-stories" role="radiogroup" aria-label="'+esc(t("filter"))+'">'+'<span class="seg-ind" aria-hidden="true"></span>'+chip("all",t("fAll"))+chip("cat-geo",t("fGeo"))+chip("cat-eco",t("fEco"))+chip("cat-alt",t("fAlt"))+chip("night",t("fNight"))+
+    (S.uid ? chip("saved",t("fSaved")) : "")+'</div><div class="count-line" id="countLine"></div>';
+  seg += '<div class="stories" id="storyList"></div>';
+  let side = '', fxH = '';
+
+  const mk = arr(ed.markets).filter(m => m && m.name && (hasVal(m.value) || hasVal(m.change)));
+  if (mk.length) {
+    const groups = [[t("gStocks"), [], mkIdx, t("idxNote")], [t("gFx"), [], mkRow], [t("gCmd"), [], mkRow], [t("gNews"), [], mkRow]];
+    mk.forEach(m => groups[mkGroup(m.name)][1].push(m));
+    groups.splice(1, 0, groups.pop());
+    side += '<section class="section" id="sec-markets"><h2 class="sh">'+esc(t("markets"))+'</h2><div class="panel">'+
+      groups.filter(g => g[1].length).map(g => '<div class="mk-group">'+esc(g[0])+'</div>'+(g[3] ? '<p class="mk-note">'+esc(g[3])+'</p>' : '')+'<ul class="mk">'+g[1].map(g[2]).join("")+'</ul>').join("")+
+      (ed.marketsNote ? '<div class="panel-note">'+esc(ed.marketsNote)+'</div>' : "")+'</div></section>';
+  }
+  side += fgSection(date);
+  if (ed.effects.length) {
+    fxH = '<section class="section" id="sec-fx"><h2 class="sh">'+esc(t("fxTitle"))+'</h2><p class="fx-sub">'+esc(t("fxSub"))+'</p><div class="fx-list" id="fxList">'+ed.effects.map(fxCard).join("")+'</div><p class="fx-disc">'+esc(t("fxDisc"))+'</p></section>';
+  }
+  const w = arr(ed.watch);
+  if (w.length) side += '<section class="section" id="sec-watch"><h2 class="sh">'+esc(t("watch"))+'</h2><div class="panel"><ul class="watch">'+
+    w.map(x => typeof x === "string" ? '<li><b>'+esc(x)+'</b></li>' : '<li><b>'+esc(x.event)+'</b><span>'+esc(x.why)+'</span></li>').join("")+'</ul></div></section>';
+
+  const srcList = list => arr(list).map(x => { const u = safeUrl(x.url); return '<li>'+(u ? '<a href="'+esc(u)+'" target="_blank" rel="noopener noreferrer">'+esc(x.title||u)+'</a>' : esc(x.title))+'</li>'; }).join("");
+  if (ed.marketSources.length || ed.secondary.length) {
+    side += '<section class="section" id="sec-src"><h2 class="sh">'+esc(t("moreSrc"))+'</h2><div class="panel srcpanel">'+
+      (ed.marketSources.length ? '<h3>'+esc(t("markets"))+'</h3><ul class="src">'+srcList(ed.marketSources)+'</ul>' : '')+
+      (ed.secondary.length ? '<h3>'+esc(t("secondaryMore"))+'</h3><ul class="src">'+srcList(ed.secondary)+'</ul>' : '')+'</div></section>';
+  }
+  $("#main").innerHTML = '<div class="layout"><div class="col-main">'+nav+h+seg+fxH+'</div><aside class="col-side">'+side+'</aside></div>';
+  fillStories(openSet, true);
+  watchFx();
+  requestAnimationFrame(() => moveIndicator(false));
+  openSet.forEach(n => { const c = document.getElementById("st-"+n); if (c) { c.classList.add("open", "static"); const b = c.querySelector('[data-act="toggle"]'); if (b) b.setAttribute("aria-expanded","true"); } });
+  updateHeader();
+}
+
+
+/* ---------- frică și lăcomie ---------- */
+const fgNum = v => (typeof v === "number" && isFinite(v)) ? Math.max(0, Math.min(100, v)) : null;
+function fgOf(date){ const d = S.days[date], f = d && d.fg; if (!f) return null; const o = {s: fgNum(f.s), c: fgNum(f.c)}; return (o.s === null && o.c === null) ? null : o; }
+function fgMain(date){ const f = fgOf(date); return f ? (f.s !== null ? f.s : f.c) : 50; }
+const fgColor = v => impactColor(10 - (v / 100) * 9);
+const fgWord = v => { const w = t("fgWords"); return v < 25 ? w[0] : v < 45 ? w[1] : v <= 55 ? w[2] : v <= 75 ? w[3] : w[4]; };
+function fgSection(date){
+  const cur = fgOf(date); if (!cur) return "";
+  const grad = "linear-gradient(90deg,"+[0,25,50,75,100].map(fgColor).join(",")+")";
+  const row = (name, src, v) => v === null ? "" :
+    '<div class="fg-row"><div class="fg-top"><div><b>'+esc(name)+'</b><small>'+esc(src)+'</small></div>'+
+    '<div class="fg-val" style="color:'+fgColor(v)+'"><b>'+v+'</b><span>'+esc(fgWord(v))+'</span></div></div>'+
+    '<div class="fg-bar" style="background:'+grad+'" role="img" aria-label="'+esc(name+": "+v+"/100, "+fgWord(v))+'"><i style="left:'+v+'%"></i></div>'+
+    '<div class="fg-ends"><span>0</span><span>50</span><span>100</span></div></div>';
+  const dates = Object.keys(S.days).filter(d => d <= date && fgOf(d)).sort().slice(-14);
+  let chart = "";
+  if (dates.length > 1) {
+    const W = 320, H = 150, L = 26, R = 10, T = 10, B = 24, n = dates.length;
+    const x = i => L + (W - L - R) * (n === 1 ? .5 : i / (n - 1)), y = v => T + (H - T - B) * (1 - v / 100);
+    const line = (k, cls) => {
+      const pts = dates.map((d, i) => { const v = fgOf(d)[k]; return v === null ? null : [x(i), y(v), v]; }).filter(Boolean);
+      if (!pts.length) return "";
+      return (pts.length > 1 ? '<polyline class="'+cls+'" fill="none" points="'+pts.map(p => p[0].toFixed(1)+","+p[1].toFixed(1)).join(" ")+'"/>' : "")+
+        pts.map(p => '<circle class="'+cls+'" cx="'+p[0].toFixed(1)+'" cy="'+p[1].toFixed(1)+'" r="3.2"/>').join("");
+    };
+    const short = d => { const p = d.split("-"); return Number(p[2])+"."+Number(p[1]); };
+    const step = Math.ceil(n / 6);
+    chart = '<div class="fg-h">'+esc(t("fgTrend"))+'</div>'+
+      '<svg class="fg-chart" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="'+esc(t("fgTrend"))+'">'+
+      [0,25,50,75,100].map(v => '<line class="g" x1="'+L+'" x2="'+(W-R)+'" y1="'+y(v)+'" y2="'+y(v)+'"/><text class="ax" x="'+(L-6)+'" y="'+(y(v)+3.5)+'" text-anchor="end">'+v+'</text>').join("")+
+      dates.map((d, i) => (i % step === 0 || i === n - 1) ? '<text class="ax" x="'+x(i).toFixed(1)+'" y="'+(H-6)+'" text-anchor="middle">'+short(d)+'</text>' : "").join("")+
+      line("s", "ls")+line("c", "lc")+'</svg>'+
+      '<div class="fg-leg"><span><i class="ls"></i>'+esc(t("fgStocks"))+'</span><span><i class="lc"></i>'+esc(t("fgCrypto"))+'</span></div>'+
+      '<table class="fg-tab"><thead><tr><th>'+esc(t("fgDay"))+'</th><th>'+esc(t("fgStocks"))+'</th><th>'+esc(t("fgCrypto"))+'</th></tr></thead><tbody>'+
+      dates.slice().reverse().slice(0, 7).map(d => { const f = fgOf(d); const c = v => v === null ? '<td>–</td>' : '<td><b style="color:'+fgColor(v)+'">'+v+'</b> <span>'+esc(fgWord(v))+'</span></td>';
+        return '<tr'+(d === date ? ' class="cur"' : '')+'><td>'+esc(short(d))+'</td>'+c(f.s)+c(f.c)+'</tr>'; }).join("")+'</tbody></table>';
+  }
+  return '<section class="section" id="sec-fg"><h2 class="sh">'+esc(t("fgTitle"))+'</h2><p class="fx-sub">'+esc(t("fgSub"))+'</p><div class="panel fg">'+
+    row(t("fgStocks"), t("fgStocksSrc"), cur.s)+row(t("fgCrypto"), t("fgCryptoSrc"), cur.c)+chart+
+    '<div class="panel-note">'+esc(t("fgNote"))+' <a href="https://edition.cnn.com/markets/fear-and-greed" target="_blank" rel="noopener">CNN</a> · <a href="https://alternative.me/crypto/fear-and-greed-index/" target="_blank" rel="noopener">Alternative.me</a></div></div></section>';
+}
+
+
+/* ---------- comutarea temei, cu animație ---------- */
+function refreshThemed(){ const y = window.scrollY; paintLegend(); if (S.current && S.editions[S.current]) renderDay(); window.scrollTo(0, y); if ($("#menuOv").classList.contains("show")) buildMenu(); }
+function switchTheme(pref, from){
+  if (!window.AZ_THEME || window.AZ_THEME.pref === pref) return;
+  const was = document.documentElement.getAttribute("data-theme");
+  const change = () => { window.AZ_THEME.set(pref); refreshThemed(); };
+  const willBe = pref === "auto" ? (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light") : pref;
+  const reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (willBe === was || reduce) { change(); return; }
+  if (document.startViewTransition) {
+    const r = from ? from.getBoundingClientRect() : {left: innerWidth / 2, top: 0, width: 0, height: 0};
+    const x = r.left + r.width / 2, y = r.top + r.height / 2;
+    const rad = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+    document.documentElement.classList.add("vt-theme");
+    const vt = document.startViewTransition(change);
+    vt.ready.then(() => {
+      document.documentElement.animate({ clipPath: ["circle(0px at "+x+"px "+y+"px)", "circle("+rad+"px at "+x+"px "+y+"px)"] },
+        { duration: 620, easing: "cubic-bezier(.22,1,.36,1)", pseudoElement: "::view-transition-new(root)" });
+    }).catch(() => {});
+    vt.finished.finally(() => document.documentElement.classList.remove("vt-theme"));
+  } else {
+    const r = document.documentElement; r.classList.add("theme-fade");
+    change(); setTimeout(() => r.classList.remove("theme-fade"), 520);
+  }
+}
+if (window.AZ_THEME) window.AZ_THEME.onSystemChange = refreshThemed;
+
+/* ---------- meniul lateral ---------- */
+function buildMenu(){
+  const ed = S.current && S.editions[S.current], IC = S.IC || {};
+  const ic = k => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+(IC[k] || '<circle cx="12" cy="12" r="3"/>')+'</svg>';
+  const it = (attr, icon, label, extra, on) => '<button type="button" class="m-it'+(on ? ' on' : '')+'" '+attr+'>'+icon+'<span>'+esc(label)+'</span>'+(extra !== undefined && extra !== "" ? '<em>'+esc(extra)+'</em>' : '')+'</button>';
+  let h = '<div class="m-head"><b>Azimuth</b><button class="iconbtn" data-m="close" aria-label="'+esc(t("close"))+'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>';
+  if (ed) {
+    const st = arr(ed.stories), cnt = c => st.filter(s => catClass(s.category) === c).length;
+    const has = id => !!document.getElementById(id);
+    h += '<div class="m-lbl">'+esc(t("mSections"))+'</div>'+
+      it('data-m="top"', ic("stories"), t("mTop"))+
+      it('data-msec="sec-stories"', ic("stories"), t("jStories"), st.length)+
+      (has("sec-markets") ? it('data-msec="sec-markets"', ic("markets"), t("jMarkets")) : '')+
+      (has("sec-fg") ? it('data-msec="sec-fg"', ic("fg"), t("jFg"), fgMain(S.current)) : '')+
+      (has("sec-fx") ? it('data-msec="sec-fx"', ic("impact"), t("jImpact"), ed.effects.length) : '')+
+      (has("sec-watch") ? it('data-msec="sec-watch"', ic("watch"), t("jWatch")) : '')+
+      (has("sec-src") ? it('data-msec="sec-src"', ic("sources"), t("jSources")) : '');
+    const dot = c => '<i class="m-dot '+c+'"></i>';
+    h += '<div class="m-lbl">'+esc(t("mCats"))+'</div>'+
+      it('data-mfil="all"', dot("all"), t("fAll"), st.length, S.filter === "all")+
+      it('data-mfil="cat-geo"', dot("cat-geo"), t("fGeo"), cnt("cat-geo"), S.filter === "cat-geo")+
+      it('data-mfil="cat-eco"', dot("cat-eco"), t("fEco"), cnt("cat-eco"), S.filter === "cat-eco")+
+      it('data-mfil="cat-alt"', dot("cat-alt"), t("fAlt"), cnt("cat-alt"), S.filter === "cat-alt")+
+      it('data-mfil="night"', dot("night"), t("fNight"), st.filter(s => s.overnight).length, S.filter === "night")+
+      (S.uid ? it('data-mfil="saved"', dot("saved"), t("fSaved"), "", S.filter === "saved") : '');
+  }
+  h += '<div class="m-lbl">'+esc(t("mTools"))+'</div>'+
+    it('data-m="cal"', '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="3"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>', t("mCal"))+
+    it('data-m="search"', '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>', t("mSearch"))+
+    it('data-m="lang"', '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/></svg>', t("mLang"), LANG.toUpperCase());
+  if (window.AZ_PUSH) h += it('data-m="push"', '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 16V11a6 6 0 1 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></svg>', t("mPush"), t({on:"pushOn",off:"pushOff",blocked:"pushBlocked",na:"pushNA",ios:"pushIOS"}[window.AZ_PUSH.state()] || "pushOff"));
+  { const p = window.AZ_THEME ? window.AZ_THEME.pref : "auto";
+    const seg = (v, label, icon) => '<button type="button" class="m-segb'+(p === v ? ' on' : '')+'" data-thset="'+v+'" aria-pressed="'+(p === v)+'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+icon+'</svg><span>'+esc(label)+'</span></button>';
+    h += '<div class="m-theme"><div class="m-theme-h"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor"/></svg><span>'+esc(t("mTheme"))+'</span></div><div class="m-seg" role="group" aria-label="'+esc(t("mTheme"))+'">'+
+      seg("auto", t("thAuto"), '<rect x="5" y="2.5" width="14" height="19" rx="3"/><path d="M10 18.5h4"/>')+
+      seg("light", t("thLight"), '<circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M4.6 4.6l1.4 1.4M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4L6 18M18 6l1.4-1.4"/>')+
+      seg("dark", t("thDark"), '<path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/>')+'</div></div>'; }
+  h += '<footer class="m-credits">'+
+    '<div class="cr-logo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 12l4.5-4.5"/><circle cx="12" cy="12" r="1.3" fill="currentColor"/></svg><b>Azimuth</b><span>'+esc(t("crVersion"))+' 1.0</span></div>'+
+    '<div class="cr-by"><small>'+esc(t("crBy"))+'</small><b>Sergiu-Pompei Pavel</b><b>Dragoș Petrișor Verzia</b></div>'+
+    '<dl class="cr-facts"><div><dt>'+esc(t("crFounded"))+'</dt><dd>'+esc(t("crFoundedDate"))+'</dd></div>'+
+    '<div><dt>'+esc(t("crEditions"))+'</dt><dd>'+Object.keys(S.days || {}).length+'</dd></div></dl>'+
+    '<p>'+esc(t("crSchedule"))+'.</p><p>'+esc(t("crMade"))+'.</p><p>'+esc(t("crData"))+'.</p><p class="cr-note">'+esc(t("crNote"))+'</p>'+
+    '<p class="cr-copy">© 2026 Azimuth</p></footer>';
+  $("#drawer").innerHTML = h;
+}
+function openMenu(){ buildMenu(); const o = $("#menuOv"); o.classList.add("show"); $("#drawer").style.transform = ""; lockScroll(true); }
+function closeMenu(then){
+  const o = $("#menuOv"); if (!o.classList.contains("show")) { if (then) then(); return; }
+  o.classList.remove("show"); $("#drawer").style.transform = "";
+  if (!document.querySelector(".overlay.show")) lockScroll(false);
+  if (then) setTimeout(then, 240);
+}
+$("#menuBtn").onclick = openMenu;
+$("#menuOv").addEventListener("click", e => {
+  if (e.target.id === "menuOv") { closeMenu(); return; }
+  const b = e.target.closest("button"); if (!b) return;
+  if (b.dataset.thset) { switchTheme(b.dataset.thset, b); return; }
+  if (b.dataset.msec) { closeMenu(() => goSection(b.dataset.msec)); return; }
+  if (b.dataset.mfil) { const f = b.dataset.mfil; closeMenu(() => { setFilter(f); setTimeout(() => goSection("sec-stories"), 60); }); return; }
+  const m = b.dataset.m;
+  if (m === "close") closeMenu();
+  else if (m === "top") closeMenu(scrollToTop);
+  else if (m === "cal") closeMenu(() => $("#dateBtn").click());
+  else if (m === "search") closeMenu(() => $("#searchBtn").click());
+  else if (m === "lang") closeMenu(() => $("#langBtn").click());
+  else if (m === "push" && window.AZ_PUSH) { window.AZ_PUSH.toggle().then(() => buildMenu()).catch(() => buildMenu()); }
+});
+document.addEventListener("keydown", e => { if (e.key === "Escape") closeMenu(); });
+(function(){ /* glisare spre stânga pentru închidere */
+  const d = $("#drawer"); let x0 = null, y0 = 0, dx = 0, drag = false;
+  d.addEventListener("touchstart", e => { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; dx = 0; drag = false; }, {passive:true});
+  d.addEventListener("touchmove", e => { if (x0 === null) return; dx = e.touches[0].clientX - x0; const dy = e.touches[0].clientY - y0;
+    if (!drag && Math.abs(dx) > 12 && Math.abs(dx) > Math.abs(dy) * 1.4) { drag = true; d.style.transition = "none"; }
+    if (drag) d.style.transform = "translate3d("+Math.min(0, dx)+"px,0,0)"; }, {passive:true});
+  d.addEventListener("touchend", () => { if (drag) { d.style.transition = ""; if (dx < -70) closeMenu(); else d.style.transform = ""; } x0 = null; drag = false; });
+})();
+
+/* ---------- interacțiuni ---------- */
+function jumpTo(n, smooth){
+  if (S.filter !== "all") { S.filter = "all"; renderDay(); }
+  const c = document.getElementById("st-"+n); if (!c) return;
+  c.classList.add("open"); c.querySelector('[data-act="toggle"]')?.setAttribute("aria-expanded","true");
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const y = c.getBoundingClientRect().top + window.scrollY - 72;
+  try { window.scrollTo({top: y, behavior: smooth && !reduce ? "smooth" : "auto"}); } catch(e) { window.scrollTo(0, y); }
+  c.classList.remove("flash"); void c.offsetWidth; c.classList.add("flash");
+  setTimeout(() => { const top = c.getBoundingClientRect().top; if (top < 0 || top > 200) c.scrollIntoView({block:"start"}); }, smooth ? 900 : 60);
+}
+$("#main").addEventListener("click", async e => {
+  const sb = e.target.closest("[data-sec]"); if (sb) { goSection(sb.dataset.sec); return; }
+  const f = e.target.closest("[data-filter]"); if (f) { setFilter(f.dataset.filter); return; }
+  const j = e.target.closest("[data-jump]");
+  if (j) { jumpTo(j.dataset.jump, true); return; }
+  const a = e.target.closest("[data-act]"); if (!a) return;
+  const card = a.closest(".card"), n = Number(card.dataset.n);
+  if (a.dataset.act === "toggle") {
+    card.classList.remove("static");
+    clearTimeout(card._closeT);
+    const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (card.classList.contains("closing")) { card.classList.remove("closing"); a.setAttribute("aria-expanded", "true"); return; }
+    if (!card.classList.contains("open")) { void card.offsetWidth; card.classList.add("open"); a.setAttribute("aria-expanded", "true"); return; }
+    a.setAttribute("aria-expanded", "false");
+    if (reduce) { card.classList.remove("open"); return; }
+    const items = card.querySelectorAll(".dz .cas"), n = Math.min(items.length - 1, 14);
+    card.querySelector(".dz").style.setProperty("--n", Math.max(0, n));
+    card.classList.add("closing");
+    const total = Math.max(0, n) * 20 + 240;
+    card._closeT = setTimeout(() => { card.classList.remove("open"); card._closeT = setTimeout(() => card.classList.remove("closing"), 520); }, Math.round(total * 0.6));
+  }
+  if (a.dataset.act === "save" && S.uid) {
+    const key = storyKey(S.current, n), s = arr(S.editions[S.current].stories).find(x => x.n === n);
+    a.disabled = true;
+    try {
+      const ref = S.db.collection("data/users/"+S.uid).doc(key);
+      if (S.saved[key]) await ref.delete(); else await ref.set({kind:"saved", date:S.current, n, title:s?.title||"", impact:s?.impact||1});
+    } catch(err) { a.title = t("saveFail"); }
+    a.disabled = false;
+  }
+});
+function step(dir){ const k = sortedDays(), i = k.indexOf(S.current); const n = k[i+dir]; if (n) { openDay(n); window.scrollTo(0,0); } }
+$("#prevBtn").onclick = () => step(-1);
+$("#nextBtn").onclick = () => step(1);
+window.addEventListener("hashchange", () => { const m = location.hash.match(/^#d-(\d{4}-\d{2}-\d{2})$/); if (m && S.days[m[1]] && m[1] !== S.current) openDay(m[1], false); });
+
+/* calendar */
+function renderCal(){
+  /* ultimele 7 zile până azi, plus ziua de mâine, încă incertă */
+  $("#calTitle").textContent = t("last7");
+  const tIso = todayIso(), today = parseDate(tIso);
+  const dayAt = off => { const d = new Date(today); d.setDate(d.getDate() + off); return d; };
+  let h = "";
+  for (let off = 1; off >= -6; off--) {
+    const d = dayAt(off), k = iso(d), info = S.days[k];
+    const rel = off === 0 ? t("calToday") : off === -1 ? t("calYesterday") : "";
+    const wd = fmt(d, {weekday:"short"}).replace(".", "");
+    const dm = fmt(d, {day:"numeric", month:"short"}).replace(".", "");
+    const datePart = '<span class="cd-date"><b>'+d.getDate()+'</b><small>'+esc(wd)+'</small></span>';
+    if (off === 1) {
+      h += '<div class="cd future" aria-label="'+esc(t("nextEd")+", "+dm)+'">'+datePart+'<span class="cd-body"><span class="cd-top">'+esc(t("nextEd"))+'</span><span class="cd-title">'+esc(t("nextEdWhen"))+'</span></span><span class="cd-score">?</span></div>';
+      continue;
+    }
+    if (!info) {
+      h += '<div class="cd empty" aria-label="'+esc(dm+", "+t("noEd"))+'">'+datePart+'<span class="cd-body"><span class="cd-top">'+esc(rel || dm)+'</span><span class="cd-title">'+esc(t("noEd"))+'</span></span><span class="cd-score">–</span></div>';
+      continue;
+    }
+    const v = dayImpact(k) || null, col = v ? impactColor(v) : "var(--muted)";
+    const head = (LANG === "en" ? (info.headline_en || info.headline) : (info.headline || info.headline_en)) || "";
+    const cls = ["cd"]; if (k === S.current) cls.push("sel");
+    h += '<button type="button" class="'+cls.join(" ")+'" data-day="'+k+'" style="--c:'+col+'" aria-label="'+esc(dm+(v ? ", "+t("impactOf")+" "+impactWord(v)+" "+v+"/10" : "")+(head ? ". "+head : ""))+'"'+(k === S.current ? ' aria-current="date"' : '')+'>'+
+      datePart+'<span class="cd-body"><span class="cd-top">'+esc(rel ? rel+" · "+dm : dm)+(v ? ' · '+esc(impactWord(v)) : '')+'</span><span class="cd-title">'+esc(head)+'</span></span>'+
+      '<span class="cd-score">'+(v ? esc(String(v)) : '')+'</span></button>';
+  }
+  $("#cal").innerHTML = h;
+}
+let lastFocus = null;
+function lockScroll(on){ document.documentElement.style.overflow = on ? "hidden" : ""; document.body.style.overflow = on ? "hidden" : ""; }
+function openOv(id){ lastFocus = document.activeElement; $(id).classList.add("show"); lockScroll(true); const sh = $(id).querySelector(".sheet"); if (sh) sh.style.transform = ""; }
+function closeOv(id){ const o = $(id); if (!o.classList.contains("show")) return; o.classList.remove("show"); if (!document.querySelector(".overlay.show")) lockScroll(false); if (lastFocus && lastFocus.focus) { try { lastFocus.focus({preventScroll:true}); } catch(e) {} } }
+/* trage foaia în jos ca s-o închizi (telefoane) */
+document.querySelectorAll(".overlay").forEach(o => {
+  const sh = o.querySelector(".sheet"), handles = o.querySelectorAll(".grab, .sheet-head");
+  let y0 = null, dy = 0;
+  handles.forEach(hd => {
+    hd.addEventListener("pointerdown", e => { if (e.pointerType === "mouse" || e.target.closest("button")) return; y0 = e.clientY; dy = 0; sh.classList.add("dragging"); try { hd.setPointerCapture(e.pointerId); } catch(_) {} });
+    hd.addEventListener("pointermove", e => { if (y0 === null) return; dy = Math.max(0, e.clientY - y0); sh.style.transform = "translateY(" + dy + "px)"; });
+    const end = () => { if (y0 === null) return; sh.classList.remove("dragging"); if (dy > 90) { closeOv("#" + o.id); } sh.style.transform = ""; y0 = null; dy = 0; };
+    hd.addEventListener("pointerup", end); hd.addEventListener("pointercancel", end);
+  });
+});
+$("#dateBtn").onclick = () => { S.calMonth = parseDate(S.current || todayIso()); renderCal(); openOv("#calOv"); };
+$("#calClose").onclick = () => closeOv("#calOv");
+$("#cal").addEventListener("click", e => { const b = e.target.closest("[data-day]"); if (!b || b.disabled) return; closeOv("#calOv"); openDay(b.dataset.day); window.scrollTo(0,0); });
+document.querySelectorAll(".overlay").forEach(o => o.addEventListener("click", e => { if (e.target === o) closeOv("#" + o.id); }));
+document.addEventListener("keydown", e => { if (e.key === "Escape") document.querySelectorAll(".overlay.show").forEach(o => closeOv("#" + o.id)); });
+
+/* căutare */
+async function loadAll(){
+  if (S.allLoaded) return;
+  await Promise.all(sortedDays().map(d => loadEdition(d).catch(() => null)));
+  S.allLoaded = true;
+}
+const norm = s => String(s||"").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+let qTimer = null;
+async function runSearch(){
+  const q = norm($("#q").value.trim()), out = $("#results");
+  if (q.length < 2) { renderSavedList(); return; }
+  if (!S.allLoaded) { out.innerHTML = '<li class="strip-note">'+esc(t("searching"))+'</li>'; try { await loadAll(); } catch(e) { out.innerHTML = '<li class="strip-note">'+esc(t("archiveFailShort"))+'</li>'; return; } }
+  const hits = [];
+  Object.keys(S.editions).sort().reverse().forEach(date => arr(S.editions[date].stories).forEach(s => {
+    const hay = norm([s.title, s.essential, s.region, ...arr(s.happened), ...arr(s.context), ...arr(s.countries).map(countryName)].join(" "));
+    if (hay.includes(q)) hits.push({date, s});
+  }));
+  out.innerHTML = hits.length ? hits.slice(0, 60).map(({date, s}) => '<li><button data-go="'+date+'" data-n="'+esc(s.n)+'">'+dotHtml(s.impact)+'<span>'+esc(s.title)+'<small>'+esc(longDate(date))+' · '+esc(s.category)+'</small></span></button></li>').join("") : '<li class="strip-note">'+esc(t("noResults"))+'</li>';
+}
+function renderSavedList(){
+  const out = $("#results"), items = Object.values(S.saved).filter(x => x && x.date).sort((a,b) => a.date < b.date ? 1 : a.date > b.date ? -1 : (a.n||0) - (b.n||0));
+  if (!S.uid) { out.innerHTML = ""; return; }
+  out.innerHTML = items.length ? '<li class="eyebrow" style="padding:8px 8px 4px">'+esc(t("savedStories"))+'</li>' + items.map(x => '<li><button data-go="'+esc(x.date)+'" data-n="'+esc(x.n)+'">'+dotHtml(x.impact)+'<span>'+esc(x.title)+'<small>'+esc(longDate(x.date))+'</small></span></button></li>').join("")
+    : '<li class="strip-note" style="padding:8px">'+esc(t("noSaved"))+'</li>';
+}
+$("#searchBtn").onclick = () => { openOv("#searchOv"); runSearch(); setTimeout(() => $("#q").focus(), 50); };
+$("#searchClose").onclick = () => closeOv("#searchOv");
+$("#q").addEventListener("input", () => { clearTimeout(qTimer); qTimer = setTimeout(runSearch, 200); });
+$("#results").addEventListener("click", async e => {
+  const b = e.target.closest("[data-go]"); if (!b) return;
+  closeOv("#searchOv"); S.filter = "all";
+  await openDay(b.dataset.go);
+  const c = document.getElementById("st-"+b.dataset.n);
+  if (c) jumpTo(b.dataset.n, false);
+});
+
+/* titlul din antet: derulare animată până sus */
+let scrollAnim = null;
+function animateScroll(target, done){
+  const start = window.scrollY || document.documentElement.scrollTop;
+  const max = Math.max(0, document.documentElement.scrollHeight - innerHeight);
+  const to = Math.max(0, Math.min(max, Math.round(target))), dist = to - start;
+  if (scrollAnim) cancelAnimationFrame(scrollAnim);
+  if (Math.abs(dist) < 2) { done && done(); return; }
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) { window.scrollTo(0, to); done && done(); return; }
+  const dur = Math.min(1100, 450 + Math.abs(dist) * 0.12), t0 = performance.now();
+  const ease = x => 1 - Math.pow(1 - x, 4);
+  const step = now => {
+    const p = Math.min(1, (now - t0) / dur);
+    window.scrollTo(0, Math.round(start + dist * ease(p)));
+    if (p < 1) scrollAnim = requestAnimationFrame(step); else { scrollAnim = null; done && done(); }
+  };
+  scrollAnim = requestAnimationFrame(step);
+}
+function scrollToTop(){
+  const b = $("#brandBtn"); b.classList.add("spin"); setTimeout(() => b.classList.remove("spin"), 700);
+  animateScroll(0);
+}
+function goSection(id){
+  const el = document.getElementById(id); if (!el) return;
+  const head = document.querySelector("header.top");
+  const off = (head ? head.getBoundingClientRect().height : 60) + 12;
+  const y = el.getBoundingClientRect().top + (window.scrollY || 0) - off;
+  animateScroll(y, () => {
+    const target = el.querySelector(".panel, .fx-list") || el;
+    target.classList.remove("sec-flash"); void target.offsetWidth; target.classList.add("sec-flash");
+  });
+}
+$("#brandBtn").onclick = scrollToTop;
+["wheel","touchstart","keydown"].forEach(ev => window.addEventListener(ev, () => { if (scrollAnim) { cancelAnimationFrame(scrollAnim); scrollAnim = null; } }, {passive:true}));
+
+/* comutator de limbă */
+function setLang(l){
+  if (!LANGS.includes(l) || l === LANG) { closeOv("#langOv"); return; }
+  LANG = l;
+  try { localStorage.setItem("az-lang", l); } catch(e) {}
+  applyStatic();
+  S.editions = {}; S.allLoaded = false;
+  closeOv("#langOv");
+  if (S.current) openDay(S.current, false); else renderEmpty();
+  updateHeader();
+  if ($("#q").value.trim()) runSearch();
+}
+$("#langBtn").onclick = () => openOv("#langOv");
+$("#langClose").onclick = () => closeOv("#langOv");
+document.querySelectorAll(".lang-opt[data-lang]").forEach(b => b.addEventListener("click", () => setLang(b.dataset.lang)));
+
+boot();
+</script>
+</body>
+</html>
