@@ -392,7 +392,9 @@ header.top{border-bottom:0; box-shadow:0 1px 0 color-mix(in srgb, var(--ink) 8%,
 .m-dot{width:10px; height:10px; margin:0 5px; border-radius:50%; flex:none; background:var(--muted)}
 .m-dot.all{background:var(--ink)} .m-dot.cat-geo{background:#A78BFA} .m-dot.cat-eco{background:#2DD4A8} .m-dot.cat-alt{background:#FB923C} .m-dot.night{background:var(--accent)} .m-dot.saved{background:#FACC15}
 @media (prefers-reduced-motion: reduce){ .drawer, .drawer-ov, .m-it{transition:none !important} }
-@media (max-width:380px){ .brand span{display:none} }
+@media (max-width:460px){ .brand span{display:none} .brand{padding-right:0} }
+html, body{overflow-x:clip; max-width:100%}
+.top-in{min-width:0} .top-in > *{flex-shrink:0} .datebtn{flex-shrink:1; min-width:0}
 /* frică și lăcomie */
 .fg{padding:4px 0 0}
 .fg-row{padding:16px 18px 14px; border-bottom:1px solid var(--line)}
