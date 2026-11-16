@@ -3,19 +3,20 @@ name: Notify subscribers
 on:
   push:
     branches: [main]
-    paths: ["data/days.js"]
+    paths: ["data/days.js", ".notify-test"]
   workflow_dispatch:
 
 jobs:
   notify:
     # Only daily editions trigger a notification, not design changes.
-    if: github.event_name == 'workflow_dispatch' || startsWith(github.event.head_commit.message, 'Edition')
+    if: github.event_name == 'workflow_dispatch' || (startsWith(github.event.head_commit.message, 'Edition') || startsWith(github.event.head_commit.message, 'Test notification'))
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - name: Send push notification
         env:
           ONESIGNAL_API_KEY: ${{ secrets.ONESIGNAL_API_KEY }}
+          COMMIT_MSG: ${{ github.event.head_commit.message }}
           APP_ID: febcbdcd-b552-4489-b331-294900387ad8
           SITE_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/
         run: |
@@ -30,6 +31,10 @@ jobs:
             included_segments: ["Total Subscriptions"],
             headings: { en: "Azimuth updated", ro: "Azimuth e actualizat" },
             contents: { en: d.headline_en || d.headline, ro: d.headline || d.headline_en },
+            ...(String(process.env.COMMIT_MSG || "").startsWith("Test notification") ? {
+              headings: { en: "Azimuth test", ro: "Test Azimuth" },
+              contents: { en: "Test: notifications are working.", ro: "Test: notificările funcționează." }
+            } : {}),
             url: process.env.SITE_URL + "#d-" + d.date,
             web_push_topic: "azimuth-edition"
           };
