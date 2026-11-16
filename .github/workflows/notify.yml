@@ -33,7 +33,7 @@ jobs:
             contents: { en: d.headline_en || d.headline, ro: d.headline || d.headline_en },
             ...(String(process.env.COMMIT_MSG || "").startsWith("Test notification") ? {
               headings: { en: "Azimuth test", ro: "Test Azimuth" },
-              contents: { en: "Test: notifications are working.", ro: "Test: notificările funcționează." }
+              contents: (() => { const fs = require("fs"); let m = ""; try { m = fs.readFileSync(".notify-test", "utf8").split("\n").slice(1).join("\n").trim(); } catch (e) {} return m ? { en: m, ro: m } : { en: "Test: notifications are working.", ro: "Test: notificările funcționează." }; })()
             } : {}),
             url: process.env.SITE_URL + "#d-" + d.date,
             web_push_topic: "azimuth-edition"
