@@ -3,7 +3,7 @@ name: Notify subscribers
 on:
   push:
     branches: [main]
-    paths: ["data/days.js", ".notify-test"]
+    paths: ["data/**", ".notify-test"]
   workflow_dispatch:
 
 jobs:
