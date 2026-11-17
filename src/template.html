@@ -34,10 +34,17 @@
 </script>
 <meta name="format-detection" content="telephone=no, date=no, address=no, email=no">
 <title>Azimuth</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <style>
+/* Inter, găzduit local (SIL OFL 1.1): niciun font nu se mai încarcă de la Google */
+@font-face{font-family:'Inter';font-style:normal;font-display:swap;font-weight:400;src:url(fonts/inter-latin-ext-400-normal.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:'Inter';font-style:normal;font-display:swap;font-weight:400;src:url(fonts/inter-latin-400-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Inter';font-style:normal;font-display:swap;font-weight:500;src:url(fonts/inter-latin-ext-500-normal.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:'Inter';font-style:normal;font-display:swap;font-weight:500;src:url(fonts/inter-latin-500-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Inter';font-style:normal;font-display:swap;font-weight:600;src:url(fonts/inter-latin-ext-600-normal.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:'Inter';font-style:normal;font-display:swap;font-weight:600;src:url(fonts/inter-latin-600-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Inter';font-style:normal;font-display:swap;font-weight:700;src:url(fonts/inter-latin-ext-700-normal.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:'Inter';font-style:normal;font-display:swap;font-weight:700;src:url(fonts/inter-latin-700-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
 /* Layout: o singură coloană de lectură (max 760px), antet fix cu data, carduri de știri cu bulină de impact și steaguri în colț. */
 :root{
   --bg:#EDF0F4; --surface:#FFFFFF; --ink:#12161C; --muted:#5A6473; --line:#DCE1E8; --accent:#2445D6;
@@ -500,7 +507,7 @@ html.theme-fade, html.theme-fade *, html.theme-fade *::before, html.theme-fade *
 .cal .cd.future{animation-name:cdInDim} @keyframes cdInDim{to{opacity:.7; transform:none}}
 #calOv .legend .none{display:none}
 @media (prefers-reduced-motion: reduce){ .cal .cd{animation:none; opacity:1; transform:none} .cal .cd.future{opacity:.7} }
-#calTitle{text-transform:none}
+#calTitle, #legalTitle, #pushTitle{text-transform:none}
 
 /* --- știri compacte, continuări, România, ediție întârziată --- */
 .more-head{display:flex; align-items:baseline; justify-content:space-between; gap:10px; flex-wrap:wrap; margin:10px 4px 2px}
@@ -546,6 +553,30 @@ html.theme-fade, html.theme-fade *, html.theme-fade *::before, html.theme-fade *
 .clist .card.compact.open{background:color-mix(in srgb, var(--soft) 55%, var(--surface))}
 .layout .ro-card{order:2}
 @media (min-width:900px){ .c-head{padding:14px 18px; min-height:64px} .card.compact .dz{padding:0 22px 20px} .c-title{font-size:16px} }
+
+/* --- legal, notificări, etichetă AI --- */
+.ai-note{display:flex; gap:10px; align-items:flex-start; margin:14px 0 0; padding-top:12px; border-top:1px solid var(--line); font-size:13px; line-height:1.45; color:var(--muted)}
+.ai-badge{flex:none; font:700 10.5px/1 var(--body); letter-spacing:.06em; padding:4px 6px; border-radius:6px; border:1px solid var(--line); color:var(--muted); background:var(--soft); margin-top:1px}
+.linkbtn{border:0; background:none; padding:0; font:inherit; color:var(--accent); text-decoration:underline; text-underline-offset:2px; cursor:pointer}
+.legal-sheet{max-width:720px; height:min(92%, 900px); display:flex; flex-direction:column; overflow:hidden}
+.legal-tabs{display:flex; gap:8px; overflow-x:auto; scrollbar-width:none; padding:2px 2px 12px; margin:0 -2px; flex:none}
+.legal-tabs::-webkit-scrollbar{display:none}
+.lt{flex:none; min-height:36px; padding:0 14px; border-radius:999px; border:1px solid var(--line); background:var(--surface); color:var(--ink); font:600 13.5px/1 var(--body); white-space:nowrap; cursor:pointer}
+.lt.on{background:var(--ink); color:var(--surface); border-color:var(--ink)}
+.legal-body{flex:1; min-height:0; overflow-y:auto; overscroll-behavior:contain; padding:0 2px 8px; -webkit-overflow-scrolling:touch}
+.lg-h{font:700 22px/1.2 var(--display); letter-spacing:-.01em; margin:4px 0 10px}
+.legal-body section{padding:12px 0; border-top:1px solid var(--line)}
+.legal-body h4{margin:0 0 6px; font-size:15px; font-weight:700}
+.legal-body p{margin:0 0 8px; font-size:15px; line-height:1.55; overflow-wrap:anywhere}
+.legal-body a{color:var(--accent)}
+.lg-links{margin:0; padding-left:18px; font-size:15px; line-height:1.6}
+.lg-contact{padding-top:12px; border-top:1px solid var(--line)}
+.push-body{font-size:15px; line-height:1.5}
+.push-list{margin:0 0 10px; padding-left:18px; display:grid; gap:8px}
+.push-actions{display:flex; gap:10px; margin-top:16px}
+.push-actions button{flex:1; min-height:46px; border-radius:14px; font:600 15px/1.2 var(--body); cursor:pointer; padding:0 12px}
+.btn-pri{border:0; background:var(--accent); color:#fff}
+.btn-ghost{border:1px solid var(--line); background:var(--surface); color:var(--ink)}
 </style>
 </head>
 <body>
@@ -609,6 +640,27 @@ html.theme-fade, html.theme-fade *, html.theme-fade *::before, html.theme-fade *
     </div>
   </div>
 </div>
+<div class="overlay" id="legalOv" role="dialog" aria-modal="true" aria-labelledby="legalTitle">
+  <div class="sheet legal-sheet">
+    <span class="grab" aria-hidden="true"></span>
+    <div class="sheet-head">
+      <h2 id="legalTitle" data-i18n="legalTitle"></h2>
+      <button class="iconbtn" id="legalClose" aria-label="" data-i18n-aria="close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+    <div class="legal-tabs" id="legalTabs" role="tablist"></div>
+    <div class="legal-body" id="legalBody"></div>
+  </div>
+</div>
+<div class="overlay" id="pushOv" role="dialog" aria-modal="true" aria-labelledby="pushTitle">
+  <div class="sheet">
+    <span class="grab" aria-hidden="true"></span>
+    <div class="sheet-head">
+      <h2 id="pushTitle" data-i18n="pushTitle"></h2>
+      <button class="iconbtn" id="pushClose" aria-label="" data-i18n-aria="close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+    <div id="pushBody" class="push-body"></div>
+  </div>
+</div>
 
 <script>
 const FLAGS = __FLAGS__;
@@ -633,14 +685,14 @@ const I18N = {
   words:["minor","low","medium","high","major"],
   filter:"Filter", fAll:"All", fGeo:"Geopolitics", fEco:"Economy", fAlt:"Other", fNight:"Overnight", fSaved:"Saved",
   count:(a,b)=>a+" of "+b+" stories", noneHere:"Nothing here", emptyNight:"No overnight stories on this day.", emptySaved:"You have not saved any stories from this day.", emptyCat:"No stories in this category today.",
-  details:"Details", moreStories:"More stories", moreHint:"Tap a story to open it", followup:"Update", since:"Since yesterday", forRo:"What it means for Romania", jRo:"Romania", staleLate:d=>"Today's edition has not been published yet. You are reading the edition of "+d+".", staleSoon:"Today's edition is on its way. It usually appears around 08:45.", staleOld:d=>"No new edition since "+d+".", checkAgain:"Check again", newEd:"A new edition is available", openNew:"Open", happened:"What happened", context:"Context", why:"Why it matters", sources:"Sources", secondary:"Social media, tabloids, blogs",
+  details:"Details", mLegal:"Legal", legalTitle:"Legal information", aiNote:"Written with AI from the sources listed under each story. It may contain errors.", aiMore:"About AI content", pushTitle:"Turn on notifications", pushBody:["You get one short notification each morning when the new edition is out.","Notifications are sent through OneSignal (USA). It stores a subscription ID, your browser's push address, device type, language, time zone and IP address. Nothing is loaded before you agree.","You can turn them off at any time from this menu."], pushOk:"I agree, turn on", pushCancel:"Not now", pushMore:"Privacy policy", checkWait:"Checked a moment ago. Try again in a few seconds.", lastUpd:"Last updated", lgLinks:"Links", contactUs:"Contact", moreStories:"More stories", moreHint:"Tap a story to open it", followup:"Update", since:"Since yesterday", forRo:"What it means for Romania", jRo:"Romania", staleLate:d=>"Today's edition has not been published yet. You are reading the edition of "+d+".", staleSoon:"Today's edition is on its way. It usually appears around 08:45.", staleOld:d=>"No new edition since "+d+".", checkAgain:"Check again", newEd:"A new edition is available", openNew:"Open", happened:"What happened", context:"Context", why:"Why it matters", sources:"Sources", secondary:"Social media, tabloids, blogs",
   source:"Source", secondarySrc:"secondary source", overnight:"Overnight", unconfirmed:"Not confirmed by agencies", save:"Save story", unsave:"Remove from saved", saveFail:"Could not save. Try again.",
   markets:"Markets", gStocks:"Stock indices · daily change", gNews:"Stocks in the news", idxNote:"An index tracks a basket of company shares. Its level is counted in points, not money, so the daily % change is what shows how the market moved.", idxLevel:"Index level", gFx:"Currencies", gCmd:"Commodities and crypto", watch:"What to watch today", moreSrc:"More sources", secondaryMore:"Social media, tabloids, blogs and additional sources",
   calNoScore:"briefing without an impact score", last7:"Last 7 days", nextEd:"Next edition", nextEdWhen:"Tomorrow at 08:45, not yet published", noEd:"No edition this day", calToday:"Today", calYesterday:"Yesterday", calNotYet:"not yet", calNone:"no briefing",
   searching:"Loading the archive...", archiveFailShort:"The archive could not be loaded.", noResults:"No results.", savedStories:"Saved stories",
   noSaved:"You have not saved any stories yet. Use the bookmark button on a story.",
   fallback:"This briefing is only available in Romanian.",
-  jStories:"Stories", jMarkets:"Markets", jImpact:"Market impact", jWatch:"Watchlist", jSources:"Sources", jumpTo:"Jump to section", menu:"Menu", mSections:"Sections", mCats:"Story categories", mTools:"Tools", mTop:"Briefing", mCal:"Calendar and archive", mSearch:"Search", mLang:"Language", mPush:"Notifications", pushIOS:"Add to Home Screen first", mTheme:"Appearance", crBy:"Developed by", crFounded:"Founded", crFoundedDate:"12 November 2026", crEditions:"Editions published", crSchedule:"New edition every morning at 08:45, Romania time", crMade:"Written and checked against sources with Claude (Anthropic)", crData:"Market data and Fear & Greed from the sources cited in each edition", crNote:"For information only. Not financial advice.", crVersion:"Alpha Build v0.1", thAuto:"Auto", thLight:"Light", thDark:"Dark", pushOff:"Off", pushOn:"On", pushBlocked:"Blocked in settings", pushNA:"Not supported here", jFg:"Fear & Greed", fgTitle:"Fear & Greed", fgSub:"How nervous or confident investors are, on a scale from 0 (extreme fear) to 100 (extreme greed).", fgStocks:"US stocks", fgCrypto:"Crypto", fgStocksSrc:"CNN Fear & Greed, last US close", fgCryptoSrc:"Alternative.me, reading of the day", fgWords:["Extreme fear","Fear","Neutral","Greed","Extreme greed"], fgTrend:"Recent editions", fgDay:"Edition", fgNone:"No reading", fgNote:"These indices measure market mood, not value. They are not a forecast or a recommendation.",
+  jStories:"Stories", jMarkets:"Markets", jImpact:"Market impact", jWatch:"Watchlist", jSources:"Sources", jumpTo:"Jump to section", menu:"Menu", mSections:"Sections", mCats:"Story categories", mTools:"Tools", mTop:"Briefing", mCal:"Calendar and archive", mSearch:"Search", mLang:"Language", mPush:"Notifications", pushIOS:"Add to Home Screen first", mTheme:"Appearance", crBy:"Developed by", crFounded:"Founded", crFoundedDate:"12 November 2026", crEditions:"Editions published", crSchedule:"New edition every morning at 08:45, Romania time", crMade:"Written with AI (Claude, by Anthropic) from the sources cited; not reviewed by a human editor before publication", crData:"Market data and Fear & Greed from the sources cited in each edition", crNote:"For information only. Not financial advice.", crVersion:"Alpha Build v0.1", thAuto:"Auto", thLight:"Light", thDark:"Dark", pushOff:"Off", pushOn:"On", pushBlocked:"Blocked in settings", pushNA:"Not supported here", jFg:"Fear & Greed", fgTitle:"Fear & Greed", fgSub:"How nervous or confident investors are, on a scale from 0 (extreme fear) to 100 (extreme greed).", fgStocks:"US stocks", fgCrypto:"Crypto", fgStocksSrc:"CNN Fear & Greed, last US close", fgCryptoSrc:"Alternative.me, reading of the day", fgWords:["Extreme fear","Fear","Neutral","Greed","Extreme greed"], fgTrend:"Recent editions", fgDay:"Edition", fgNone:"No reading", fgNote:"These indices measure market mood, not value. They are not a forecast or a recommendation.",
   fxTitle:"Market impact", fxSub:"How today's events feed through to markets and the economy.", fxRisk:"Risk", fxStory:"Story",
   riskWords:["low","moderate","elevated","high","severe"], fxHow:"How it feeds through", fxWatch:"What to watch", fxOpen:"Open story",
   fxDisc:"For information only, not investment advice. Arrows show moves and pressures reported so far, not a forecast.",
@@ -659,14 +711,14 @@ const I18N = {
   words:["mic","redus","mediu","ridicat","major"],
   filter:"Filtru", fAll:"Toate", fGeo:"Geopolitică", fEco:"Economie", fAlt:"Altele", fNight:"Peste noapte", fSaved:"Salvate",
   count:(a,b)=>a+" din "+b+" știri", noneHere:"Nicio știre aici", emptyNight:"Nicio știre petrecută peste noapte în această zi.", emptySaved:"Nu ai salvat nicio știre din această zi.", emptyCat:"Nicio știre în această categorie azi.",
-  details:"Detalii", moreStories:"Alte știri", moreHint:"Atinge o știre ca s-o deschizi", followup:"Continuare", since:"Față de ieri", forRo:"Ce înseamnă pentru România", jRo:"România", staleLate:d=>"Ediția de azi nu a apărut încă. Citești ediția din "+d+".", staleSoon:"Ediția de azi e pe drum. De obicei apare în jurul orei 08:45.", staleOld:d=>"Nicio ediție nouă din "+d+".", checkAgain:"Verifică din nou", newEd:"A apărut o ediție nouă", openNew:"Deschide", happened:"Ce s-a întâmplat", context:"Context", why:"De ce contează", sources:"Surse", secondary:"Rețele sociale, tabloide, bloguri",
+  details:"Detalii", mLegal:"Informații legale", legalTitle:"Informații legale", aiNote:"Redactat cu AI pe baza surselor listate la fiecare știre. Poate conține erori.", aiMore:"Despre conținutul AI", pushTitle:"Pornește notificările", pushBody:["Primești o notificare scurtă în fiecare dimineață, când apare ediția nouă.","Notificările sunt trimise prin OneSignal (SUA), care păstrează un identificator de abonare, adresa de notificare a browserului, tipul de dispozitiv, limba, fusul orar și adresa IP. Nimic nu se încarcă înainte să fii de acord.","Le poți opri oricând din acest meniu."], pushOk:"Sunt de acord, pornește", pushCancel:"Nu acum", pushMore:"Politica de confidențialitate", checkWait:"Am verificat acum câteva clipe. Încearcă din nou peste câteva secunde.", lastUpd:"Ultima actualizare", lgLinks:"Linkuri", contactUs:"Contact", moreStories:"Alte știri", moreHint:"Atinge o știre ca s-o deschizi", followup:"Continuare", since:"Față de ieri", forRo:"Ce înseamnă pentru România", jRo:"România", staleLate:d=>"Ediția de azi nu a apărut încă. Citești ediția din "+d+".", staleSoon:"Ediția de azi e pe drum. De obicei apare în jurul orei 08:45.", staleOld:d=>"Nicio ediție nouă din "+d+".", checkAgain:"Verifică din nou", newEd:"A apărut o ediție nouă", openNew:"Deschide", happened:"Ce s-a întâmplat", context:"Context", why:"De ce contează", sources:"Surse", secondary:"Rețele sociale, tabloide, bloguri",
   source:"Sursă", secondarySrc:"sursă secundară", overnight:"Peste noapte", unconfirmed:"Neconfirmat de agenții", save:"Salvează știrea", unsave:"Scoate din salvate", saveFail:"Nu s-a putut salva. Încearcă din nou.",
   markets:"Piețe", gStocks:"Indici bursieri · variația zilei", gNews:"Acțiuni din știri", idxNote:"Un indice urmărește un coș de acțiuni. Nivelul lui se măsoară în puncte, nu în bani, așa că variația zilnică în % arată cum s-a mișcat piața.", idxLevel:"Nivelul indicelui", gFx:"Valute", gCmd:"Mărfuri și cripto", watch:"De urmărit azi", moreSrc:"Alte surse", secondaryMore:"Rețele sociale, tabloide, bloguri și surse suplimentare",
   calNoScore:"buletin fără notă de impact", last7:"Ultimele 7 zile", nextEd:"Ediția următoare", nextEdWhen:"Mâine la 08:45, încă nepublicată", noEd:"Nicio ediție în această zi", calToday:"Azi", calYesterday:"Ieri", calNotYet:"încă nu", calNone:"fără buletin",
   searching:"Se încarcă arhiva...", archiveFailShort:"Arhiva nu a putut fi încărcată.", noResults:"Niciun rezultat.", savedStories:"Știri salvate",
   noSaved:"Nu ai salvat încă nicio știre. Folosește butonul de semn de carte de pe o știre.",
   fallback:"",
-  jStories:"Știri", jMarkets:"Piețe", jImpact:"Impact pe piețe", jWatch:"De urmărit", jSources:"Surse", jumpTo:"Mergi la secțiune", menu:"Meniu", mSections:"Secțiuni", mCats:"Categorii de știri", mTools:"Instrumente", mTop:"Rezumatul zilei", mCal:"Calendar și arhivă", mSearch:"Căutare", mLang:"Limbă", mPush:"Notificări", pushIOS:"Adaugă întâi pe ecranul principal", mTheme:"Aspect", crBy:"Dezvoltat de", crFounded:"Înființat", crFoundedDate:"12 noiembrie 2026", crEditions:"Ediții publicate", crSchedule:"Ediție nouă în fiecare dimineață la 08:45, ora României", crMade:"Redactat și verificat pe surse cu Claude (Anthropic)", crData:"Datele de piață și indicii Frică și lăcomie provin din sursele citate în fiecare ediție", crNote:"Doar cu scop informativ. Nu este consultanță financiară.", crVersion:"Alpha Build v0.1", thAuto:"Auto", thLight:"Luminos", thDark:"Întunecat", pushOff:"Oprite", pushOn:"Pornite", pushBlocked:"Blocate din setări", pushNA:"Indisponibile aici", jFg:"Frică și lăcomie", fgTitle:"Frică și lăcomie", fgSub:"Cât de temători sau de încrezători sunt investitorii, pe o scară de la 0 (frică extremă) la 100 (lăcomie extremă).", fgStocks:"Acțiuni SUA", fgCrypto:"Cripto", fgStocksSrc:"CNN Fear & Greed, ultima închidere din SUA", fgCryptoSrc:"Alternative.me, valoarea zilei", fgWords:["Frică extremă","Frică","Neutru","Lăcomie","Lăcomie extremă"], fgTrend:"Edițiile recente", fgDay:"Ediția", fgNone:"Fără valoare", fgNote:"Acești indici măsoară starea de spirit a pieței, nu valoarea. Nu sunt o prognoză și nici o recomandare.",
+  jStories:"Știri", jMarkets:"Piețe", jImpact:"Impact pe piețe", jWatch:"De urmărit", jSources:"Surse", jumpTo:"Mergi la secțiune", menu:"Meniu", mSections:"Secțiuni", mCats:"Categorii de știri", mTools:"Instrumente", mTop:"Rezumatul zilei", mCal:"Calendar și arhivă", mSearch:"Căutare", mLang:"Limbă", mPush:"Notificări", pushIOS:"Adaugă întâi pe ecranul principal", mTheme:"Aspect", crBy:"Dezvoltat de", crFounded:"Înființat", crFoundedDate:"12 noiembrie 2026", crEditions:"Ediții publicate", crSchedule:"Ediție nouă în fiecare dimineață la 08:45, ora României", crMade:"Redactat cu AI (Claude, de la Anthropic) pe baza surselor citate; nu este verificat de un editor uman înainte de publicare", crData:"Datele de piață și indicii Frică și lăcomie provin din sursele citate în fiecare ediție", crNote:"Doar cu scop informativ. Nu este consultanță financiară.", crVersion:"Alpha Build v0.1", thAuto:"Auto", thLight:"Luminos", thDark:"Întunecat", pushOff:"Oprite", pushOn:"Pornite", pushBlocked:"Blocate din setări", pushNA:"Indisponibile aici", jFg:"Frică și lăcomie", fgTitle:"Frică și lăcomie", fgSub:"Cât de temători sau de încrezători sunt investitorii, pe o scară de la 0 (frică extremă) la 100 (lăcomie extremă).", fgStocks:"Acțiuni SUA", fgCrypto:"Cripto", fgStocksSrc:"CNN Fear & Greed, ultima închidere din SUA", fgCryptoSrc:"Alternative.me, valoarea zilei", fgWords:["Frică extremă","Frică","Neutru","Lăcomie","Lăcomie extremă"], fgTrend:"Edițiile recente", fgDay:"Ediția", fgNone:"Fără valoare", fgNote:"Acești indici măsoară starea de spirit a pieței, nu valoarea. Nu sunt o prognoză și nici o recomandare.",
   fxTitle:"Impact pe piețe", fxSub:"Cum se transmit evenimentele zilei în piețe și în economie.", fxRisk:"Risc", fxStory:"Știrea",
   riskWords:["scăzut","moderat","ridicat","mare","sever"], fxHow:"Cum se transmite", fxWatch:"De urmărit", fxOpen:"Deschide știrea",
   fxDisc:"Doar cu titlu informativ, nu reprezintă o recomandare de investiții. Săgețile arată mișcări și presiuni raportate până acum, nu o prognoză.",
@@ -674,6 +726,167 @@ const I18N = {
   units:{points:"puncte", ron:"lei", oil:"USD/baril", gold:"USD/uncie", usd:"USD", gas:"EUR/MWh"}
  }
 };
+/* Legal texts (EN / RO). Inserted into I18N by the template patch; edit here, then re-run the patch or edit the template directly. */
+I18N.en.legalDocs = [
+ { id:"privacy", title:"Privacy policy", sections:[
+  { h:"Who we are", p:[
+   "Azimuth is a free daily world and markets briefing developed by Sergiu-Pompei Pavel and Dragoș Petrișor Verzia, Romania. Together we are the controllers of the little personal data the app handles. You can reach us at {contact}." ]},
+  { h:"What we do not collect", p:[
+   "Azimuth has no accounts, no sign-in, no analytics, no advertising and no tracking. We do not set cookies, build profiles or sell or share data." ]},
+  { h:"Data processed when you open the app", p:[
+   "The app is hosted on GitHub Pages (GitHub, Inc., USA). Like any web server, GitHub receives your IP address and browser details when you load the page and keeps technical logs for security and operation. Our legal basis is our legitimate interest in delivering the app securely (Art. 6(1)(f) GDPR). Fonts and all app files are served from the same address, so no other company is contacted when you open Azimuth." ]},
+  { h:"Push notifications (only if you turn them on)", p:[
+   "If you turn on notifications in the menu, we use OneSignal, Inc. (USA) to send them. OneSignal then stores a subscription identifier, the push address issued by your browser, the browser and device type, language, time zone and the IP address used at sign-up. Your browser's push service (Google, Apple, Mozilla or Microsoft) delivers each message.",
+   "The OneSignal software is loaded only after you agree. Our legal basis is your consent (Art. 6(1)(a) GDPR). You can withdraw it at any time by turning notifications off in the menu or in your phone or browser settings; we then stop sending messages, and OneSignal deletes inactive subscriptions under its own retention rules.",
+   "If you are under 16, ask a parent or guardian before turning on notifications." ]},
+  { h:"Transfers outside the EU", p:[
+   "GitHub and OneSignal are based in the United States. Transfers rely on the EU-US Data Privacy Framework where the provider is certified, or on the European Commission's Standard Contractual Clauses." ]},
+  { h:"Data stored on your device", p:[
+   "The app saves your language and theme choice and whether you agreed to notifications in your browser's local storage, and keeps a copy of the app and recent editions so they open offline. Details are in Cookies and storage." ]},
+  { h:"Your rights", p:[
+   "You have the right to access, correct or delete your data, to restrict or object to processing, to data portability and to withdraw consent. Because we do not know who you are, the fastest way to delete your notification data is to turn notifications off; you can also write to us. You may complain to the Romanian data protection authority, ANSPDCP (dataprotection.ro)." ]},
+  { h:"Changes", p:[
+   "We will update this page when the app changes. Last updated: 17 November 2026." ]}
+ ], links:[{t:"GitHub privacy statement", u:"https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement"},{t:"OneSignal privacy policy", u:"https://onesignal.com/privacy_policy"},{t:"ANSPDCP", u:"https://www.dataprotection.ro/"}] },
+
+ { id:"terms", title:"Terms of use", sections:[
+  { h:"The service", p:[
+   "Azimuth is a free briefing on world news and markets, published once a day in English and Romanian. It is an early test version (Alpha): features may change, pause or stop without notice. By using the app you accept these terms." ]},
+  { h:"Information only, not advice", p:[
+   "Nothing in Azimuth is financial, investment, legal or tax advice, or a recommendation to buy or sell anything. Market figures come from the sources cited, at the time stated; they are not real time and may be delayed, incomplete or later revised. Check the original sources and, where needed, a qualified adviser before you decide." ]},
+  { h:"AI-written content", p:[
+   "Editions are written with artificial intelligence from the sources listed under each story and are not reviewed by a human editor before publication. They may contain errors or omissions. See About AI content." ]},
+  { h:"Your use", p:[
+   "You may read, use and share Azimuth for personal, non-commercial purposes, and share links to it freely. Do not copy the editions in bulk, scrape the app automatically, republish its content as your own, or try to disrupt or overload the service." ]},
+  { h:"Intellectual property", p:[
+   "The Azimuth name, logo, design and edition texts belong to the developers. Articles, data, names and trademarks of the sources belong to their owners; Azimuth only summarises and links to them. Details are in Sources and copyright." ]},
+  { h:"Links to other sites", p:[
+   "Sources open on third-party websites, under their own terms and privacy policies. A link is not an endorsement, and we are not responsible for their content." ]},
+  { h:"Liability", p:[
+   "The app is provided as is, free of charge. To the extent allowed by law, we are not liable for losses arising from decisions based on its content or from interruptions of the service. Nothing in these terms limits your mandatory rights as a consumer." ]},
+  { h:"Law and contact", p:[
+   "These terms are governed by Romanian law. Questions, corrections and complaints: {contact}. Last updated: 17 November 2026." ]}
+ ]},
+
+ { id:"cookies", title:"Cookies and storage", sections:[
+  { h:"No cookies", p:[
+   "Azimuth sets no cookies and uses no analytics or advertising trackers, so there is nothing to accept on first visit." ]},
+  { h:"What the app keeps on your device", p:[
+   "az-lang (local storage): the language you chose. Needed to show the app in your language. Kept until you clear site data.",
+   "az-theme (local storage): Auto, Light or Dark. Kept until you clear site data.",
+   "az-push-consent (local storage): whether you agreed to notifications, so the app knows when it may load the notification service.",
+   "Offline copy (service worker cache): the app files and the editions you opened, so Azimuth works without a connection. Replaced automatically when the app updates.",
+   "These items are strictly necessary for features you ask for, so under EU rules they do not need a consent banner." ]},
+  { h:"Notifications", p:[
+   "Only if you turn on notifications, the OneSignal software stores its own data in your browser (IndexedDB and local storage) to keep your subscription working. Turn notifications off to stop it; clear the site data to remove it." ]},
+  { h:"How to delete", p:[
+   "In your browser or phone settings, open the site data for Azimuth and clear it, or uninstall the app. Last updated: 17 November 2026." ]}
+ ]},
+
+ { id:"sources", title:"Sources and copyright", sections:[
+  { h:"Where the news comes from", p:[
+   "Every story is based on articles that were actually read, mainly from news agencies (Reuters, Associated Press, AFP, Agerpres), major publications and official sources (governments, central banks, EU institutions). Each story lists its sources with direct links, so you can read the originals." ]},
+  { h:"How we use them", p:[
+   "Azimuth writes its own short summaries and explanations. It does not reproduce articles, photos or paywalled content, and quotations are rare and very short. Posts from social networks are labelled with the platform and account and marked as confirmed or not confirmed by agencies." ]},
+  { h:"Market data and indices", p:[
+   "Figures are taken from the sources cited in each edition, at the time shown. Index names such as S&P 500, Dow Jones, Nasdaq, STOXX 600, DAX, Nikkei 225, Hang Seng and BET are trademarks of their owners and are used only to identify them. The Fear & Greed readings come from CNN Business (stocks) and Alternative.me (crypto), with links to both." ]},
+  { h:"Images and fonts", p:[
+   "Flags: country-flag-icons, MIT licence. Font: Inter, SIL Open Font License 1.1, served from our own address. The logo and icons were designed for Azimuth. Azimuth does not use news photos." ]},
+  { h:"Corrections and removal", p:[
+   "If you find an error, or you hold rights to content and want a summary corrected or removed, write to {contact}. We will review it promptly." ]}
+ ], links:[{t:"country-flag-icons (MIT)", u:"https://github.com/catamphetamine/country-flag-icons"},{t:"Inter font (SIL OFL 1.1)", u:"https://github.com/rsms/inter"},{t:"CNN Fear & Greed Index", u:"https://edition.cnn.com/markets/fear-and-greed"},{t:"Alternative.me Crypto Fear & Greed Index", u:"https://alternative.me/crypto/fear-and-greed-index/"}] },
+
+ { id:"ai", title:"About AI content", sections:[
+  { h:"Written with AI", p:[
+   "Azimuth editions are written with Claude, an artificial intelligence model made by Anthropic. Every morning it searches for the previous day's news, reads the articles, picks the 15 most important stories, scores their impact and writes the texts in English and Romanian, following a fixed set of editorial rules." ]},
+  { h:"What that means for you", p:[
+   "The impact scores and the order of stories are editorial judgements made by the AI under those rules, not measurements. Texts are not reviewed by a human editor before publication and may contain mistakes, outdated figures or wrong emphasis. Always check the linked sources for anything important." ]},
+  { h:"Transparency", p:[
+   "We label the content as AI-generated in line with the EU AI Act transparency rules. Report errors to {contact}." ]}
+ ]}
+];
+
+I18N.ro.legalDocs = [
+ { id:"privacy", title:"Politica de confidențialitate", sections:[
+  { h:"Cine suntem", p:[
+   "Azimuth este un buletin zilnic gratuit despre lume și piețe, dezvoltat de Sergiu-Pompei Pavel și Dragoș Petrișor Verzia, România. Împreună suntem operatorii puținelor date personale prelucrate de aplicație. Ne poți contacta la {contact}." ]},
+  { h:"Ce nu colectăm", p:[
+   "Azimuth nu are conturi, autentificare, statistici de trafic, reclame sau urmărire. Nu setăm cookie-uri, nu creăm profiluri și nu vindem și nu transmitem date." ]},
+  { h:"Date prelucrate când deschizi aplicația", p:[
+   "Aplicația este găzduită pe GitHub Pages (GitHub, Inc., SUA). Ca orice server web, GitHub primește adresa ta IP și detaliile browserului când încarci pagina și păstrează jurnale tehnice pentru securitate și funcționare. Temeiul este interesul nostru legitim de a livra aplicația în siguranță (art. 6 alin. (1) lit. f) GDPR). Fonturile și toate fișierele aplicației vin de la aceeași adresă, deci nicio altă companie nu este contactată când deschizi Azimuth." ]},
+  { h:"Notificări (doar dacă le pornești)", p:[
+   "Dacă pornești notificările din meniu, folosim OneSignal, Inc. (SUA) pentru a le trimite. OneSignal păstrează atunci un identificator de abonare, adresa de notificare emisă de browser, tipul de browser și dispozitiv, limba, fusul orar și adresa IP de la abonare. Serviciul de notificări al browserului (Google, Apple, Mozilla sau Microsoft) livrează fiecare mesaj.",
+   "Programul OneSignal se încarcă doar după ce ești de acord. Temeiul este consimțământul tău (art. 6 alin. (1) lit. a) GDPR). Îl poți retrage oricând, oprind notificările din meniu sau din setările telefonului ori ale browserului; atunci nu mai trimitem mesaje, iar OneSignal șterge abonările inactive după regulile sale de păstrare.",
+   "Dacă ai sub 16 ani, cere acordul unui părinte sau tutore înainte să pornești notificările." ]},
+  { h:"Transferuri în afara UE", p:[
+   "GitHub și OneSignal au sediul în Statele Unite. Transferurile se bazează pe Cadrul UE-SUA privind protecția datelor, acolo unde furnizorul este certificat, sau pe clauzele contractuale standard ale Comisiei Europene." ]},
+  { h:"Date păstrate pe dispozitivul tău", p:[
+   "Aplicația salvează în memoria locală a browserului limba și tema alese și dacă ai fost de acord cu notificările, și păstrează o copie a aplicației și a edițiilor recente, ca să se deschidă și fără internet. Detaliile sunt la Cookie-uri și stocare." ]},
+  { h:"Drepturile tale", p:[
+   "Ai dreptul de acces, rectificare și ștergere, de restricționare și opoziție, la portabilitatea datelor și de a-ți retrage consimțământul. Pentru că nu știm cine ești, cel mai rapid mod de a-ți șterge datele de notificare este să oprești notificările; ne poți și scrie. Poți depune o plângere la Autoritatea Națională de Supraveghere a Prelucrării Datelor cu Caracter Personal, ANSPDCP (dataprotection.ro)." ]},
+  { h:"Modificări", p:[
+   "Actualizăm această pagină când aplicația se schimbă. Ultima actualizare: 17 noiembrie 2026." ]}
+ ], links:[{t:"Declarația de confidențialitate GitHub", u:"https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement"},{t:"Politica de confidențialitate OneSignal", u:"https://onesignal.com/privacy_policy"},{t:"ANSPDCP", u:"https://www.dataprotection.ro/"}] },
+
+ { id:"terms", title:"Termeni de utilizare", sections:[
+  { h:"Serviciul", p:[
+   "Azimuth este un buletin gratuit despre știrile lumii și piețe, publicat o dată pe zi în engleză și română. Este o versiune timpurie de test (Alpha): funcțiile se pot schimba, întrerupe sau opri fără anunț. Folosind aplicația, accepți acești termeni." ]},
+  { h:"Doar informare, nu consultanță", p:[
+   "Nimic din Azimuth nu este consultanță financiară, de investiții, juridică sau fiscală și nici o recomandare de a cumpăra sau vinde ceva. Cifrele de piață provin din sursele citate, la momentul indicat; nu sunt în timp real și pot fi întârziate, incomplete sau revizuite ulterior. Verifică sursele originale și, la nevoie, un consultant autorizat înainte să decizi." ]},
+  { h:"Conținut redactat cu AI", p:[
+   "Edițiile sunt redactate cu inteligență artificială pe baza surselor listate la fiecare știre și nu sunt verificate de un editor uman înainte de publicare. Pot conține erori sau omisiuni. Vezi Despre conținutul AI." ]},
+  { h:"Cum poți folosi aplicația", p:[
+   "Poți citi, folosi și distribui Azimuth în scop personal, necomercial, și poți trimite liber linkuri către aplicație. Nu copia edițiile în masă, nu extrage automat conținutul, nu îl republica drept al tău și nu încerca să perturbi sau să supraîncarci serviciul." ]},
+  { h:"Proprietate intelectuală", p:[
+   "Numele, logoul, designul și textele edițiilor Azimuth aparțin dezvoltatorilor. Articolele, datele, denumirile și mărcile surselor aparțin deținătorilor lor; Azimuth doar le rezumă și trimite către ele. Detaliile sunt la Surse și drepturi de autor." ]},
+  { h:"Linkuri către alte site-uri", p:[
+   "Sursele se deschid pe site-uri terțe, cu propriii termeni și propriile politici de confidențialitate. Un link nu înseamnă susținere și nu răspundem pentru conținutul lor." ]},
+  { h:"Răspundere", p:[
+   "Aplicația este oferită gratuit, așa cum este. În limitele legii, nu răspundem pentru pierderi cauzate de decizii luate pe baza conținutului sau de întreruperi ale serviciului. Nimic din acești termeni nu îți limitează drepturile obligatorii de consumator." ]},
+  { h:"Legea aplicabilă și contact", p:[
+   "Acești termeni sunt guvernați de legea română. Întrebări, corecturi și reclamații: {contact}. Ultima actualizare: 17 noiembrie 2026." ]}
+ ]},
+
+ { id:"cookies", title:"Cookie-uri și stocare", sections:[
+  { h:"Fără cookie-uri", p:[
+   "Azimuth nu setează cookie-uri și nu folosește programe de statistică sau reclame, așa că nu ai nimic de acceptat la prima vizită." ]},
+  { h:"Ce păstrează aplicația pe dispozitivul tău", p:[
+   "az-lang (memorie locală): limba aleasă. Necesară pentru a afișa aplicația în limba ta. Rămâne până ștergi datele site-ului.",
+   "az-theme (memorie locală): Auto, Luminos sau Întunecat. Rămâne până ștergi datele site-ului.",
+   "az-push-consent (memorie locală): dacă ai fost de acord cu notificările, ca aplicația să știe când poate încărca serviciul de notificări.",
+   "Copia offline (memoria service worker): fișierele aplicației și edițiile deschise, ca Azimuth să meargă și fără internet. Se înlocuiește automat la actualizări.",
+   "Aceste elemente sunt strict necesare pentru funcțiile pe care le ceri, deci, potrivit regulilor UE, nu au nevoie de un banner de consimțământ." ]},
+  { h:"Notificări", p:[
+   "Doar dacă pornești notificările, programul OneSignal își păstrează propriile date în browser (IndexedDB și memorie locală) pentru ca abonarea să funcționeze. Oprește notificările ca să-l oprești; șterge datele site-ului ca să le elimini." ]},
+  { h:"Cum ștergi datele", p:[
+   "Din setările browserului sau ale telefonului, deschide datele site-ului Azimuth și șterge-le, sau dezinstalează aplicația. Ultima actualizare: 17 noiembrie 2026." ]}
+ ]},
+
+ { id:"sources", title:"Surse și drepturi de autor", sections:[
+  { h:"De unde vin știrile", p:[
+   "Fiecare știre se bazează pe articole citite efectiv, în principal de la agenții de presă (Reuters, Associated Press, AFP, Agerpres), publicații importante și surse oficiale (guverne, bănci centrale, instituții UE). Fiecare știre își listează sursele cu linkuri directe, ca să poți citi originalele." ]},
+  { h:"Cum le folosim", p:[
+   "Azimuth scrie propriile rezumate și explicații, scurte. Nu reproduce articole, fotografii sau conținut cu acces plătit, iar citatele sunt rare și foarte scurte. Postările de pe rețele sociale sunt marcate cu platforma și contul și cu mențiunea confirmat sau neconfirmat de agenții." ]},
+  { h:"Date de piață și indici", p:[
+   "Cifrele sunt preluate din sursele citate în fiecare ediție, la momentul indicat. Denumiri de indici precum S&P 500, Dow Jones, Nasdaq, STOXX 600, DAX, Nikkei 225, Hang Seng și BET sunt mărci ale deținătorilor lor și sunt folosite doar pentru identificare. Indicii Frică și lăcomie provin de la CNN Business (acțiuni) și Alternative.me (cripto), cu linkuri către ambele." ]},
+  { h:"Imagini și fonturi", p:[
+   "Steaguri: country-flag-icons, licență MIT. Font: Inter, licență SIL Open Font License 1.1, servit de la adresa noastră. Logoul și pictogramele au fost create pentru Azimuth. Azimuth nu folosește fotografii de presă." ]},
+  { h:"Corecturi și eliminare", p:[
+   "Dacă găsești o eroare sau deții drepturi asupra unui conținut și vrei ca un rezumat să fie corectat sau eliminat, scrie-ne la {contact}. Analizăm cererea cu prioritate." ]}
+ ], links:[{t:"country-flag-icons (MIT)", u:"https://github.com/catamphetamine/country-flag-icons"},{t:"Fontul Inter (SIL OFL 1.1)", u:"https://github.com/rsms/inter"},{t:"CNN Fear & Greed Index", u:"https://edition.cnn.com/markets/fear-and-greed"},{t:"Alternative.me Crypto Fear & Greed Index", u:"https://alternative.me/crypto/fear-and-greed-index/"}] },
+
+ { id:"ai", title:"Despre conținutul AI", sections:[
+  { h:"Redactat cu AI", p:[
+   "Edițiile Azimuth sunt redactate cu Claude, un model de inteligență artificială creat de Anthropic. În fiecare dimineață, acesta caută știrile zilei precedente, citește articolele, alege cele mai importante 15 știri, le dă o notă de impact și scrie textele în engleză și română, după un set fix de reguli editoriale." ]},
+  { h:"Ce înseamnă pentru tine", p:[
+   "Notele de impact și ordinea știrilor sunt aprecieri editoriale făcute de AI după aceste reguli, nu măsurători. Textele nu sunt verificate de un editor uman înainte de publicare și pot conține greșeli, cifre depășite sau accente greșite. Pentru orice lucru important, verifică sursele din linkuri." ]},
+  { h:"Transparență", p:[
+   "Marcăm conținutul ca generat cu AI, conform regulilor de transparență din Regulamentul UE privind inteligența artificială. Semnalează erorile la {contact}." ]}
+ ]}
+];
+
+const CONTACT_EMAIL = ""; /* adresa de contact pentru cereri GDPR și corecturi; gol = pagina de Issues din GitHub */
+const CONTACT_URL = "https://github.com/tygeroneg-cyber/Azimuth/issues";
 let LANG = "en";
 try { const saved = localStorage.getItem("az-lang"); if (LANGS.includes(saved)) LANG = saved; } catch(e) {}
 const t = k => (I18N[LANG] && I18N[LANG][k] !== undefined) ? I18N[LANG][k] : I18N.en[k];
@@ -844,8 +1057,12 @@ function staleHtml(date){
   return '<div class="'+cls+'" role="status"><span>'+esc(msg)+'</span><button type="button" data-act="recheck">'+esc(t("checkAgain"))+'</button></div>';
 }
 let lastDaysLoad = Date.now(), recheckBusy = false;
+let lastManualCheck = 0;
 async function refreshDays(manual){
-  if (recheckBusy) return; recheckBusy = true;
+  if (recheckBusy) return;
+  if (manual && Date.now() - lastManualCheck < 20000) { const b = document.querySelector(".stale span"); if (b) b.textContent = t("checkWait"); return; }
+  if (manual) lastManualCheck = Date.now();
+  recheckBusy = true;
   const before = latestDay();
   try {
     await loadScript("data/days.js?v=" + Date.now());
@@ -859,7 +1076,55 @@ async function refreshDays(manual){
   } catch(e) {}
   recheckBusy = false;
 }
+setTimeout(() => { const m = location.hash.match(/^#legal-([a-z]+)$/); if (m) openLegal(m[1]); }, 0);
 document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible" && Date.now() - lastDaysLoad > 5*60*1000) refreshDays(false); });
+
+/* ---------- informații legale și acordul pentru notificări ---------- */
+function contactHtml(){
+  return CONTACT_EMAIL ? '<a href="mailto:'+esc(CONTACT_EMAIL)+'">'+esc(CONTACT_EMAIL)+'</a>'
+    : '<a href="'+esc(CONTACT_URL)+'" target="_blank" rel="noopener noreferrer">github.com/tygeroneg-cyber/Azimuth/issues</a>';
+}
+const legalP = x => esc(x).split("{contact}").join(contactHtml());
+let legalCur = "privacy";
+function renderLegal(){
+  const docs = arr(t("legalDocs")); const d = docs.find(x => x.id === legalCur) || docs[0]; if (!d) return;
+  $("#legalTabs").innerHTML = docs.map(x => '<button type="button" role="tab" class="lt'+(x.id === d.id ? ' on' : '')+'" aria-selected="'+(x.id === d.id)+'" data-ltab="'+esc(x.id)+'">'+esc(x.title)+'</button>').join("");
+  $("#legalBody").innerHTML = '<h3 class="lg-h">'+esc(d.title)+'</h3>'+arr(d.sections).map(sec => '<section><h4>'+esc(sec.h)+'</h4>'+arr(sec.p).map(p => '<p>'+legalP(p)+'</p>').join("")+'</section>').join("")+
+    (arr(d.links).length ? '<section><h4>'+esc(t("lgLinks"))+'</h4><ul class="lg-links">'+arr(d.links).map(l => { const u = safeUrl(l.u); return u ? '<li><a href="'+esc(u)+'" target="_blank" rel="noopener noreferrer">'+esc(l.t)+'</a></li>' : ''; }).join("")+'</ul></section>' : '')+
+    '<p class="lg-contact"><b>'+esc(t("contactUs"))+'</b> '+contactHtml()+'</p>';
+  $("#legalBody").scrollTop = 0;
+  const on = $("#legalTabs .lt.on"); if (on && on.scrollIntoView) { try { on.scrollIntoView({block:"nearest", inline:"center"}); } catch(e) {} }
+}
+function openLegal(id){
+  legalCur = id || "privacy"; renderLegal();
+  try { history.replaceState(null, "", "#legal-"+legalCur); } catch(e) {}
+  openOv("#legalOv");
+}
+function closeLegal(){
+  closeOv("#legalOv");
+  if (/^#legal-/.test(location.hash)) { try { history.replaceState(null, "", S.current ? "#d-"+S.current : location.pathname); } catch(e) {} }
+}
+$("#legalClose").onclick = closeLegal;
+$("#legalOv").addEventListener("click", e => {
+  if (e.target.id === "legalOv") { closeLegal(); return; }
+  const b = e.target.closest("[data-ltab]"); if (b) { legalCur = b.dataset.ltab; renderLegal(); try { history.replaceState(null, "", "#legal-"+legalCur); } catch(e2) {} }
+});
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-legal]"); if (!b || b.closest("#menuOv")) return;
+  e.preventDefault(); if (b.closest("#pushOv")) closeOv("#pushOv"); openLegal(b.dataset.legal);
+});
+function openPushConsent(){
+  $("#pushBody").innerHTML = '<ul class="push-list">'+arr(t("pushBody")).map(x => '<li>'+esc(x)+'</li>').join("")+'</ul>'+
+    '<button type="button" class="linkbtn" data-legal="privacy">'+esc(t("pushMore"))+'</button>'+
+    '<div class="push-actions"><button type="button" class="btn-ghost" id="pushNo">'+esc(t("pushCancel"))+'</button><button type="button" class="btn-pri" id="pushYes">'+esc(t("pushOk"))+'</button></div>';
+  openOv("#pushOv");
+  $("#pushNo").onclick = () => closeOv("#pushOv");
+  $("#pushYes").onclick = () => { closeOv("#pushOv"); if (window.AZ_PUSH) window.AZ_PUSH.toggle(true).catch(() => {}); };
+}
+$("#pushClose").onclick = () => closeOv("#pushOv");
+$("#pushOv").addEventListener("click", e => { if (e.target.id === "pushOv") closeOv("#pushOv"); });
+window.addEventListener("az-push-ready", () => { if ($("#menuOv").classList.contains("show")) buildMenu(); });
+window.addEventListener("hashchange", () => { const m = location.hash.match(/^#legal-([a-z]+)$/); if (m) openLegal(m[1]); });
 
 /* ---------- randare ---------- */
 function showState(title, text){ $("#main").innerHTML = '<div class="state"><b>'+esc(title)+'</b>'+esc(text)+'</div>'; }
@@ -1112,7 +1377,8 @@ function renderDay(){
     '<ul class="rank">'+rank+'</ul>'+
     '<div class="scale">'+esc(t("low"))+'<i style="background:'+$("#legendBar").style.background+'"></i>'+esc(t("high"))+'<span style="margin-left:auto">'+esc(t("tapDetails"))+'</span></div>'+
     (ed.fallback && t("fallback") ? '<p class="fallback">'+esc(t("fallback"))+'</p>' : '')+
-    (arr(ed.summary).length ? '<ul class="brief">'+arr(ed.summary).map(t => '<li>'+esc(t)+'</li>').join("")+'</ul>' : "")+'</section>';
+    (arr(ed.summary).length ? '<ul class="brief">'+arr(ed.summary).map(t => '<li>'+esc(t)+'</li>').join("")+'</ul>' : "")+
+    '<p class="ai-note"><span class="ai-badge">AI</span><span>'+esc(t("aiNote"))+' <button type="button" class="linkbtn" data-legal="ai">'+esc(t("aiMore"))+'</button></span></p></section>';
 
   if (ed.romania.length) h += '<section class="ro-card" id="sec-ro"><div class="ro-h"><span class="ro-flag">'+flagHtml("RO")+'</span><b>'+esc(t("forRo"))+'</b></div><ul>'+
     ed.romania.map(x => '<li>'+(x.k ? '<b>'+esc(x.k)+'</b>' : '')+'<span>'+esc(x.v)+'</span></li>').join("")+'</ul></section>';
@@ -1262,6 +1528,13 @@ function buildMenu(){
       seg("auto", t("thAuto"), '<rect x="5" y="2.5" width="14" height="19" rx="3"/><path d="M10 18.5h4"/>')+
       seg("light", t("thLight"), '<circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M4.6 4.6l1.4 1.4M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4L6 18M18 6l1.4-1.4"/>')+
       seg("dark", t("thDark"), '<path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/>')+'</div></div>'; }
+  { const lg = (id, ico) => it('data-legal="'+id+'"', '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+ico+'</svg>', (I18N[LANG].legalDocs.find(d => d.id === id) || {}).title || id);
+    h += '<div class="m-lbl">'+esc(t("mLegal"))+'</div>'+
+      lg("privacy", '<path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6z"/>')+
+      lg("terms", '<path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4M10 12h5M10 16h5"/>')+
+      lg("cookies", '<ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v12c0 1.7 3.1 3 7 3s7-1.3 7-3V6M5 12c0 1.7 3.1 3 7 3s7-1.3 7-3"/>')+
+      lg("sources", '<path d="M4 5h11a3 3 0 0 1 3 3v11H7a3 3 0 0 1-3-3z"/><path d="M8 9h6M8 13h6"/>')+
+      lg("ai", '<rect x="5" y="5" width="14" height="14" rx="3"/><path d="M9 15l1.6-6h2.8L15 15M9.8 12.6h4.4M12 2v3M12 19v3M2 12h3M19 12h3"/>'); }
   h += '<footer class="m-credits">'+
     '<div class="cr-logo"><svg viewBox="0 0 100 100" aria-hidden="true"><defs><linearGradient id="azLgC" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1E2A4A"/><stop offset="1" stop-color="#0A0F1F"/></linearGradient></defs><rect width="100" height="100" rx="23" fill="url(#azLgC)"/><rect x=".5" y=".5" width="99" height="99" rx="22.5" fill="none" stroke="#fff" stroke-opacity=".14"/><circle cx="50" cy="50" r="30" fill="#4C9AFF" fill-opacity=".08" stroke="#fff" stroke-opacity=".55" stroke-width="2.4"/><ellipse cx="50" cy="50" rx="12.5" ry="30" fill="none" stroke="#6FB1FF" stroke-opacity=".5" stroke-width="2"/><path d="M20 50H80M24 36H76M24 64H76" stroke="#6FB1FF" stroke-opacity=".4" stroke-width="2"/><g class="needle"><polygon points="50,15 50,50 42.5,50" fill="#6FB1FF"/><polygon points="50,15 57.5,50 50,50" fill="#2F6FEB"/><polygon points="42.5,50 50,50 50,85" fill="#F4F5F8"/><polygon points="50,50 57.5,50 50,85" fill="#B9BCC7"/></g><circle cx="50" cy="50" r="4.2" fill="#0A0F1F" stroke="#fff" stroke-width="1.6"/></svg><b>Azimuth</b><span>'+esc(t("crVersion"))+'</span></div>'+
     '<div class="cr-by"><small>'+esc(t("crBy"))+'</small><b>Sergiu-Pompei Pavel</b><b>Dragoș Petrișor Verzia</b></div>'+
@@ -1283,6 +1556,7 @@ $("#menuOv").addEventListener("click", e => {
   if (e.target.id === "menuOv") { closeMenu(); return; }
   const b = e.target.closest("button"); if (!b) return;
   if (b.dataset.thset) { switchTheme(b.dataset.thset, b); return; }
+  if (b.dataset.legal) { const id = b.dataset.legal; closeMenu(() => openLegal(id)); return; }
   if (b.dataset.msec) { closeMenu(() => goSection(b.dataset.msec)); return; }
   if (b.dataset.mfil) { const f = b.dataset.mfil; closeMenu(() => { setFilter(f); setTimeout(() => goSection("sec-stories"), 60); }); return; }
   const m = b.dataset.m;
@@ -1291,9 +1565,11 @@ $("#menuOv").addEventListener("click", e => {
   else if (m === "cal") closeMenu(() => $("#dateBtn").click());
   else if (m === "search") closeMenu(() => $("#searchBtn").click());
   else if (m === "lang") closeMenu(() => $("#langBtn").click());
-  else if (m === "push" && window.AZ_PUSH) { window.AZ_PUSH.toggle().then(() => buildMenu()).catch(() => buildMenu()); }
+  else if (m === "push" && window.AZ_PUSH) {
+    if (window.AZ_PUSH.state() === "off" && window.AZ_PUSH.needsConsent && window.AZ_PUSH.needsConsent()) { closeMenu(openPushConsent); return; }
+    window.AZ_PUSH.toggle().then(() => buildMenu()).catch(() => buildMenu()); }
 });
-document.addEventListener("keydown", e => { if (e.key === "Escape") closeMenu(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape") { closeMenu(); if ($("#legalOv").classList.contains("show")) closeLegal(); closeOv("#pushOv"); } });
 (function(){ /* glisare spre stânga pentru închidere */
   const d = $("#drawer"); let x0 = null, y0 = 0, dx = 0, drag = false;
   d.addEventListener("touchstart", e => { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; dx = 0; drag = false; }, {passive:true});

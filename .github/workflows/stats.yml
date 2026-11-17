@@ -3,6 +3,13 @@ name: Subscriber count
 on:
   workflow_dispatch:
 
+permissions:
+  contents: read
+
+concurrency:
+  group: stats
+  cancel-in-progress: false
+
 jobs:
   stats:
     runs-on: ubuntu-latest

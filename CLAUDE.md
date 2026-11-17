@@ -39,6 +39,17 @@ When working on the app from Claude Code:
 - If the newest edition is older than today (Romania time), a banner says so after 09:15 (or "on its way" between 08:45 and 09:15), with a "Check again" button. The app also reloads `days.js` when it comes back to the foreground after 5 minutes and opens a new edition automatically.
 - The impact colors come from `impactColor()`; they are tuned separately for light and dark backgrounds to stay readable.
 
+## Privacy, security and legal
+
+- No analytics, ads, trackers or cookies. Nothing is loaded from other companies when the app opens: the Inter font is served from `fonts/` (SIL OFL 1.1), flags are inline (country-flag-icons, MIT).
+- OneSignal is loaded only after consent: the menu opens a consent sheet ("pushOv") the first time; agreeing sets `az-push-consent` = "1" and loads the SDK. Turning notifications off sets it to "0". Existing subscribers whose browser permission is already granted (and no flag) still load it, so they keep working.
+- `scripts/build.py` adds a Content-Security-Policy meta tag with sha256 hashes of every inline script. Do not add inline event handlers (`onclick=` etc.) or `eval`; a new inline `<script>` is hashed automatically at build time.
+- All edition text goes through `esc()` and every link through `safeUrl()` (http/https only), with `rel="noopener noreferrer"`.
+- Legal pages (Privacy, Terms, Cookies and storage, Sources and copyright, About AI content) live in `I18N.en.legalDocs` / `I18N.ro.legalDocs` (source copy in `scripts/legal_texts.js`), open from the menu or `#legal-<id>`. Keep both languages identical in meaning and update the "Last updated" date when they change. `CONTACT_EMAIL` in the template is the contact for GDPR requests; while empty, the GitHub Issues page is shown.
+- Every edition shows an "AI" note (EU AI Act transparency) linking to About AI content.
+- GitHub Actions run with `permissions: contents: read` and a concurrency group. The OneSignal key exists only as the `ONESIGNAL_API_KEY` secret.
+- The "Check again" button is limited to one check every 20 seconds; the background check runs at most every 5 minutes.
+
 ## Data format (summary)
 
 Each edition is `window.DM_DATA["YYYY-MM-DD"] = {...}` (Romanian) or `window.DM_DATA_EN[...]` (English) with: `date`, `updated`, `impact` (1 to 10), `summary` (3 sentences), `stories` (15 items: `title`, `cat`, `region`, `overnight`, `impact`, `countries`, `essential`, `what`, `context`, `why`, `sources`), `markets` (`rows`, `note`, `sources`), `effects` (market impact entries), `romania` (`[{k, v}]`), `watch`, `secondary`. Stories may also have `followup` (bool) and `update` (string). Both language files carry the same stories in the same order with the same scores.

@@ -6,6 +6,13 @@ on:
     paths: ["data/**", ".notify-test"]
   workflow_dispatch:
 
+permissions:
+  contents: read
+
+concurrency:
+  group: notify
+  cancel-in-progress: false
+
 jobs:
   notify:
     # Only daily editions trigger a notification, not design changes.

@@ -28,20 +28,32 @@ if shutil.which("node"):
 
 s=s.replace("<title>Azimuth</title>",'<title>Azimuth</title>\n<link rel="manifest" href="manifest.json">\n<link rel="icon" type="image/png" href="icons/icon-192.png">\n<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">\n<meta name="mobile-web-app-capable" content="yes">\n<meta name="apple-mobile-web-app-capable" content="yes">',1)
 s=s.replace("</body>",'<script>if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js").catch(function(){});}</script>\n</body>',1)
-push = r"""<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-<script>
+push = r"""<script>
 (function(){
+  /* OneSignal se încarcă doar după acordul utilizatorului (sau pentru cei deja abonați, cu permisiunea dată în browser). */
+  var SDK = "https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js";
   var base = location.pathname.replace(/[^/]*$/, "");
-  window.OneSignalDeferred = window.OneSignalDeferred || [];
-  var ready = new Promise(function(res){
+  var loaded = false, OSref = null, done, ready = new Promise(function(r){ done = r; });
+  function flag(){ try { return localStorage.getItem("az-push-consent"); } catch(e) { return null; } }
+  function setFlag(v){ try { localStorage.setItem("az-push-consent", v); } catch(e) {} }
+  function consented(){
+    var f = flag(); if (f === "1") return true; if (f === "0") return false;
+    return ("Notification" in window) && Notification.permission === "granted";
+  }
+  function load(){
+    if (loaded) return ready; loaded = true;
+    window.OneSignalDeferred = window.OneSignalDeferred || [];
     OneSignalDeferred.push(async function(OS){
       try {
         await OS.init({ appId: "febcbdcd-b552-4489-b331-294900387ad8", safari_web_id: "web.onesignal.auto.47e61a84-7486-476e-83ad-85400aafc6ca", serviceWorkerPath: base.slice(1) + "sw.js", serviceWorkerParam: { scope: base }, notifyButton: { enable: false } });
-        res(OS);
-      } catch(e) { res(null); }
+        OSref = OS; done(OS);
+      } catch(e) { done(null); }
+      try { window.dispatchEvent(new Event("az-push-ready")); } catch(e) {}
     });
-  });
-  var OSref = null; ready.then(function(o){ OSref = o; });
+    var s = document.createElement("script"); s.src = SDK; s.defer = true; s.onerror = function(){ done(null); }; document.head.appendChild(s);
+    return ready;
+  }
+  if (consented()) load();
   window.AZ_PUSH = {
     state: function(){
       if (!("Notification" in window) || !("serviceWorker" in navigator) || !("PushManager" in window)) {
@@ -53,13 +65,16 @@ push = r"""<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page
       try { if (OSref && OSref.User.PushSubscription.optedIn) return "on"; } catch(e) {}
       return "off";
     },
-    toggle: async function(){
+    needsConsent: function(){ return flag() !== "1"; },
+    toggle: async function(agreed){
       var st = this.state(); if (st === "na" || st === "ios" || st === "blocked") return;
-      var OS = await ready; if (!OS) return;
-      var sub = OS.User.PushSubscription;
-      if (sub.optedIn) { await sub.optOut(); return; }
+      if (st === "on") { var O = await ready; if (O) await O.User.PushSubscription.optOut(); setFlag("0"); return; }
+      if (agreed !== true && flag() !== "1") return;
+      setFlag("1");
+      var OS = await load(); if (!OS) return;
       if (!OS.Notifications.permission) await OS.Notifications.requestPermission();
-      await sub.optIn();
+      await OS.User.PushSubscription.optIn();
+      try { window.dispatchEvent(new Event("az-push-ready")); } catch(e) {}
     }
   };
 })();
@@ -67,5 +82,17 @@ push = r"""<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page
 </body>"""
 s=s.replace('<script>if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js").catch(function(){});}</script>\n</body>', push, 1)
 assert "OneSignalSDK.page.js" in s
+
+# Content Security Policy (meta): only our own files, the inline scripts listed by hash, and OneSignal.
+import re, hashlib, base64
+hashes = []
+for m in re.finditer(r"<script>(.*?)</script>", s, re.S):
+    hashes.append("'sha256-" + base64.b64encode(hashlib.sha256(m.group(1).encode("utf-8")).digest()).decode() + "'")
+csp = ("default-src 'self'; script-src 'self' " + " ".join(hashes) + " https://cdn.onesignal.com; "
+       "style-src 'self' 'unsafe-inline' https://cdn.onesignal.com https://onesignal.com; img-src 'self' data: https:; "
+       "font-src 'self' https://cdn.onesignal.com; connect-src 'self' https://onesignal.com https://*.onesignal.com; "
+       "frame-src https://onesignal.com https://*.onesignal.com; worker-src 'self'; manifest-src 'self'; media-src 'none'; "
+       "object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests")
+s = s.replace('<meta charset="utf-8">', '<meta charset="utf-8">\n<meta http-equiv="Content-Security-Policy" content="' + csp + '">', 1)
 open(os.path.join(ROOT,"index.html"),"w",encoding="utf-8").write(s)
 print("index.html built")
