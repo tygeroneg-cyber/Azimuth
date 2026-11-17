@@ -1,0 +1,20 @@
+name: Subscriber count
+
+on:
+  workflow_dispatch:
+
+jobs:
+  stats:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Read subscriber counts from OneSignal
+        env:
+          ONESIGNAL_API_KEY: ${{ secrets.ONESIGNAL_API_KEY }}
+          APP_ID: febcbdcd-b552-4489-b331-294900387ad8
+        run: |
+          node -e '
+          fetch("https://api.onesignal.com/apps/" + process.env.APP_ID, { headers: { "Authorization": "Key " + process.env.ONESIGNAL_API_KEY } })
+            .then(async r => { const j = await r.json().catch(() => ({})); console.log("status", r.status);
+              console.log("total subscriptions:", j.players, "| reachable now:", j.messageable_players, "| updated:", j.updated_at);
+              if (!r.ok) { console.log(JSON.stringify(j)); process.exit(1); } });
+          '
