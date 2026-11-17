@@ -506,6 +506,50 @@ html.theme-fade, html.theme-fade *, html.theme-fade *::before, html.theme-fade *
 #calOv .legend .none{display:none}
 @media (prefers-reduced-motion: reduce){ .cal .cd{animation:none; opacity:1; transform:none} .cal .cd.future{opacity:.7} }
 #calTitle{text-transform:none}
+
+/* --- știri compacte, continuări, România, ediție întârziată --- */
+.more-head{display:flex; align-items:baseline; justify-content:space-between; gap:10px; flex-wrap:wrap; margin:10px 4px 2px}
+.more-head b{font:700 20px/1.2 var(--display); letter-spacing:-.01em; color:var(--ink)}
+.more-head span{font-size:13px; color:var(--muted)}
+.card.compact{box-shadow:none}
+.c-head{display:flex; align-items:center; gap:10px; width:100%; min-height:60px; padding:12px 14px; border:0; background:none; color:inherit; text-align:left; font:inherit; cursor:pointer}
+.c-head .dot{flex:none; margin:0}
+.c-num{flex:none; width:20px; font:500 12px/1 var(--mono); color:var(--muted)}
+.c-main{flex:1; min-width:0; display:grid; gap:3px}
+.c-title{font-weight:600; font-size:15.5px; line-height:1.3; color:var(--ink); overflow-wrap:anywhere}
+.c-meta{font-size:12.5px; color:var(--muted); line-height:1.3}
+.c-fu{display:inline-block; margin-right:6px; padding:1px 6px; border-radius:6px; background:var(--soft); border:1px solid var(--line); color:var(--accent); font-weight:600; font-size:11.5px}
+.c-score{flex:none; font:700 15px/1 var(--mono)}
+.c-chev{flex:none; width:16px; height:16px; color:var(--muted)}
+.c-chev svg{width:16px; height:16px; display:block; transition:transform .45s cubic-bezier(.22,1,.36,1)}
+.card.compact.open .c-chev svg{transform:rotate(180deg)}
+.card.compact .dz{padding:0 16px 16px}
+.card.compact .dz .essential{padding:0; margin:0 0 4px}
+.c-flags{max-width:none; justify-content:flex-start; margin:0 0 10px}
+.card.compact .dz h3:first-of-type{margin-top:12px}
+.since{margin:12px 16px 0; padding:10px 12px; border-radius:10px; background:var(--soft); border:1px solid var(--line); font-size:14.5px; line-height:1.45; color:var(--ink)}
+.since b{display:block; font-size:11.5px; letter-spacing:.04em; text-transform:uppercase; color:var(--accent); margin-bottom:3px}
+.card.compact .since{margin:10px 0 0}
+.tag.fu{color:var(--accent); border-color:color-mix(in srgb, var(--accent) 35%, var(--line)); background:color-mix(in srgb, var(--accent) 9%, var(--surface))}
+.ro-card{margin-top:14px; background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); padding:16px 18px; scroll-margin-top:72px}
+.ro-h{display:flex; align-items:center; gap:10px; margin-bottom:10px}
+.ro-h b{font:700 18px/1.2 var(--display); letter-spacing:-.01em}
+.ro-flag .flag{width:24px; height:17px; display:block}
+.ro-card ul{list-style:none; margin:0; padding:0; display:grid; gap:10px}
+.ro-card li{display:grid; gap:2px; padding-top:10px; border-top:1px solid var(--line)}
+.ro-card li:first-child{border-top:0; padding-top:0}
+.ro-card li b{font-size:12px; letter-spacing:.04em; text-transform:uppercase; color:var(--muted)}
+.ro-card li span{font-size:15.5px; line-height:1.45}
+.stale{display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin:0 0 12px; padding:12px 14px; border-radius:12px; background:var(--soft); border:1px solid var(--line); font-size:14.5px; line-height:1.4}
+.stale span{flex:1; min-width:180px}
+.stale.warn{border-color:color-mix(in srgb, #D98A00 45%, var(--line)); background:color-mix(in srgb, #F2A900 12%, var(--surface))}
+.stale button{min-height:36px; padding:0 14px; border-radius:999px; border:0; background:var(--accent); color:#fff; font-weight:600; font-size:14px}
+.clist{background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden}
+.clist .card.compact{border:0; border-radius:0; box-shadow:none; background:none; border-top:1px solid var(--line)}
+.clist .card.compact:first-child{border-top:0}
+.clist .card.compact.open{background:color-mix(in srgb, var(--soft) 55%, var(--surface))}
+.layout .ro-card{order:2}
+@media (min-width:900px){ .c-head{padding:14px 18px; min-height:64px} .card.compact .dz{padding:0 22px 20px} .c-title{font-size:16px} }
 </style>
 </head>
 <body>
@@ -596,7 +640,7 @@ const I18N = {
   words:["minor","low","medium","high","major"],
   filter:"Filter", fAll:"All", fGeo:"Geopolitics", fEco:"Economy", fAlt:"Other", fNight:"Overnight", fSaved:"Saved",
   count:(a,b)=>a+" of "+b+" stories", noneHere:"Nothing here", emptyNight:"No overnight stories on this day.", emptySaved:"You have not saved any stories from this day.", emptyCat:"No stories in this category today.",
-  details:"Details", happened:"What happened", context:"Context", why:"Why it matters", sources:"Sources", secondary:"Social media, tabloids, blogs",
+  details:"Details", moreStories:"More stories", moreHint:"Tap a story to open it", followup:"Update", since:"Since yesterday", forRo:"What it means for Romania", jRo:"Romania", staleLate:d=>"Today's edition has not been published yet. You are reading the edition of "+d+".", staleSoon:"Today's edition is on its way. It usually appears around 08:45.", staleOld:d=>"No new edition since "+d+".", checkAgain:"Check again", newEd:"A new edition is available", openNew:"Open", happened:"What happened", context:"Context", why:"Why it matters", sources:"Sources", secondary:"Social media, tabloids, blogs",
   source:"Source", secondarySrc:"secondary source", overnight:"Overnight", unconfirmed:"Not confirmed by agencies", save:"Save story", unsave:"Remove from saved", saveFail:"Could not save. Try again.",
   markets:"Markets", gStocks:"Stock indices · daily change", gNews:"Stocks in the news", idxNote:"An index tracks a basket of company shares. Its level is counted in points, not money, so the daily % change is what shows how the market moved.", idxLevel:"Index level", gFx:"Currencies", gCmd:"Commodities and crypto", watch:"What to watch today", moreSrc:"More sources", secondaryMore:"Social media, tabloids, blogs and additional sources",
   calNoScore:"briefing without an impact score", last7:"Last 7 days", nextEd:"Next edition", nextEdWhen:"Tomorrow at 08:45, not yet published", noEd:"No edition this day", calToday:"Today", calYesterday:"Yesterday", calNotYet:"not yet", calNone:"no briefing",
@@ -622,7 +666,7 @@ const I18N = {
   words:["mic","redus","mediu","ridicat","major"],
   filter:"Filtru", fAll:"Toate", fGeo:"Geopolitică", fEco:"Economie", fAlt:"Altele", fNight:"Peste noapte", fSaved:"Salvate",
   count:(a,b)=>a+" din "+b+" știri", noneHere:"Nicio știre aici", emptyNight:"Nicio știre petrecută peste noapte în această zi.", emptySaved:"Nu ai salvat nicio știre din această zi.", emptyCat:"Nicio știre în această categorie azi.",
-  details:"Detalii", happened:"Ce s-a întâmplat", context:"Context", why:"De ce contează", sources:"Surse", secondary:"Rețele sociale, tabloide, bloguri",
+  details:"Detalii", moreStories:"Alte știri", moreHint:"Atinge o știre ca s-o deschizi", followup:"Continuare", since:"Față de ieri", forRo:"Ce înseamnă pentru România", jRo:"România", staleLate:d=>"Ediția de azi nu a apărut încă. Citești ediția din "+d+".", staleSoon:"Ediția de azi e pe drum. De obicei apare în jurul orei 08:45.", staleOld:d=>"Nicio ediție nouă din "+d+".", checkAgain:"Verifică din nou", newEd:"A apărut o ediție nouă", openNew:"Deschide", happened:"Ce s-a întâmplat", context:"Context", why:"De ce contează", sources:"Surse", secondary:"Rețele sociale, tabloide, bloguri",
   source:"Sursă", secondarySrc:"sursă secundară", overnight:"Peste noapte", unconfirmed:"Neconfirmat de agenții", save:"Salvează știrea", unsave:"Scoate din salvate", saveFail:"Nu s-a putut salva. Încearcă din nou.",
   markets:"Piețe", gStocks:"Indici bursieri · variația zilei", gNews:"Acțiuni din știri", idxNote:"Un indice urmărește un coș de acțiuni. Nivelul lui se măsoară în puncte, nu în bani, așa că variația zilnică în % arată cum s-a mișcat piața.", idxLevel:"Nivelul indicelui", gFx:"Valute", gCmd:"Mărfuri și cripto", watch:"De urmărit azi", moreSrc:"Alte surse", secondaryMore:"Rețele sociale, tabloide, bloguri și surse suplimentare",
   calNoScore:"buletin fără notă de impact", last7:"Ultimele 7 zile", nextEd:"Ediția următoare", nextEdWhen:"Mâine la 08:45, încă nepublicată", noEd:"Nicio ediție în această zi", calToday:"Azi", calYesterday:"Ieri", calNotYet:"încă nu", calNone:"fără buletin",
@@ -716,6 +760,7 @@ function normEdition(raw, date){
     impact: num(s.impact) || 5, countries: arr(s.countries), essential: s.essential,
     happened: arr(s.what || s.happened), context: arr(s.context), why: arr(s.why),
     unconfirmed: !!s.unconfirmed,
+    update: String(s.update || "").trim().replace(/^(nou(\s+față de ieri)?|new(\s+since yesterday)?|față de ieri|since yesterday)\s*:\s*/i, "").replace(/^\p{Ll}/u, c => c.toUpperCase()), followup: !!(s.followup || String(s.update || "").trim()),
     sources: arr(s.sources).map(x => ({title: x.t || x.title, url: x.u || x.url, type: x.type || "principal", platform: x.platform, status: x.status}))
   }));
   const m = raw.markets || {};
@@ -729,6 +774,7 @@ function normEdition(raw, date){
     marketsNote: Array.isArray(m) ? raw.marketsNote : m.note,
     marketSources: arr(m.sources).map(x => ({title: x.t || x.title, url: x.u || x.url})),
     watch: arr(raw.watch),
+    romania: arr(raw.romania).map(x => typeof x === "string" ? {k:"", v:x} : {k: x.k || x.label || "", v: x.v || x.text || ""}).filter(x => x.v),
     effects: arr(raw.effects).filter(x => x && x.title).map(x => ({n: x.n, title: x.title, risk: num(x.risk) || 5, summary: x.summary, assets: arr(x.assets), how: arr(x.how), watch: x.watch})).sort((a,b) => b.risk - a.risk),
     secondary: arr(raw.secondary).map(x => ({title: x.t || x.title, url: x.u || x.url}))
   };
@@ -784,6 +830,44 @@ async function openDay(date, push = true){
   } catch(e) { showState(t("readFail"), t("tryAgain")); }
 }
 
+/* ---------- ediția zilei: întârziere și verificare automată ---------- */
+function roNow(){
+  try {
+    const p = new Intl.DateTimeFormat("en-CA", {timeZone:"Europe/Bucharest", year:"numeric", month:"2-digit", day:"2-digit", hour:"2-digit", minute:"2-digit", hour12:false}).formatToParts(new Date());
+    const g = k => (p.find(x => x.type === k) || {}).value;
+    return {iso: g("year")+"-"+g("month")+"-"+g("day"), min: (Number(g("hour")) % 24) * 60 + Number(g("minute"))};
+  } catch(e) { const d = new Date(); return {iso: iso(d), min: d.getHours()*60 + d.getMinutes()}; }
+}
+function staleHtml(date){
+  const last = latestDay(); if (!last || date !== last) return "";
+  const now = roNow(); if (last >= now.iso) return "";
+  const y = new Date(parseDate(now.iso)); y.setDate(y.getDate() - 1);
+  const ld = fmt(parseDate(last), {day:"numeric", month:"long"});
+  let msg, cls = "stale";
+  if (last < iso(y)) { msg = t("staleOld")(ld); cls += " warn"; }
+  else if (now.min < 8*60 + 45) return "";
+  else if (now.min < 9*60 + 15) msg = t("staleSoon");
+  else { msg = t("staleLate")(ld); cls += " warn"; }
+  return '<div class="'+cls+'" role="status"><span>'+esc(msg)+'</span><button type="button" data-act="recheck">'+esc(t("checkAgain"))+'</button></div>';
+}
+let lastDaysLoad = Date.now(), recheckBusy = false;
+async function refreshDays(manual){
+  if (recheckBusy) return; recheckBusy = true;
+  const before = latestDay();
+  try {
+    await loadScript("data/days.js?v=" + Date.now());
+    const days = {};
+    arr(window.DM_DAYS).forEach(d => { const o = typeof d === "string" ? {date: d} : d; if (o && /^\d{4}-\d{2}-\d{2}$/.test(o.date)) days[o.date] = o; });
+    if (Object.keys(days).length) S.days = days;
+    lastDaysLoad = Date.now();
+    const after = latestDay();
+    if (after && after !== before && S.current === before) { delete S.editions[after]; openDay(after); window.scrollTo(0, 0); }
+    else if (manual && S.current) { renderDay(); const b = document.querySelector(".stale button"); if (b) { b.disabled = true; setTimeout(() => { if (b.isConnected) b.disabled = false; }, 1500); } }
+  } catch(e) {}
+  recheckBusy = false;
+}
+document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible" && Date.now() - lastDaysLoad > 5*60*1000) refreshDays(false); });
+
 /* ---------- randare ---------- */
 function showState(title, text){ $("#main").innerHTML = '<div class="state"><b>'+esc(title)+'</b>'+esc(text)+'</div>'; }
 function renderEmpty(){
@@ -801,6 +885,37 @@ function updateHeader(){
 }
 const storyKey = (date, n) => "s-"+date+"-"+n;
 
+/* atribuirile din text („(Reuters, AP)”) sunt scoase la afișare; sursele rămân listate sub știre */
+function srcNames(s){
+  const out = [];
+  arr(s.sources).forEach(x => { const tt = String(x.title || ""); out.push(tt.toLowerCase());
+    const head = tt.split(/\s+[–—-]\s+|\s*\(/)[0].trim();
+    const ini = head.split(/\s+/).filter(w => /^[A-ZĂÂÎȘŞȚŢ]/.test(w)).map(w => w[0]).join("");
+    if (ini.length >= 2) out.push(ini.toLowerCase()); });
+  return out;
+}
+const ATTR_LEAD = /^(prin|via|potrivit|according to|citat de|cited by|quoted by)\s+/i;
+function isAttr(inner, names){
+  const c = inner.trim();
+  if (!c || c.length > 90 || /[„“"«:;!?%]/.test(c)) return false;
+  const parts = c.split(/\s*,\s*|\s+(?:și|and|&)\s+|\s+(?:prin|via)\s+/).map(x => x.replace(ATTR_LEAD, "").trim()).filter(Boolean);
+  if (!parts.length) return false;
+  return parts.every(p => {
+    const lp = p.toLowerCase();
+    if (names.some(n => n.includes(lp))) return true;
+    if (/\d/.test(p)) return false;
+    const w = p.split(/\s+/);
+    if (w.length > 5) return false;
+    if (/^[A-ZĂÂÎȘŞȚŢ0-9.&-]{2,6}$/.test(p)) return false; /* acronim care nu e printre surse: probabil o abreviere, nu o sursă */
+    return w.every(x => /^[A-ZĂÂÎȘŞȚŢ]/.test(x) || /^(de|of|the|la|din|al|al-|el)$/i.test(x));
+  });
+}
+function stripAttr(text, names){
+  let t = String(text ?? "");
+  t = t.replace(/\s*\(([^()]*)\)/g, (m, inner) => isAttr(inner, names) ? "" : m);
+  return t.replace(/\s+([.,;:])/g, "$1").replace(/\s{2,}/g, " ").trim();
+}
+const chev = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>';
 function storyCard(s, date){
   const key = storyKey(date, s.n);
   const saved = !!S.saved[key];
@@ -808,23 +923,35 @@ function storyCard(s, date){
   const prim = srcs.filter(x => x.type !== "secundar"), sec = srcs.filter(x => x.type === "secundar");
   let k = 0;
   const cas = () => ' class="cas" style="--k:'+(Math.min(k++, 14))+'"';
-  const li = list => arr(list).map(t => '<li'+cas()+'>'+esc(t)+'</li>').join("");
+  const names = srcNames(s), cl = x => stripAttr(x, names);
+  const compact = s.n > 5;
+  const li = list => arr(list).map(t => '<li'+cas()+'>'+esc(cl(t))+'</li>').join("");
+  const upd = s.update ? '<div class="since'+(compact ? ' cas' : '')+'"'+(compact ? ' style="--k:'+(k++)+'"' : '')+'><b>'+esc(t("since"))+'</b>'+esc(cl(s.update))+'</div>' : "";
   const srcLi = x => { const u = safeUrl(x.url); const label = esc(x.title || x.url || t("source"));
     const extra = x.type === "secundar" ? ' <span class="sec">['+esc(x.platform || t("secondarySrc"))+(x.status ? ", "+esc(x.status) : "")+']</span>' : "";
     return '<li'+cas()+'>'+(u ? '<a href="'+esc(u)+'" target="_blank" rel="noopener noreferrer">'+label+'</a>' : label)+extra+'</li>'; };
-  let det = "";
+  let det = compact ? '<p class="essential cas" style="--k:'+(k++)+'">'+esc(cl(s.essential))+'</p>'+upd : "";
   if (arr(s.happened).length) det += '<h3'+cas()+'>'+esc(t("happened"))+'</h3><ul>'+li(s.happened)+'</ul>';
   if (arr(s.context).length) det += '<h3'+cas()+'>'+esc(t("context"))+'</h3><ul>'+li(s.context)+'</ul>';
   if (arr(s.why).length) det += '<h3'+cas()+'>'+esc(t("why"))+'</h3><ul>'+li(s.why)+'</ul>';
   if (prim.length) det += '<h3'+cas()+'>'+esc(t("sources"))+'</h3><ul class="src">'+prim.map(srcLi).join("")+'</ul>';
   if (sec.length) det += '<h3'+cas()+'>'+esc(t("secondary"))+'</h3><ul class="src">'+sec.map(srcLi).join("")+'</ul>';
+  const fu = s.followup ? '<span class="tag fu">'+esc(t("followup"))+'</span>' : "";
+  if (compact) return '<article class="card compact" id="st-'+esc(s.n)+'" data-n="'+esc(s.n)+'">'+
+    '<button type="button" class="c-head" data-act="toggle" aria-expanded="false">'+
+    '<span class="c-num">'+String(s.n).padStart(2,"0")+'</span>'+dotHtml(s.impact)+
+    '<span class="c-main"><span class="c-title">'+esc(s.title)+'</span>'+
+    '<span class="c-meta">'+(s.followup ? '<span class="c-fu">'+esc(t("followup"))+'</span>' : '')+esc(s.category)+(s.region ? ' · '+esc(s.region) : '')+(s.overnight ? ' · '+esc(t("overnight")) : '')+'</span></span>'+
+    '<span class="c-score" style="color:'+impactColor(s.impact)+'">'+esc(Number(s.impact).toFixed(1))+'</span>'+
+    '<span class="c-chev">'+chev+'</span></button>'+
+    '<div class="details"><div class="details-in"><div class="dz">'+(arr(s.countries).length ? '<div class="flags c-flags cas" style="--k:0">'+flagsHtml(s.countries)+'</div>' : '')+det+'</div></div></div></article>';
   return '<article class="card" id="st-'+esc(s.n)+'" data-n="'+esc(s.n)+'">'+
     '<div class="card-head"><div><span class="num">'+String(s.n).padStart(2,"0")+' / '+impactWord(s.impact)+' · '+esc(s.impact)+'/10</span>'+
     '<div class="title-row">'+dotHtml(s.impact)+'<h2>'+esc(s.title)+'</h2></div></div>'+
     '<div class="flags">'+flagsHtml(s.countries)+'</div></div>'+
     '<div class="meta"><span class="tag '+catClass(s.category)+'">'+esc(s.category)+'</span>'+(s.region ? '<span class="tag">'+esc(s.region)+'</span>' : "")+
-    (s.overnight ? '<span class="tag night">'+esc(t("overnight"))+'</span>' : "")+(s.unconfirmed ? '<span class="tag warn">'+esc(t("unconfirmed"))+'</span>' : "")+'</div>'+
-    '<p class="essential">'+esc(s.essential)+'</p>'+
+    (s.overnight ? '<span class="tag night">'+esc(t("overnight"))+'</span>' : "")+fu+(s.unconfirmed ? '<span class="tag warn">'+esc(t("unconfirmed"))+'</span>' : "")+'</div>'+
+    '<p class="essential">'+esc(cl(s.essential))+'</p>'+upd+
     '<div class="card-actions">'+(det ? '<button class="more-btn" data-act="toggle" aria-expanded="false">'+esc(t("details"))+'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button>' : "")+
     (S.uid ? '<button class="save-btn" data-act="save" aria-pressed="'+saved+'" aria-label="'+esc(saved?t("unsave"):t("save"))+'"><svg viewBox="0 0 24 24" fill="'+(saved?"currentColor":"none")+'" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M6 3h12v18l-6-4-6 4z"/></svg></button>' : "")+
     '</div><div class="details"><div class="details-in"><div class="dz">'+det+'</div></div></div></article>';
@@ -843,8 +970,10 @@ const EMPTY = () => ({"night":t("emptyNight"),"saved":t("emptySaved")});
 function fillStories(openSet, animate){
   const box = $("#storyList"); if (!box) return;
   const {list, total} = filtered(S.current);
-  box.innerHTML = list.length ? list.map(s => storyCard(s, S.current)).join("") : '<div class="state"><b>'+esc(t("noneHere"))+'</b>'+esc(EMPTY()[S.filter] || t("emptyCat"))+'</div>';
-  [...box.children].forEach((c, i) => c.style.setProperty("--i", Math.min(i, 8)));
+  const full = list.filter(s => s.n <= 5), comp = list.filter(s => s.n > 5);
+  box.innerHTML = list.length ? full.map(s => storyCard(s, S.current)).join("") +
+      (comp.length ? '<div class="more-head"><b>'+esc(t("moreStories"))+'</b><span>'+esc(t("moreHint"))+'</span></div><div class="clist">'+comp.map(s => storyCard(s, S.current)).join("")+'</div>' : "") : '<div class="state"><b>'+esc(t("noneHere"))+'</b>'+esc(EMPTY()[S.filter] || t("emptyCat"))+'</div>';
+  [...box.querySelectorAll(".card")].forEach((c, i) => c.style.setProperty("--i", Math.min(i, 8)));
   if (openSet) openSet.forEach(n => { const c = document.getElementById("st-"+n); if (c) { c.classList.add("open", "static"); c.querySelector('[data-act="toggle"]')?.setAttribute("aria-expanded","true"); } });
   $("#countLine").textContent = t("count")(list.length, total);
   if (animate) { box.classList.remove("enter"); void box.offsetWidth; box.classList.add("enter"); }
@@ -968,6 +1097,7 @@ function renderDay(){
     impact:'<circle cx="12" cy="12" r="8"/><path d="M12 12l4-4"/><circle cx="12" cy="12" r="1.2"/>',
     watch:'<path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/>',
     fg:'<path d="M4 16a8 8 0 0 1 16 0"/><path d="M12 16l3.5-5"/><circle cx="12" cy="16" r="1.2"/>',
+    ro:'<path d="M12 21s-6.5-6.2-6.5-11a6.5 6.5 0 0 1 13 0c0 4.8-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/>',
     sources:'<path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/>'
   };
   const jb = (id, ic, label, extra) => '<button type="button" data-sec="'+id+'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+IC[ic]+'</svg>'+esc(label)+(extra || '')+'</button>';
@@ -978,6 +1108,7 @@ function renderDay(){
     jb("sec-stories", "stories", t("jStories"), '<span class="n">'+stories.length+'</span>')+
     (mkCount ? jb("sec-markets", "markets", t("jMarkets"), '<span class="n">'+mkCount+'</span>') : '')+
     (fgOf(date) ? jb("sec-fg", "fg", t("jFg"), '<span class="dot" style="background:'+fgColor(fgMain(date))+';color:'+fgColor(fgMain(date))+'"></span>') : '')+
+    (ed.romania.length ? jb("sec-ro", "ro", t("jRo")) : '')+
     (ed.effects.length ? jb("sec-fx", "impact", t("jImpact"), '<span class="dot" style="background:'+impactColor(fxMax)+';color:'+impactColor(fxMax)+'"></span>') : '')+
     (arr(ed.watch).length ? jb("sec-watch", "watch", t("jWatch"), '<span class="n">'+arr(ed.watch).length+'</span>') : '')+
     (hasSrc ? jb("sec-src", "sources", t("jSources")) : '')+
@@ -990,6 +1121,9 @@ function renderDay(){
     (ed.fallback && t("fallback") ? '<p class="fallback">'+esc(t("fallback"))+'</p>' : '')+
     (arr(ed.summary).length ? '<ul class="brief">'+arr(ed.summary).map(t => '<li>'+esc(t)+'</li>').join("")+'</ul>' : "")+'</section>';
 
+  if (ed.romania.length) h += '<section class="ro-card" id="sec-ro"><div class="ro-h"><span class="ro-flag">'+flagHtml("RO")+'</span><b>'+esc(t("forRo"))+'</b></div><ul>'+
+    ed.romania.map(x => '<li>'+(x.k ? '<b>'+esc(x.k)+'</b>' : '')+'<span>'+esc(x.v)+'</span></li>').join("")+'</ul></section>';
+  h = staleHtml(date) + h;
   if (S.filter === "saved" && !S.uid) S.filter = "all";
   let seg = '<div class="seg" id="sec-stories" role="radiogroup" aria-label="'+esc(t("filter"))+'">'+'<span class="seg-ind" aria-hidden="true"></span>'+chip("all",t("fAll"))+chip("cat-geo",t("fGeo"))+chip("cat-eco",t("fEco"))+chip("cat-alt",t("fAlt"))+chip("night",t("fNight"))+
     (S.uid ? chip("saved",t("fSaved")) : "")+'</div><div class="count-line" id="countLine"></div>';
@@ -1193,6 +1327,7 @@ $("#main").addEventListener("click", async e => {
   const j = e.target.closest("[data-jump]");
   if (j) { jumpTo(j.dataset.jump, true); return; }
   const a = e.target.closest("[data-act]"); if (!a) return;
+  if (a.dataset.act === "recheck") { refreshDays(true); return; }
   const card = a.closest(".card"), n = Number(card.dataset.n);
   if (a.dataset.act === "toggle") {
     card.classList.remove("static");
