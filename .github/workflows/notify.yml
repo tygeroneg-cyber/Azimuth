@@ -36,7 +36,10 @@ jobs:
               contents: (() => { const fs = require("fs"); let m = ""; try { m = fs.readFileSync(".notify-test", "utf8").split("\n").slice(1).join("\n").trim(); } catch (e) {} return m ? { en: m, ro: m } : { en: "Test: notifications are working.", ro: "Test: notificările funcționează." }; })()
             } : {}),
             url: process.env.SITE_URL + "#d-" + d.date,
-            web_push_topic: "azimuth-edition"
+            web_push_topic: "azimuth-edition",
+            chrome_web_icon: process.env.SITE_URL + "icons/icon-192.png",
+            chrome_web_badge: process.env.SITE_URL + "icons/badge-96.png",
+            firefox_icon: process.env.SITE_URL + "icons/icon-192.png"
           };
           fetch("https://api.onesignal.com/notifications", {
             method: "POST",
