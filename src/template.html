@@ -562,8 +562,14 @@ html.theme-fade, html.theme-fade *, html.theme-fade *::before, html.theme-fade *
 .legal-sheet{max-width:720px; height:min(92%, 900px); display:flex; flex-direction:column; overflow:hidden}
 .legal-tabs{display:flex; gap:8px; overflow-x:auto; scrollbar-width:none; padding:2px 2px 12px; margin:0 -2px; flex:none}
 .legal-tabs::-webkit-scrollbar{display:none}
-.lt{flex:none; min-height:36px; padding:0 14px; border-radius:999px; border:1px solid var(--line); background:var(--surface); color:var(--ink); font:600 13.5px/1 var(--body); white-space:nowrap; cursor:pointer}
-.lt.on{background:var(--ink); color:var(--surface); border-color:var(--ink)}
+.legal-tabs{position:relative; gap:2px; padding:4px; margin:0 0 12px; background:var(--soft); border:1px solid var(--line); border-radius:999px}
+.lt{position:relative; z-index:1; flex:none; height:36px; padding:0 14px; border:0; border-radius:999px; background:transparent; color:var(--muted); font:600 13.5px/1 var(--body); white-space:nowrap; cursor:pointer; transition:color .35s ease}
+@media (hover:hover){ .lt:not(.on):hover{color:var(--ink)} }
+.lt.on{color:var(--surface)}
+.lt-ind{position:absolute; z-index:0; top:4px; left:0; height:36px; width:0; border-radius:999px; background:var(--ink); transition:transform .5s cubic-bezier(.22,1,.36,1), width .5s cubic-bezier(.22,1,.36,1)}
+.legal-body.leave{opacity:0; transform:translate3d(0,-6px,0); transition:opacity .18s ease, transform .18s ease}
+.legal-body.enter .lg-in{opacity:0; animation:cascadeIn .5s cubic-bezier(.22,1,.36,1) forwards; animation-delay:calc(var(--k, 0) * 45ms)}
+@media (prefers-reduced-motion: reduce){ .lt-ind, .lt{transition:none} .legal-body.enter .lg-in{animation:none; opacity:1} }
 .legal-body{flex:1; min-height:0; overflow-y:auto; overscroll-behavior:contain; padding:0 2px 8px; -webkit-overflow-scrolling:touch}
 .lg-h{font:700 22px/1.2 var(--display); letter-spacing:-.01em; margin:4px 0 10px}
 .legal-body section{padding:12px 0; border-top:1px solid var(--line)}
@@ -1086,15 +1092,44 @@ function contactHtml(){
     : '<a href="'+esc(CONTACT_URL)+'" target="_blank" rel="noopener noreferrer">github.com/tygeroneg-cyber/Azimuth/issues</a>';
 }
 const legalP = x => esc(x).split("{contact}").join(contactHtml());
-let legalCur = "privacy";
+let legalCur = "privacy", legalSwitch = null;
+function legalBodyHtml(d){
+  let k = 0; const st = () => ' style="--k:'+(k++)+'"';
+  return '<h3 class="lg-h lg-in"'+st()+'>'+esc(d.title)+'</h3>'+arr(d.sections).map(sec => '<section class="lg-in"'+st()+'><h4>'+esc(sec.h)+'</h4>'+arr(sec.p).map(p => '<p>'+legalP(p)+'</p>').join("")+'</section>').join("")+
+    (arr(d.links).length ? '<section class="lg-in"'+st()+'><h4>'+esc(t("lgLinks"))+'</h4><ul class="lg-links">'+arr(d.links).map(l => { const u = safeUrl(l.u); return u ? '<li><a href="'+esc(u)+'" target="_blank" rel="noopener noreferrer">'+esc(l.t)+'</a></li>' : ''; }).join("")+'</ul></section>' : '')+
+    '<p class="lg-contact lg-in"'+st()+'><b>'+esc(t("contactUs"))+'</b> '+contactHtml()+'</p>';
+}
+function moveLegalInd(smooth){
+  const box = $("#legalTabs"), ind = box.querySelector(".lt-ind"), btn = box.querySelector(".lt.on");
+  if (!btn || !ind) return;
+  if (!smooth) ind.style.transition = "none";
+  ind.style.width = btn.offsetWidth + "px";
+  ind.style.transform = "translateX(" + btn.offsetLeft + "px)";
+  if (!smooth) { void ind.offsetWidth; ind.style.transition = ""; }
+  const l = btn.offsetLeft, r = l + btn.offsetWidth;
+  if (l < box.scrollLeft + 8 || r > box.scrollLeft + box.clientWidth - 8) box.scrollTo({left: l - (box.clientWidth - btn.offsetWidth) / 2, behavior: smooth ? "smooth" : "auto"});
+}
 function renderLegal(){
   const docs = arr(t("legalDocs")); const d = docs.find(x => x.id === legalCur) || docs[0]; if (!d) return;
-  $("#legalTabs").innerHTML = docs.map(x => '<button type="button" role="tab" class="lt'+(x.id === d.id ? ' on' : '')+'" aria-selected="'+(x.id === d.id)+'" data-ltab="'+esc(x.id)+'">'+esc(x.title)+'</button>').join("");
-  $("#legalBody").innerHTML = '<h3 class="lg-h">'+esc(d.title)+'</h3>'+arr(d.sections).map(sec => '<section><h4>'+esc(sec.h)+'</h4>'+arr(sec.p).map(p => '<p>'+legalP(p)+'</p>').join("")+'</section>').join("")+
-    (arr(d.links).length ? '<section><h4>'+esc(t("lgLinks"))+'</h4><ul class="lg-links">'+arr(d.links).map(l => { const u = safeUrl(l.u); return u ? '<li><a href="'+esc(u)+'" target="_blank" rel="noopener noreferrer">'+esc(l.t)+'</a></li>' : ''; }).join("")+'</ul></section>' : '')+
-    '<p class="lg-contact"><b>'+esc(t("contactUs"))+'</b> '+contactHtml()+'</p>';
-  $("#legalBody").scrollTop = 0;
-  const on = $("#legalTabs .lt.on"); if (on && on.scrollIntoView) { try { on.scrollIntoView({block:"nearest", inline:"center"}); } catch(e) {} }
+  legalCur = d.id;
+  $("#legalTabs").innerHTML = '<span class="lt-ind" aria-hidden="true"></span>'+docs.map(x => '<button type="button" role="tab" class="lt'+(x.id === d.id ? ' on' : '')+'" aria-selected="'+(x.id === d.id)+'" data-ltab="'+esc(x.id)+'">'+esc(x.title)+'</button>').join("");
+  const body = $("#legalBody"); body.classList.remove("leave"); body.innerHTML = legalBodyHtml(d); body.scrollTop = 0;
+  body.classList.remove("enter"); void body.offsetWidth; body.classList.add("enter");
+  requestAnimationFrame(() => moveLegalInd(false));
+}
+function switchLegal(id){
+  if (id === legalCur) return;
+  const docs = arr(t("legalDocs")); const d = docs.find(x => x.id === id); if (!d) return;
+  legalCur = id;
+  document.querySelectorAll("#legalTabs .lt").forEach(b => { const on = b.dataset.ltab === id; b.classList.toggle("on", on); b.setAttribute("aria-selected", String(on)); });
+  moveLegalInd(true);
+  try { history.replaceState(null, "", "#legal-"+id); } catch(e) {}
+  const body = $("#legalBody");
+  const swap = () => { body.classList.remove("leave"); body.innerHTML = legalBodyHtml(d); body.scrollTop = 0; body.classList.remove("enter"); void body.offsetWidth; body.classList.add("enter"); };
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) { swap(); return; }
+  clearTimeout(legalSwitch);
+  body.classList.remove("enter"); body.classList.add("leave");
+  legalSwitch = setTimeout(swap, 180);
 }
 function openLegal(id){
   legalCur = id || "privacy"; renderLegal();
@@ -1108,7 +1143,7 @@ function closeLegal(){
 $("#legalClose").onclick = closeLegal;
 $("#legalOv").addEventListener("click", e => {
   if (e.target.id === "legalOv") { closeLegal(); return; }
-  const b = e.target.closest("[data-ltab]"); if (b) { legalCur = b.dataset.ltab; renderLegal(); try { history.replaceState(null, "", "#legal-"+legalCur); } catch(e2) {} }
+  const b = e.target.closest("[data-ltab]"); if (b) switchLegal(b.dataset.ltab);
 });
 document.addEventListener("click", e => {
   const b = e.target.closest("[data-legal]"); if (!b || b.closest("#menuOv")) return;
