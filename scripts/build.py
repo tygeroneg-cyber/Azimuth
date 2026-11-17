@@ -33,7 +33,7 @@ push = r"""<script>
   /* OneSignal se încarcă doar după acordul utilizatorului (sau pentru cei deja abonați, cu permisiunea dată în browser). */
   var SDK = "https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js";
   var base = location.pathname.replace(/[^/]*$/, "");
-  var loaded = false, OSref = null, done, ready = new Promise(function(r){ done = r; });
+  var loaded = false, OSref = null, done, ready;
   function flag(){ try { return localStorage.getItem("az-push-consent"); } catch(e) { return null; } }
   function setFlag(v){ try { localStorage.setItem("az-push-consent", v); } catch(e) {} }
   function consented(){
@@ -42,6 +42,9 @@ push = r"""<script>
   }
   function load(){
     if (loaded) return ready; loaded = true;
+    ready = new Promise(function(r){ done = function(v){ if (!v) loaded = false; r(v); }; });
+    /* dacă serviciul nu răspunde în 20 de secunde, butonul nu rămâne blocat: următoarea apăsare reîncearcă */
+    setTimeout(function(){ if (!OSref) done(null); }, 20000);
     window.OneSignalDeferred = window.OneSignalDeferred || [];
     OneSignalDeferred.push(async function(OS){
       try {
@@ -50,7 +53,7 @@ push = r"""<script>
       } catch(e) { done(null); }
       try { window.dispatchEvent(new Event("az-push-ready")); } catch(e) {}
     });
-    var s = document.createElement("script"); s.src = SDK; s.defer = true; s.onerror = function(){ done(null); }; document.head.appendChild(s);
+    if (!window.__azOSsdk) { window.__azOSsdk = true; var s = document.createElement("script"); s.src = SDK; s.defer = true; s.onerror = function(){ window.__azOSsdk = false; done(null); }; document.head.appendChild(s); }
     return ready;
   }
   if (consented()) load();
@@ -71,8 +74,11 @@ push = r"""<script>
       if (st === "on") { var O = await ready; if (O) await O.User.PushSubscription.optOut(); setFlag("0"); return; }
       if (agreed !== true && flag() !== "1") return;
       setFlag("1");
+      /* permisiunea se cere imediat, în aceeași apăsare (iPhone și Samsung o refuză dacă vine după o încărcare) */
+      var perm = Notification.permission;
+      if (perm === "default") { try { perm = await Notification.requestPermission(); } catch(e) { perm = Notification.permission; } }
+      if (perm !== "granted") { try { window.dispatchEvent(new Event("az-push-ready")); } catch(e) {} return; }
       var OS = await load(); if (!OS) return;
-      if (!OS.Notifications.permission) await OS.Notifications.requestPermission();
       await OS.User.PushSubscription.optIn();
       try { window.dispatchEvent(new Event("az-push-ready")); } catch(e) {}
     }
@@ -88,9 +94,9 @@ import re, hashlib, base64
 hashes = []
 for m in re.finditer(r"<script>(.*?)</script>", s, re.S):
     hashes.append("'sha256-" + base64.b64encode(hashlib.sha256(m.group(1).encode("utf-8")).digest()).decode() + "'")
-csp = ("default-src 'self'; script-src 'self' " + " ".join(hashes) + " https://cdn.onesignal.com; "
+csp = ("default-src 'self'; script-src 'self' " + " ".join(hashes) + " https://cdn.onesignal.com https://onesignal.com https://*.onesignal.com; "
        "style-src 'self' 'unsafe-inline' https://cdn.onesignal.com https://onesignal.com; img-src 'self' data: https:; "
-       "font-src 'self' https://cdn.onesignal.com; connect-src 'self' https://onesignal.com https://*.onesignal.com; "
+       "font-src 'self' https://cdn.onesignal.com https://onesignal.com; connect-src 'self' https://onesignal.com https://*.onesignal.com; "
        "frame-src https://onesignal.com https://*.onesignal.com; worker-src 'self'; manifest-src 'self'; media-src 'none'; "
        "object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests")
 s = s.replace('<meta charset="utf-8">', '<meta charset="utf-8">\n<meta http-equiv="Content-Security-Policy" content="' + csp + '">', 1)
