@@ -2,7 +2,7 @@
 <html lang="ro">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-YUi75NFlNNqGW7NHOBuwt9O92L0gkKsreOQACZcnsP0=' 'sha256-QrFX7VVO889dr7PkI5n4mUIL8LBEA+UqGq7aB0DPgy4=' 'sha256-rVtUq804QYKAOeUY1oo+1gqSJSX0tbjoX0QjywU/TEw=' https://cdn.onesignal.com https://onesignal.com https://*.onesignal.com; style-src 'self' 'unsafe-inline' https://cdn.onesignal.com https://onesignal.com; img-src 'self' data: https:; font-src 'self' https://cdn.onesignal.com https://onesignal.com; connect-src 'self' https://onesignal.com https://*.onesignal.com; frame-src https://onesignal.com https://*.onesignal.com; worker-src 'self'; manifest-src 'self'; media-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-YUi75NFlNNqGW7NHOBuwt9O92L0gkKsreOQACZcnsP0=' 'sha256-s42CClP32jSVoGVUBsqR9FJplRYZKet5cz2FDxP3SI0=' 'sha256-rVtUq804QYKAOeUY1oo+1gqSJSX0tbjoX0QjywU/TEw=' https://cdn.onesignal.com https://onesignal.com https://*.onesignal.com; style-src 'self' 'unsafe-inline' https://cdn.onesignal.com https://onesignal.com; img-src 'self' data: https:; font-src 'self' https://cdn.onesignal.com https://onesignal.com; connect-src 'self' https://onesignal.com https://*.onesignal.com; frame-src https://onesignal.com https://*.onesignal.com; worker-src 'self'; manifest-src 'self'; media-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
 <!-- Azimuth © 2026 Sergiu-Pompei Pavel and Dragoș Petrișor Verzia. Includes country-flag-icons © 2020 catamphetamine (MIT License) and the Inter typeface © 2016 The Inter Project Authors (SIL Open Font License 1.1). Licence texts: https://github.com/tygeroneg-cyber/Azimuth/blob/main/THIRD_PARTY_NOTICES.md -->
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light dark" id="csMeta">
@@ -701,7 +701,7 @@ const I18N = {
   details:"Details", mLegal:"Legal", legalTitle:"Legal information", aiNote:"Written with AI from the sources listed under each story. It may contain errors.", aiMore:"About AI content", pushTitle:"Turn on notifications", pushBody:["You get one short notification each morning when the new edition is out.","Notifications are sent through OneSignal (USA). It stores a subscription ID, your browser's push address, device type, language, time zone and IP address. Nothing is loaded before you agree.","You can turn them off at any time from this menu."], pushOk:"I agree, turn on", pushCancel:"Not now", pushMore:"Privacy policy", checkWait:"Checked a moment ago. Try again in a few seconds.", lastUpd:"Last updated", lgLinks:"Links", contactUs:"Contact", moreStories:"More stories", moreHint:"Tap a story to open it", followup:"Update", since:"Since yesterday", forRo:"What it means for Romania", jRo:"Romania", staleLate:d=>"Today's edition has not been published yet. You are reading the edition of "+d+".", staleSoon:"Today's edition is on its way. It usually appears around 08:45.", staleOld:d=>"No new edition since "+d+".", checkAgain:"Check again", newEd:"A new edition is available", openNew:"Open", happened:"What happened", context:"Context", why:"Why it matters", sources:"Sources", secondary:"Social media, tabloids, blogs",
   source:"Source", secondarySrc:"secondary source", overnight:"Overnight", unconfirmed:"Not confirmed by agencies", save:"Save story", unsave:"Remove from saved", saveFail:"Could not save. Try again.",
   markets:"Markets", gStocks:"Stock indices · daily change", gNews:"Stocks in the news", idxNote:"An index tracks a basket of company shares. Its level is counted in points, not money, so the daily % change is what shows how the market moved.", idxLevel:"Index level", gFx:"Currencies", gCmd:"Commodities and crypto", watch:"What to watch today", moreSrc:"More sources", secondaryMore:"Social media, tabloids, blogs and additional sources",
-  calNoScore:"briefing without an impact score", last7:"Last 7 days", nextEd:"Next edition", nextEdWhen:"Tomorrow at 08:45, not yet published", noEd:"No edition this day", calToday:"Today", calYesterday:"Yesterday", calNotYet:"not yet", calNone:"no briefing",
+  calNoScore:"briefing without an impact score", last7:"Last 7 days", nextEd:"Next edition", nextEdWhen:"Tomorrow at 08:45, not yet published", nextEdToday:"Today at 08:45, not yet published", nextEdSoon:"On its way, usually around 08:45", nextEdLate:"Running late, check again soon", noEd:"No edition this day", calToday:"Today", calYesterday:"Yesterday", calNotYet:"not yet", calNone:"no briefing",
   searching:"Loading the archive...", archiveFailShort:"The archive could not be loaded.", noResults:"No results.", savedStories:"Saved stories",
   noSaved:"You have not saved any stories yet. Use the bookmark button on a story.",
   fallback:"This briefing is only available in Romanian.",
@@ -727,7 +727,7 @@ const I18N = {
   details:"Detalii", mLegal:"Informații legale", legalTitle:"Informații legale", aiNote:"Redactat cu AI pe baza surselor listate la fiecare știre. Poate conține erori.", aiMore:"Despre conținutul AI", pushTitle:"Pornește notificările", pushBody:["Primești o notificare scurtă în fiecare dimineață, când apare ediția nouă.","Notificările sunt trimise prin OneSignal (SUA), care păstrează un identificator de abonare, adresa de notificare a browserului, tipul de dispozitiv, limba, fusul orar și adresa IP. Nimic nu se încarcă înainte să fii de acord.","Le poți opri oricând din acest meniu."], pushOk:"Sunt de acord, pornește", pushCancel:"Nu acum", pushMore:"Politica de confidențialitate", checkWait:"Am verificat acum câteva clipe. Încearcă din nou peste câteva secunde.", lastUpd:"Ultima actualizare", lgLinks:"Linkuri", contactUs:"Contact", moreStories:"Alte știri", moreHint:"Atinge o știre ca s-o deschizi", followup:"Continuare", since:"Față de ieri", forRo:"Ce înseamnă pentru România", jRo:"România", staleLate:d=>"Ediția de azi nu a apărut încă. Citești ediția din "+d+".", staleSoon:"Ediția de azi e pe drum. De obicei apare în jurul orei 08:45.", staleOld:d=>"Nicio ediție nouă din "+d+".", checkAgain:"Verifică din nou", newEd:"A apărut o ediție nouă", openNew:"Deschide", happened:"Ce s-a întâmplat", context:"Context", why:"De ce contează", sources:"Surse", secondary:"Rețele sociale, tabloide, bloguri",
   source:"Sursă", secondarySrc:"sursă secundară", overnight:"Peste noapte", unconfirmed:"Neconfirmat de agenții", save:"Salvează știrea", unsave:"Scoate din salvate", saveFail:"Nu s-a putut salva. Încearcă din nou.",
   markets:"Piețe", gStocks:"Indici bursieri · variația zilei", gNews:"Acțiuni din știri", idxNote:"Un indice urmărește un coș de acțiuni. Nivelul lui se măsoară în puncte, nu în bani, așa că variația zilnică în % arată cum s-a mișcat piața.", idxLevel:"Nivelul indicelui", gFx:"Valute", gCmd:"Mărfuri și cripto", watch:"De urmărit azi", moreSrc:"Alte surse", secondaryMore:"Rețele sociale, tabloide, bloguri și surse suplimentare",
-  calNoScore:"buletin fără notă de impact", last7:"Ultimele 7 zile", nextEd:"Ediția următoare", nextEdWhen:"Mâine la 08:45, încă nepublicată", noEd:"Nicio ediție în această zi", calToday:"Azi", calYesterday:"Ieri", calNotYet:"încă nu", calNone:"fără buletin",
+  calNoScore:"buletin fără notă de impact", last7:"Ultimele 7 zile", nextEd:"Ediția următoare", nextEdWhen:"Mâine la 08:45, încă nepublicată", nextEdToday:"Azi la 08:45, încă nepublicată", nextEdSoon:"E pe drum, de obicei în jurul orei 08:45", nextEdLate:"Întârzie, verifică din nou în curând", noEd:"Nicio ediție în această zi", calToday:"Azi", calYesterday:"Ieri", calNotYet:"încă nu", calNone:"fără buletin",
   searching:"Se încarcă arhiva...", archiveFailShort:"Arhiva nu a putut fi încărcată.", noResults:"Niciun rezultat.", savedStories:"Știri salvate",
   noSaved:"Nu ai salvat încă nicio știre. Folosește butonul de semn de carte de pe o știre.",
   fallback:"",
@@ -1671,19 +1671,21 @@ window.addEventListener("hashchange", () => { const m = location.hash.match(/^#d
 
 /* calendar */
 function renderCal(){
-  /* ultimele 7 zile până azi, plus ziua de mâine, încă incertă */
+  /* ultimele 7 zile (ora României); ediția de azi, dacă lipsește, apare ca „ediția următoare” */
   $("#calTitle").textContent = t("last7");
-  const tIso = todayIso(), today = parseDate(tIso);
+  const ro = roNow(), tIso = ro.iso, today = parseDate(tIso);
   const dayAt = off => { const d = new Date(today); d.setDate(d.getDate() + off); return d; };
+  const todayOut = !!S.days[tIso];
+  const pendTxt = todayOut ? t("nextEdWhen") : ro.min < 525 ? t("nextEdToday") : ro.min < 555 ? t("nextEdSoon") : t("nextEdLate");
   let h = "";
-  for (let off = 1; off >= -6; off--) {
+  for (let off = todayOut ? 1 : 0; off >= -6; off--) {
     const d = dayAt(off), k = iso(d), info = S.days[k];
     const rel = off === 0 ? t("calToday") : off === -1 ? t("calYesterday") : "";
     const wd = fmt(d, {weekday:"short"}).replace(".", "");
     const dm = fmt(d, {day:"numeric", month:"short"}).replace(".", "");
     const datePart = '<span class="cd-date"><b>'+d.getDate()+'</b><small>'+esc(wd)+'</small></span>';
-    if (off === 1) {
-      h += '<div class="cd future" aria-label="'+esc(t("nextEd")+", "+dm)+'">'+datePart+'<span class="cd-body"><span class="cd-top">'+esc(t("nextEd"))+'</span><span class="cd-title">'+esc(t("nextEdWhen"))+'</span></span><span class="cd-score">?</span></div>';
+    if (off === 1 || (off === 0 && !todayOut)) {
+      h += '<div class="cd future" aria-label="'+esc(t("nextEd")+", "+dm+", "+pendTxt)+'">'+datePart+'<span class="cd-body"><span class="cd-top">'+esc(off === 0 ? t("calToday")+" · "+t("nextEd") : t("nextEd"))+'</span><span class="cd-title">'+esc(pendTxt)+'</span></span><span class="cd-score">?</span></div>';
       continue;
     }
     if (!info) {
