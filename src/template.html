@@ -1081,6 +1081,24 @@ function staleHtml(date){
 }
 let lastDaysLoad = Date.now(), recheckBusy = false;
 let lastManualCheck = 0;
+/* versiunea aplicației: dacă pe server e o versiune nouă, pagina se reîncarcă singură */
+const BUILD = "__BUILD__";
+let buildChecked = 0;
+async function checkBuild(){
+  if (BUILD.startsWith("__") || Date.now() - buildChecked < 60000) return;
+  buildChecked = Date.now();
+  try {
+    const r = await fetch("./?b=" + Date.now(), {cache: "no-store"});
+    if (!r.ok) return;
+    const m = (await r.text()).match(/const BUILD = "([a-f0-9]{8,})"/);
+    if (!m || m[1] === BUILD) return;
+    let tried = ""; try { tried = sessionStorage.getItem("az-build-try") || ""; } catch(e) {}
+    if (tried === m[1]) return;
+    try { sessionStorage.setItem("az-build-try", m[1]); } catch(e) {}
+    location.reload();
+  } catch(e) {}
+}
+setTimeout(checkBuild, 4000);
 async function refreshDays(manual){
   if (recheckBusy) return;
   if (manual && Date.now() - lastManualCheck < 20000) { const b = document.querySelector(".stale span"); if (b) b.textContent = t("checkWait"); return; }
@@ -1093,6 +1111,7 @@ async function refreshDays(manual){
     arr(window.DM_DAYS).forEach(d => { const o = typeof d === "string" ? {date: d} : d; if (o && /^\d{4}-\d{2}-\d{2}$/.test(o.date)) days[o.date] = o; });
     if (Object.keys(days).length) S.days = days;
     lastDaysLoad = Date.now();
+    checkBuild();
     const after = latestDay();
     if (after && after !== before && S.current === before) { delete S.editions[after]; openDay(after); window.scrollTo(0, 0); }
     else if (manual && S.current) { renderDay(); const b = document.querySelector(".stale button"); if (b) { b.disabled = true; setTimeout(() => { if (b.isConnected) b.disabled = false; }, 1500); } }

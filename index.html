@@ -2,7 +2,7 @@
 <html lang="ro">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-YUi75NFlNNqGW7NHOBuwt9O92L0gkKsreOQACZcnsP0=' 'sha256-XxJW3iguEVIuV2+WsJ4PWG2l9HWrt73PyVt1CzUTAKA=' 'sha256-rVtUq804QYKAOeUY1oo+1gqSJSX0tbjoX0QjywU/TEw=' https://cdn.onesignal.com https://onesignal.com https://*.onesignal.com; style-src 'self' 'unsafe-inline' https://cdn.onesignal.com https://onesignal.com; img-src 'self' data: https:; font-src 'self' https://cdn.onesignal.com https://onesignal.com; connect-src 'self' https://onesignal.com https://*.onesignal.com; frame-src https://onesignal.com https://*.onesignal.com; worker-src 'self'; manifest-src 'self'; media-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-YUi75NFlNNqGW7NHOBuwt9O92L0gkKsreOQACZcnsP0=' 'sha256-IJdFtn+tO6UmoQH/xm9gbtDSlyW7RQ6phewmhIb6HTM=' 'sha256-rVtUq804QYKAOeUY1oo+1gqSJSX0tbjoX0QjywU/TEw=' https://cdn.onesignal.com https://onesignal.com https://*.onesignal.com; style-src 'self' 'unsafe-inline' https://cdn.onesignal.com https://onesignal.com; img-src 'self' data: https:; font-src 'self' https://cdn.onesignal.com https://onesignal.com; connect-src 'self' https://onesignal.com https://*.onesignal.com; frame-src https://onesignal.com https://*.onesignal.com; worker-src 'self'; manifest-src 'self'; media-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
 <!-- Azimuth © 2026 Sergiu-Pompei Pavel and Dragoș Petrișor Verzia. Includes country-flag-icons © 2020 catamphetamine (MIT License) and the Inter typeface © 2016 The Inter Project Authors (SIL Open Font License 1.1). Licence texts: https://github.com/tygeroneg-cyber/Azimuth/blob/main/THIRD_PARTY_NOTICES.md -->
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light dark" id="csMeta">
@@ -1087,6 +1087,24 @@ function staleHtml(date){
 }
 let lastDaysLoad = Date.now(), recheckBusy = false;
 let lastManualCheck = 0;
+/* versiunea aplicației: dacă pe server e o versiune nouă, pagina se reîncarcă singură */
+const BUILD = "983111d8600c";
+let buildChecked = 0;
+async function checkBuild(){
+  if (BUILD.startsWith("__") || Date.now() - buildChecked < 60000) return;
+  buildChecked = Date.now();
+  try {
+    const r = await fetch("./?b=" + Date.now(), {cache: "no-store"});
+    if (!r.ok) return;
+    const m = (await r.text()).match(/const BUILD = "([a-f0-9]{8,})"/);
+    if (!m || m[1] === BUILD) return;
+    let tried = ""; try { tried = sessionStorage.getItem("az-build-try") || ""; } catch(e) {}
+    if (tried === m[1]) return;
+    try { sessionStorage.setItem("az-build-try", m[1]); } catch(e) {}
+    location.reload();
+  } catch(e) {}
+}
+setTimeout(checkBuild, 4000);
 async function refreshDays(manual){
   if (recheckBusy) return;
   if (manual && Date.now() - lastManualCheck < 20000) { const b = document.querySelector(".stale span"); if (b) b.textContent = t("checkWait"); return; }
@@ -1099,6 +1117,7 @@ async function refreshDays(manual){
     arr(window.DM_DAYS).forEach(d => { const o = typeof d === "string" ? {date: d} : d; if (o && /^\d{4}-\d{2}-\d{2}$/.test(o.date)) days[o.date] = o; });
     if (Object.keys(days).length) S.days = days;
     lastDaysLoad = Date.now();
+    checkBuild();
     const after = latestDay();
     if (after && after !== before && S.current === before) { delete S.editions[after]; openDay(after); window.scrollTo(0, 0); }
     else if (manual && S.current) { renderDay(); const b = document.querySelector(".stale button"); if (b) { b.disabled = true; setTimeout(() => { if (b.isConnected) b.disabled = false; }, 1500); } }

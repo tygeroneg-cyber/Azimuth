@@ -15,6 +15,9 @@ t = open(os.path.join(ROOT, "src", "template.html"), encoding="utf-8").read()
 flags = open(os.path.join(ROOT, "src", "flags.json"), encoding="utf-8").read().replace("</", "<\\/")
 assert "__FLAGS__" in t, "template is missing the __FLAGS__ placeholder"
 s = t.replace("__FLAGS__", flags, 1)
+import hashlib as _h
+assert '"__BUILD__"' in s, "template is missing the BUILD placeholder"
+s = s.replace('"__BUILD__"', '"' + _h.sha256(s.encode("utf-8")).hexdigest()[:12] + '"', 1)
 
 # syntax check of the main script (the second <script> block)
 if shutil.which("node"):
