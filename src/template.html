@@ -311,7 +311,7 @@ tr:last-child td{border-bottom:0}
 .layout{display:flex; flex-direction:column}
 .col-main, .col-side{display:contents}
 .layout .jump{order:1} .layout .day{order:2} .layout .seg{order:3} .layout .count-line{order:4} .layout .stories{order:5}
-.layout #sec-markets{order:6} .layout #sec-fg{order:7} .layout #sec-fx{order:8} .layout #sec-watch{order:9} .layout #sec-src{order:10}
+.layout #sec-tech{order:5} .layout #sec-markets{order:6} .layout #sec-fg{order:7} .layout #sec-fx{order:8} .layout #sec-watch{order:9} .layout #sec-src{order:10}
 @media (min-width:1100px){
   .wrap, .top-in{max-width:1320px; padding-left:32px; padding-right:32px}
   .layout{display:grid; grid-template-columns:minmax(0,1fr) 400px; gap:32px; align-items:start}
@@ -553,6 +553,15 @@ html.theme-fade, html.theme-fade *, html.theme-fade *::before, html.theme-fade *
 .clist .card.compact:first-child{border-top:0}
 .clist .card.compact.open{background:color-mix(in srgb, var(--soft) 55%, var(--surface))}
 .layout .ro-card{order:2}
+#sec-tech{scroll-margin-top:72px}
+.tc-head{display:flex; align-items:center; gap:12px; margin:0 4px 4px}
+.tc-badge{flex:none; width:38px; height:38px; border-radius:11px; display:grid; place-items:center; color:#fff; background:linear-gradient(145deg,#2F6FEB,#1E2A4A); box-shadow:0 4px 12px -4px rgba(47,111,235,.55)}
+.tc-badge svg{width:20px; height:20px}
+.tc-head .sh{margin:0}
+.tc-head p{margin:2px 0 0; font-size:13.5px; color:var(--muted); line-height:1.35}
+.tc-ic{flex:none; width:30px; height:30px; border-radius:9px; display:grid; place-items:center; background:color-mix(in srgb, var(--accent) 12%, var(--surface)); color:var(--accent); border:1px solid color-mix(in srgb, var(--accent) 25%, var(--line))}
+.tc-ic svg{width:16px; height:16px}
+.tc-topic{display:inline-block; margin-right:6px; padding:1px 7px; border-radius:6px; background:color-mix(in srgb, var(--accent) 10%, var(--surface)); color:var(--accent); font-weight:600; font-size:11.5px}
 @media (min-width:900px){ .c-head{padding:14px 18px; min-height:64px} .card.compact .dz{padding:0 22px 20px} .c-title{font-size:16px} }
 
 /* --- legal, notificări, etichetă AI --- */
@@ -699,7 +708,7 @@ const I18N = {
   searching:"Loading the archive...", archiveFailShort:"The archive could not be loaded.", noResults:"No results.", savedStories:"Saved stories",
   noSaved:"You have not saved any stories yet. Use the bookmark button on a story.",
   fallback:"This briefing is only available in Romanian.",
-  jStories:"Stories", jMarkets:"Markets", jImpact:"Market impact", jWatch:"Watchlist", jSources:"Sources", jumpTo:"Jump to section", menu:"Menu", mSections:"Sections", mCats:"Story categories", mTools:"Tools", mTop:"Briefing", mCal:"Calendar and archive", mSearch:"Search", mLang:"Language", mPush:"Notifications", pushIOS:"Add to Home Screen first", mTheme:"Appearance", crBy:"Developed by", crFounded:"Founded", crFoundedDate:"12 November 2026", crEditions:"Editions published", crSchedule:"New edition every morning at 08:45, Romania time", crMade:"Written with AI (Claude, by Anthropic) from the sources cited; not reviewed by a human editor before publication", crData:"Market data and Fear & Greed from the sources cited in each edition", crNote:"For information only. Not financial advice.", crVersion:"Alpha Build v0.1", thAuto:"Auto", thLight:"Light", thDark:"Dark", pushOff:"Off", pushOn:"On", pushBlocked:"Blocked in settings", pushNA:"Not supported here", jFg:"Fear & Greed", fgTitle:"Fear & Greed", fgSub:"How nervous or confident investors are, on a scale from 0 (extreme fear) to 100 (extreme greed).", fgStocks:"US stocks", fgCrypto:"Crypto", fgStocksSrc:"CNN Fear & Greed, last US close", fgCryptoSrc:"Alternative.me, reading of the day", fgWords:["Extreme fear","Fear","Neutral","Greed","Extreme greed"], fgTrend:"Recent editions", fgDay:"Edition", fgNone:"No reading", fgNote:"These indices measure market mood, not value. They are not a forecast or a recommendation.",
+  jStories:"Stories", jTech:"Tech Corner", techTitle:"Tech Corner", techSub:"The five biggest tech stories of the day. Tap one to open it.", jMarkets:"Markets", jImpact:"Market impact", jWatch:"Watchlist", jSources:"Sources", jumpTo:"Jump to section", menu:"Menu", mSections:"Sections", mCats:"Story categories", mTools:"Tools", mTop:"Briefing", mCal:"Calendar and archive", mSearch:"Search", mLang:"Language", mPush:"Notifications", pushIOS:"Add to Home Screen first", mTheme:"Appearance", crBy:"Developed by", crFounded:"Founded", crFoundedDate:"12 November 2026", crEditions:"Editions published", crSchedule:"New edition every morning at 08:45, Romania time", crMade:"Written with AI (Claude, by Anthropic) from the sources cited; not reviewed by a human editor before publication", crData:"Market data and Fear & Greed from the sources cited in each edition", crNote:"For information only. Not financial advice.", crVersion:"Alpha Build v0.1", thAuto:"Auto", thLight:"Light", thDark:"Dark", pushOff:"Off", pushOn:"On", pushBlocked:"Blocked in settings", pushNA:"Not supported here", jFg:"Fear & Greed", fgTitle:"Fear & Greed", fgSub:"How nervous or confident investors are, on a scale from 0 (extreme fear) to 100 (extreme greed).", fgStocks:"US stocks", fgCrypto:"Crypto", fgStocksSrc:"CNN Fear & Greed, last US close", fgCryptoSrc:"Alternative.me, reading of the day", fgWords:["Extreme fear","Fear","Neutral","Greed","Extreme greed"], fgTrend:"Recent editions", fgDay:"Edition", fgNone:"No reading", fgNote:"These indices measure market mood, not value. They are not a forecast or a recommendation.",
   fxTitle:"Market impact", fxSub:"How today's events feed through to markets and the economy.", fxRisk:"Risk", fxStory:"Story",
   riskWords:["low","moderate","elevated","high","severe"], fxHow:"How it feeds through", fxWatch:"What to watch", fxOpen:"Open story",
   fxDisc:"For information only, not investment advice. Arrows show moves and pressures reported so far, not a forecast.",
@@ -725,7 +734,7 @@ const I18N = {
   searching:"Se încarcă arhiva...", archiveFailShort:"Arhiva nu a putut fi încărcată.", noResults:"Niciun rezultat.", savedStories:"Știri salvate",
   noSaved:"Nu ai salvat încă nicio știre. Folosește butonul de semn de carte de pe o știre.",
   fallback:"",
-  jStories:"Știri", jMarkets:"Piețe", jImpact:"Impact pe piețe", jWatch:"De urmărit", jSources:"Surse", jumpTo:"Mergi la secțiune", menu:"Meniu", mSections:"Secțiuni", mCats:"Categorii de știri", mTools:"Instrumente", mTop:"Rezumatul zilei", mCal:"Calendar și arhivă", mSearch:"Căutare", mLang:"Limbă", mPush:"Notificări", pushIOS:"Adaugă întâi pe ecranul principal", mTheme:"Aspect", crBy:"Dezvoltat de", crFounded:"Înființat", crFoundedDate:"12 noiembrie 2026", crEditions:"Ediții publicate", crSchedule:"Ediție nouă în fiecare dimineață la 08:45, ora României", crMade:"Redactat cu AI (Claude, de la Anthropic) pe baza surselor citate; nu este verificat de un editor uman înainte de publicare", crData:"Datele de piață și indicii Frică și lăcomie provin din sursele citate în fiecare ediție", crNote:"Doar cu scop informativ. Nu este consultanță financiară.", crVersion:"Alpha Build v0.1", thAuto:"Auto", thLight:"Luminos", thDark:"Întunecat", pushOff:"Oprite", pushOn:"Pornite", pushBlocked:"Blocate din setări", pushNA:"Indisponibile aici", jFg:"Frică și lăcomie", fgTitle:"Frică și lăcomie", fgSub:"Cât de temători sau de încrezători sunt investitorii, pe o scară de la 0 (frică extremă) la 100 (lăcomie extremă).", fgStocks:"Acțiuni SUA", fgCrypto:"Cripto", fgStocksSrc:"CNN Fear & Greed, ultima închidere din SUA", fgCryptoSrc:"Alternative.me, valoarea zilei", fgWords:["Frică extremă","Frică","Neutru","Lăcomie","Lăcomie extremă"], fgTrend:"Edițiile recente", fgDay:"Ediția", fgNone:"Fără valoare", fgNote:"Acești indici măsoară starea de spirit a pieței, nu valoarea. Nu sunt o prognoză și nici o recomandare.",
+  jStories:"Știri", jTech:"Colțul Tehnologic", techTitle:"Colțul Tehnologic", techSub:"Cele mai importante cinci știri din tehnologie ale zilei. Atinge una ca s-o deschizi.", jMarkets:"Piețe", jImpact:"Impact pe piețe", jWatch:"De urmărit", jSources:"Surse", jumpTo:"Mergi la secțiune", menu:"Meniu", mSections:"Secțiuni", mCats:"Categorii de știri", mTools:"Instrumente", mTop:"Rezumatul zilei", mCal:"Calendar și arhivă", mSearch:"Căutare", mLang:"Limbă", mPush:"Notificări", pushIOS:"Adaugă întâi pe ecranul principal", mTheme:"Aspect", crBy:"Dezvoltat de", crFounded:"Înființat", crFoundedDate:"12 noiembrie 2026", crEditions:"Ediții publicate", crSchedule:"Ediție nouă în fiecare dimineață la 08:45, ora României", crMade:"Redactat cu AI (Claude, de la Anthropic) pe baza surselor citate; nu este verificat de un editor uman înainte de publicare", crData:"Datele de piață și indicii Frică și lăcomie provin din sursele citate în fiecare ediție", crNote:"Doar cu scop informativ. Nu este consultanță financiară.", crVersion:"Alpha Build v0.1", thAuto:"Auto", thLight:"Luminos", thDark:"Întunecat", pushOff:"Oprite", pushOn:"Pornite", pushBlocked:"Blocate din setări", pushNA:"Indisponibile aici", jFg:"Frică și lăcomie", fgTitle:"Frică și lăcomie", fgSub:"Cât de temători sau de încrezători sunt investitorii, pe o scară de la 0 (frică extremă) la 100 (lăcomie extremă).", fgStocks:"Acțiuni SUA", fgCrypto:"Cripto", fgStocksSrc:"CNN Fear & Greed, ultima închidere din SUA", fgCryptoSrc:"Alternative.me, valoarea zilei", fgWords:["Frică extremă","Frică","Neutru","Lăcomie","Lăcomie extremă"], fgTrend:"Edițiile recente", fgDay:"Ediția", fgNone:"Fără valoare", fgNote:"Acești indici măsoară starea de spirit a pieței, nu valoarea. Nu sunt o prognoză și nici o recomandare.",
   fxTitle:"Impact pe piețe", fxSub:"Cum se transmit evenimentele zilei în piețe și în economie.", fxRisk:"Risc", fxStory:"Știrea",
   riskWords:["scăzut","moderat","ridicat","mare","sever"], fxHow:"Cum se transmite", fxWatch:"De urmărit", fxOpen:"Deschide știrea",
   fxDisc:"Doar cu titlu informativ, nu reprezintă o recomandare de investiții. Săgețile arată mișcări și presiuni raportate până acum, nu o prognoză.",
@@ -989,7 +998,10 @@ function normEdition(raw, date){
     watch: arr(raw.watch),
     romania: arr(raw.romania).map(x => typeof x === "string" ? {k:"", v:x} : {k: x.k || x.label || "", v: x.v || x.text || ""}).filter(x => x.v),
     effects: arr(raw.effects).filter(x => x && x.title).map(x => ({n: x.n, title: x.title, risk: num(x.risk) || 5, summary: x.summary, assets: arr(x.assets), how: arr(x.how), watch: x.watch})).sort((a,b) => b.risk - a.risk),
-    secondary: arr(raw.secondary).map(x => ({title: x.t || x.title, url: x.u || x.url}))
+    secondary: arr(raw.secondary).map(x => ({title: x.t || x.title, url: x.u || x.url})),
+    tech: arr(raw.tech).filter(x => x && x.title).slice(0, 5).map((x, i) => ({i: i + 1, title: x.title, topic: x.topic || x.tag || "", company: x.company || "", region: x.region || "",
+      followup: !!(x.followup || String(x.update || "").trim()), update: String(x.update || "").trim(), essential: x.essential || "", what: arr(x.what), context: arr(x.context), why: arr(x.why),
+      sources: arr(x.sources).map(y => ({title: y.t || y.title, url: y.u || y.url}))}))
   };
 }
 async function boot(){
@@ -1251,6 +1263,27 @@ function storyCard(s, date){
     '</div><div class="details"><div class="details-in"><div class="dz">'+det+'</div></div></div></article>';
 }
 
+const TC_IC = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="7" width="10" height="10" rx="2"/><path d="M10 3v4M14 3v4M10 17v4M14 17v4M3 10h4M3 14h4M17 10h4M17 14h4"/></svg>';
+function techCard(x){
+  let k = 0;
+  const cas = () => ' class="cas" style="--k:'+(Math.min(k++, 14))+'"';
+  const li = list => arr(list).map(v => '<li'+cas()+'>'+esc(v)+'</li>').join("");
+  let det = '<p class="essential cas" style="--k:'+(k++)+'">'+esc(x.essential)+'</p>';
+  if (x.update) det += '<div class="since cas" style="--k:'+(k++)+'"><b>'+esc(t("since"))+'</b>'+esc(x.update)+'</div>';
+  if (x.what.length) det += '<h3'+cas()+'>'+esc(t("happened"))+'</h3><ul>'+li(x.what)+'</ul>';
+  if (x.context.length) det += '<h3'+cas()+'>'+esc(t("context"))+'</h3><ul>'+li(x.context)+'</ul>';
+  if (x.why.length) det += '<h3'+cas()+'>'+esc(t("why"))+'</h3><ul>'+li(x.why)+'</ul>';
+  if (x.sources.length) det += '<h3'+cas()+'>'+esc(t("sources"))+'</h3><ul class="src">'+x.sources.map(y => { const u = safeUrl(y.url), l = esc(y.title || y.url || t("source"));
+    return '<li'+cas()+'>'+(u ? '<a href="'+esc(u)+'" target="_blank" rel="noopener noreferrer">'+l+'</a>' : l)+'</li>'; }).join("")+'</ul>';
+  const meta = [x.company, x.region].filter(Boolean).map(esc).join(" · ");
+  return '<article class="card compact tc" id="tc-'+x.i+'" data-n="0">'+
+    '<button type="button" class="c-head" data-act="toggle" aria-expanded="false">'+
+    '<span class="c-num">'+String(x.i).padStart(2,"0")+'</span><span class="tc-ic">'+TC_IC+'</span>'+
+    '<span class="c-main"><span class="c-title">'+esc(x.title)+'</span>'+
+    '<span class="c-meta">'+(x.followup ? '<span class="c-fu">'+esc(t("followup"))+'</span>' : '')+(x.topic ? '<span class="tc-topic">'+esc(x.topic)+'</span>' : '')+meta+'</span></span>'+
+    '<span class="c-chev">'+chev+'</span></button>'+
+    '<div class="details"><div class="details-in"><div class="dz">'+det+'</div></div></div></article>';
+}
 function filtered(date){
   const stories = arr(S.editions[date]?.stories).slice().sort((a,b) => (a.n||0) - (b.n||0));
   const f = S.filter;
@@ -1387,6 +1420,7 @@ function renderDay(){
 
   const IC = S.IC = {
     stories:'<path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3z"/><path d="M9 9h6M9 13h6"/>',
+    tech:'<rect x="7" y="7" width="10" height="10" rx="2"/><path d="M10 3v4M14 3v4M10 17v4M14 17v4M3 10h4M3 14h4M17 10h4M17 14h4"/>',
     markets:'<path d="M4 19V5"/><path d="M4 19h16"/><path d="M8 15l3.5-4 3 2.5L20 7"/>',
     impact:'<circle cx="12" cy="12" r="8"/><path d="M12 12l4-4"/><circle cx="12" cy="12" r="1.2"/>',
     watch:'<path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/>',
@@ -1400,6 +1434,7 @@ function renderDay(){
   const hasSrc = ed.marketSources.length || ed.secondary.length;
   let nav = '<nav class="jump" aria-label="'+esc(t("jumpTo"))+'">'+
     jb("sec-stories", "stories", t("jStories"), '<span class="n">'+stories.length+'</span>')+
+    (ed.tech.length ? jb("sec-tech", "tech", t("jTech"), '<span class="n">'+ed.tech.length+'</span>') : '')+
     (mkCount ? jb("sec-markets", "markets", t("jMarkets"), '<span class="n">'+mkCount+'</span>') : '')+
     (fgOf(date) ? jb("sec-fg", "fg", t("jFg"), '<span class="dot" style="background:'+fgColor(fgMain(date))+';color:'+fgColor(fgMain(date))+'"></span>') : '')+
     (ed.romania.length ? jb("sec-ro", "ro", t("jRo")) : '')+
@@ -1423,6 +1458,7 @@ function renderDay(){
   let seg = '<div class="seg" id="sec-stories" role="radiogroup" aria-label="'+esc(t("filter"))+'">'+'<span class="seg-ind" aria-hidden="true"></span>'+chip("all",t("fAll"))+chip("cat-geo",t("fGeo"))+chip("cat-eco",t("fEco"))+chip("cat-alt",t("fAlt"))+chip("night",t("fNight"))+
     (S.uid ? chip("saved",t("fSaved")) : "")+'</div><div class="count-line" id="countLine"></div>';
   seg += '<div class="stories" id="storyList"></div>';
+  if (ed.tech.length) seg += '<section class="section" id="sec-tech"><div class="tc-head"><span class="tc-badge">'+TC_IC+'</span><div><h2 class="sh">'+esc(t("techTitle"))+'</h2><p>'+esc(t("techSub"))+'</p></div></div><div class="clist">'+ed.tech.map(techCard).join("")+'</div></section>';
   let side = '', fxH = '';
 
   const mk = arr(ed.markets).filter(m => m && m.name && (hasVal(m.value) || hasVal(m.change)));
@@ -1539,6 +1575,7 @@ function buildMenu(){
     h += '<div class="m-lbl">'+esc(t("mSections"))+'</div>'+
       it('data-m="top"', ic("stories"), t("mTop"))+
       it('data-msec="sec-stories"', ic("stories"), t("jStories"), st.length)+
+      (has("sec-tech") ? it('data-msec="sec-tech"', ic("tech"), t("jTech"), ed.tech.length) : '')+
       (has("sec-markets") ? it('data-msec="sec-markets"', ic("markets"), t("jMarkets")) : '')+
       (has("sec-fg") ? it('data-msec="sec-fg"', ic("fg"), t("jFg"), fgMain(S.current)) : '')+
       (has("sec-fx") ? it('data-msec="sec-fx"', ic("impact"), t("jImpact"), ed.effects.length) : '')+

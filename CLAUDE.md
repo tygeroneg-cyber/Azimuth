@@ -36,6 +36,7 @@ When working on the app from Claude Code:
 - Source names in parentheses at the end of sentences are hidden at render time by `stripAttr()`; sources are listed under each story. New editions should not write them in the text at all.
 - Stories that continue an earlier subject carry `followup: true` and `update` (one sentence on what changed since yesterday), shown as an "Update" tag and a "Since yesterday" box.
 - `romania` (3 to 5 `{k, v}` items) is shown as the "What it means for Romania" card after the summary.
+- `tech` (5 items) is shown as "Tech Corner" / "Colțul Tehnologic" after the story list, as compact rows that open on tap (same toggle as stories 6 to 15), with a jump chip and a menu entry. Each item: `title`, `topic`, `company`, `region`, `essential`, `what`, `context`, `why`, `sources`, optional `followup`/`update`.
 - If the newest edition is older than today (Romania time), a banner says so after 09:15 (or "on its way" between 08:45 and 09:15), with a "Check again" button. The app also reloads `days.js` when it comes back to the foreground after 5 minutes and opens a new edition automatically.
 - The impact colors come from `impactColor()`; they are tuned separately for light and dark backgrounds to stay readable.
 
@@ -53,4 +54,4 @@ When working on the app from Claude Code:
 
 ## Data format (summary)
 
-Each edition is `window.DM_DATA["YYYY-MM-DD"] = {...}` (Romanian) or `window.DM_DATA_EN[...]` (English) with: `date`, `updated`, `impact` (1 to 10), `summary` (3 sentences), `stories` (15 items: `title`, `cat`, `region`, `overnight`, `impact`, `countries`, `essential`, `what`, `context`, `why`, `sources`), `markets` (`rows`, `note`, `sources`), `effects` (market impact entries), `romania` (`[{k, v}]`), `watch`, `secondary`. Stories may also have `followup` (bool) and `update` (string). Both language files carry the same stories in the same order with the same scores.
+Each edition is `window.DM_DATA["YYYY-MM-DD"] = {...}` (Romanian) or `window.DM_DATA_EN[...]` (English) with: `date`, `updated`, `impact` (1 to 10), `summary` (3 sentences), `stories` (15 items: `title`, `cat`, `region`, `overnight`, `impact`, `countries`, `essential`, `what`, `context`, `why`, `sources`), `markets` (`rows`, `note`, `sources`), `effects` (market impact entries), `romania` (`[{k, v}]`), `tech` (5 tech stories), `watch`, `secondary`. Stories may also have `followup` (bool) and `update` (string). Both language files carry the same stories in the same order with the same scores.
