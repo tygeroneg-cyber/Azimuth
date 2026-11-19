@@ -2,7 +2,7 @@
 <html lang="ro">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-YUi75NFlNNqGW7NHOBuwt9O92L0gkKsreOQACZcnsP0=' 'sha256-fqcdWF/gIjOMyuCMlLQMhaYQk3vz33NiHLLap6iOCYA=' 'sha256-rVtUq804QYKAOeUY1oo+1gqSJSX0tbjoX0QjywU/TEw=' https://cdn.onesignal.com https://onesignal.com https://*.onesignal.com; style-src 'self' 'unsafe-inline' https://cdn.onesignal.com https://onesignal.com; img-src 'self' data: https:; font-src 'self' https://cdn.onesignal.com https://onesignal.com; connect-src 'self' https://onesignal.com https://*.onesignal.com; frame-src https://onesignal.com https://*.onesignal.com; worker-src 'self'; manifest-src 'self'; media-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-YUi75NFlNNqGW7NHOBuwt9O92L0gkKsreOQACZcnsP0=' 'sha256-XxJW3iguEVIuV2+WsJ4PWG2l9HWrt73PyVt1CzUTAKA=' 'sha256-rVtUq804QYKAOeUY1oo+1gqSJSX0tbjoX0QjywU/TEw=' https://cdn.onesignal.com https://onesignal.com https://*.onesignal.com; style-src 'self' 'unsafe-inline' https://cdn.onesignal.com https://onesignal.com; img-src 'self' data: https:; font-src 'self' https://cdn.onesignal.com https://onesignal.com; connect-src 'self' https://onesignal.com https://*.onesignal.com; frame-src https://onesignal.com https://*.onesignal.com; worker-src 'self'; manifest-src 'self'; media-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
 <!-- Azimuth © 2026 Sergiu-Pompei Pavel and Dragoș Petrișor Verzia. Includes country-flag-icons © 2020 catamphetamine (MIT License) and the Inter typeface © 2016 The Inter Project Authors (SIL Open Font License 1.1). Licence texts: https://github.com/tygeroneg-cyber/Azimuth/blob/main/THIRD_PARTY_NOTICES.md -->
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light dark" id="csMeta">
@@ -566,8 +566,12 @@ html.theme-fade, html.theme-fade *, html.theme-fade *::before, html.theme-fade *
 .tc-head .sh{margin:0}
 .tc-head p{margin:2px 0 0; font-size:13.5px; color:var(--muted); line-height:1.35}
 .tc-ic{flex:none; width:30px; height:30px; border-radius:9px; display:grid; place-items:center; background:color-mix(in srgb, var(--accent) 12%, var(--surface)); color:var(--accent); border:1px solid color-mix(in srgb, var(--accent) 25%, var(--line))}
-.tc-ic svg{width:16px; height:16px}
-.tc-topic{display:inline-block; margin-right:6px; padding:1px 7px; border-radius:6px; background:color-mix(in srgb, var(--accent) 10%, var(--surface)); color:var(--accent); font-weight:600; font-size:11.5px}
+.tc-ic svg{width:17px; height:17px}
+.tc-ic, .tc-topic{--tk:var(--accent)}
+.k-game{--tk:#8B5CF6} .k-ai{--tk:#D946EF} .k-phone{--tk:#0EA5E9} .k-sec{--tk:#E5484D} .k-law{--tk:#D97706} .k-space{--tk:#6366F1} .k-car{--tk:#10B981} .k-web{--tk:#14B8A6} .k-biz{--tk:#22A06B} .k-chip{--tk:#3B82F6}
+.tc-ic{color:var(--tk); background:color-mix(in srgb, var(--tk) 13%, var(--surface)); border-color:color-mix(in srgb, var(--tk) 32%, var(--line))}
+.tc-topic{color:color-mix(in srgb, var(--tk) 82%, var(--ink)); background:color-mix(in srgb, var(--tk) 13%, var(--surface))}
+.tc-topic{display:inline-block; margin-right:6px; padding:1px 7px; border-radius:6px; font-weight:600; font-size:11.5px}
 @media (min-width:900px){ .c-head{padding:14px 18px; min-height:64px} .card.compact .dz{padding:0 22px 20px} .c-title{font-size:16px} }
 
 /* --- legal, notificări, etichetă AI --- */
@@ -1270,6 +1274,24 @@ function storyCard(s, date){
 }
 
 const TC_IC = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="7" width="10" height="10" rx="2"/><path d="M10 3v4M14 3v4M10 17v4M14 17v4M3 10h4M3 14h4M17 10h4M17 14h4"/></svg>';
+const TC_SVG = p => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+p+'</svg>';
+const TC_KINDS = [
+  ["game", /gam|joc|consol|playstation|xbox|nintendo|esport/, '<path d="M6 11h4M8 9v4"/><path d="M15 12h.01M18 10h.01"/><path d="M17.3 5H6.7a4 4 0 0 0-3.96 3.4l-1.03 7.1A2.5 2.5 0 0 0 4.18 18.4c.8 0 1.55-.38 2.02-1.03L8 15h8l1.8 2.37c.47.65 1.22 1.03 2.02 1.03a2.5 2.5 0 0 0 2.47-2.9l-1.03-7.1A4 4 0 0 0 17.3 5z"/>'],
+  ["ai", /\bai\b|inteligen|artificial|machine|model|llm|chatbot|robot/, '<path d="M12 3l1.9 4.6L18.5 9.5l-4.6 1.9L12 16l-1.9-4.6L5.5 9.5l4.6-1.9z"/><path d="M19 15l.9 2.1L22 18l-2.1.9L19 21l-.9-2.1L16 18l2.1-.9z"/><path d="M5 16l.6 1.4L7 18l-1.4.6L5 20l-.6-1.4L3 18l1.4-.6z"/>'],
+  ["phone", /telefo|phone|smartphone|mobil|tablet|wearable|ceas|watch/, '<rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/>'],
+  ["sec", /secur|cyber|ciber|hack|breach|vulnerab|malware|ransom|privacy|confiden/, '<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><rect x="9" y="11" width="6" height="5" rx="1"/><path d="M10 11V9.5a2 2 0 0 1 4 0V11"/>'],
+  ["law", /reglement|regulat|lege|law|legal|antitrust|amend|fine|instan|court|guvern|polic/, '<path d="M12 3v18M7 21h10"/><path d="M5 7h14"/><path d="M5 7l-3 6a3 3 0 0 0 6 0zM19 7l-3 6a3 3 0 0 0 6 0z"/>'],
+  ["space", /spa(ce|tiu)|rachet|rocket|satel|nasa|spacex|orbit|lun/, '<path d="M12 2c3 2 5 6 5 10l-2 4H9l-2-4c0-4 2-8 5-10z"/><circle cx="12" cy="10" r="2"/><path d="M9 16l-2 4 3-1M15 16l2 4-3-1"/>'],
+  ["car", /auto|mașin|masin|car\b|cars|ev\b|electric|vehic|tesla|baterii|battery/, '<path d="M5 17h14v-5l-2-5H7l-2 5z"/><path d="M3 12h18"/><circle cx="7.5" cy="17" r="1.5"/><circle cx="16.5" cy="17" r="1.5"/>'],
+  ["web", /internet|social|rețe|retele|platform|app|aplica|software|cloud|stream|web|browser|search|căutare/, '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>'],
+  ["biz", /afaceri|business|achiz|acquis|merger|fuziun|bursa|ipo|invest|financ|concedi|layoff|angaj/, '<path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/>'],
+  ["chip", /cip|chip|procesor|processor|semicond|gpu|cpu|hardware|pc|laptop|calculator|computer|server|data cent|memor/, '<rect x="7" y="7" width="10" height="10" rx="2"/><path d="M10 3v4M14 3v4M10 17v4M14 17v4M3 10h4M3 14h4M17 10h4M17 14h4"/>']
+];
+function tcKind(x){
+  const t = (String(x.topic || "")+" ").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+  const k = TC_KINDS.find(k => k[1].test(t)) || TC_KINDS.find(k => k[1].test((x.title+" "+x.company).toLowerCase()));
+  return k || TC_KINDS[TC_KINDS.length - 1];
+}
 function techCard(x){
   let k = 0;
   const cas = () => ' class="cas" style="--k:'+(Math.min(k++, 14))+'"';
@@ -1282,11 +1304,12 @@ function techCard(x){
   if (x.sources.length) det += '<h3'+cas()+'>'+esc(t("sources"))+'</h3><ul class="src">'+x.sources.map(y => { const u = safeUrl(y.url), l = esc(y.title || y.url || t("source"));
     return '<li'+cas()+'>'+(u ? '<a href="'+esc(u)+'" target="_blank" rel="noopener noreferrer">'+l+'</a>' : l)+'</li>'; }).join("")+'</ul>';
   const meta = [x.company, x.region].filter(Boolean).map(esc).join(" · ");
+  const kd = tcKind(x);
   return '<article class="card compact tc" id="tc-'+x.i+'" data-n="0">'+
     '<button type="button" class="c-head" data-act="toggle" aria-expanded="false">'+
-    '<span class="c-num">'+String(x.i).padStart(2,"0")+'</span><span class="tc-ic">'+TC_IC+'</span>'+
+    '<span class="c-num">'+String(x.i).padStart(2,"0")+'</span><span class="tc-ic k-'+kd[0]+'">'+TC_SVG(kd[2])+'</span>'+
     '<span class="c-main"><span class="c-title">'+esc(x.title)+'</span>'+
-    '<span class="c-meta">'+(x.followup ? '<span class="c-fu">'+esc(t("followup"))+'</span>' : '')+(x.topic ? '<span class="tc-topic">'+esc(x.topic)+'</span>' : '')+meta+'</span></span>'+
+    '<span class="c-meta">'+(x.followup ? '<span class="c-fu">'+esc(t("followup"))+'</span>' : '')+(x.topic ? '<span class="tc-topic k-'+kd[0]+'">'+esc(x.topic)+'</span>' : '')+meta+'</span></span>'+
     '<span class="c-chev">'+chev+'</span></button>'+
     '<div class="details"><div class="details-in"><div class="dz">'+det+'</div></div></div></article>';
 }

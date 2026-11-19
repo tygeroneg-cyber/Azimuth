@@ -36,7 +36,7 @@ When working on the app from Claude Code:
 - Source names in parentheses at the end of sentences are hidden at render time by `stripAttr()`; sources are listed under each story. New editions should not write them in the text at all.
 - Stories that continue an earlier subject carry `followup: true` and `update` (one sentence on what changed since yesterday), shown as an "Update" tag and a "Since yesterday" box.
 - `romania` (3 to 5 `{k, v}` items) is shown as the "What it means for Romania" card after the summary.
-- `tech` (5 items) is shown as "Tech Corner" / "Colțul Tehnologic" after the story list, as compact rows that open on tap (same toggle as stories 6 to 15), with a jump chip and a menu entry. Each item: `title`, `topic`, `company`, `region`, `essential`, `what`, `context`, `why`, `sources`, optional `followup`/`update`.
+- `tech` (5 items) is shown as "Tech Corner" / "Colțul Tehnologic" after the story list, as compact rows that open on tap (same toggle as stories 6 to 15), with a jump chip and a menu entry. Each row gets an icon and colour from its `topic` (`tcKind()`: gaming, AI, phones, security, regulation, space, cars, internet/software, business, hardware/chips as fallback). Each item: `title`, `topic`, `company`, `region`, `essential`, `what`, `context`, `why`, `sources`, optional `followup`/`update`.
 - If the newest edition is older than today (Romania time), a banner says so after 09:15 (or "on its way" between 08:45 and 09:15), with a "Check again" button. The app also reloads `days.js` when it comes back to the foreground after 5 minutes and opens a new edition automatically.
 - The impact colors come from `impactColor()`; they are tuned separately for light and dark backgrounds to stay readable.
 
