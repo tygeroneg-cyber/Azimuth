@@ -2,7 +2,7 @@
 <html lang="ro">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-YUi75NFlNNqGW7NHOBuwt9O92L0gkKsreOQACZcnsP0=' 'sha256-IJdFtn+tO6UmoQH/xm9gbtDSlyW7RQ6phewmhIb6HTM=' 'sha256-rVtUq804QYKAOeUY1oo+1gqSJSX0tbjoX0QjywU/TEw=' https://cdn.onesignal.com https://onesignal.com https://*.onesignal.com; style-src 'self' 'unsafe-inline' https://cdn.onesignal.com https://onesignal.com; img-src 'self' data: https:; font-src 'self' https://cdn.onesignal.com https://onesignal.com; connect-src 'self' https://onesignal.com https://*.onesignal.com; frame-src https://onesignal.com https://*.onesignal.com; worker-src 'self'; manifest-src 'self'; media-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-YUi75NFlNNqGW7NHOBuwt9O92L0gkKsreOQACZcnsP0=' 'sha256-QcKidU0kxSVjWbX4tIAlcvkaqJcnShCmBsHubE45oS4=' 'sha256-rVtUq804QYKAOeUY1oo+1gqSJSX0tbjoX0QjywU/TEw=' https://cdn.onesignal.com https://onesignal.com https://*.onesignal.com; style-src 'self' 'unsafe-inline' https://cdn.onesignal.com https://onesignal.com; img-src 'self' data: https:; font-src 'self' https://cdn.onesignal.com https://onesignal.com; connect-src 'self' https://onesignal.com https://*.onesignal.com; frame-src https://onesignal.com https://*.onesignal.com; worker-src 'self'; manifest-src 'self'; media-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
 <!-- Azimuth © 2026 Sergiu-Pompei Pavel and Dragoș Petrișor Verzia. Includes country-flag-icons © 2020 catamphetamine (MIT License) and the Inter typeface © 2016 The Inter Project Authors (SIL Open Font License 1.1). Licence texts: https://github.com/tygeroneg-cyber/Azimuth/blob/main/THIRD_PARTY_NOTICES.md -->
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light dark" id="csMeta">
@@ -1024,8 +1024,17 @@ async function boot(){
     if (o && /^\d{4}-\d{2}-\d{2}$/.test(o.date)) days[o.date] = o;
   });
   S.days = days;
+  /* A day in the address (#d-…) is honoured only for a fresh link opened in a browser tab.
+     The installed app, a reload, or a page the phone restores after closing it in the
+     background always opens the newest edition, so an old address never hides today's. */
   const fromHash = (location.hash.match(/^#d-(\d{4}-\d{2}-\d{2})$/) || [])[1];
-  S.current = (fromHash && days[fromHash]) ? fromHash : latestDay();
+  let navType = "navigate";
+  try { navType = (performance.getEntriesByType("navigation")[0] || {}).type || "navigate"; } catch(e) {}
+  let standalone = false;
+  try { standalone = matchMedia("(display-mode: standalone)").matches || matchMedia("(display-mode: fullscreen)").matches || navigator.standalone === true; } catch(e) {}
+  const useHash = fromHash && days[fromHash] && (fromHash === latestDay() || (!standalone && navType === "navigate"));
+  S.current = useHash ? fromHash : latestDay();
+  if (fromHash && !useHash) { try { history.replaceState(null, "", location.pathname + location.search); } catch(e) {} }
   if (!S.current) { renderEmpty(); updateHeader(); }
   else openDay(S.current, false);
 
@@ -1088,7 +1097,7 @@ function staleHtml(date){
 let lastDaysLoad = Date.now(), recheckBusy = false;
 let lastManualCheck = 0;
 /* versiunea aplicației: dacă pe server e o versiune nouă, pagina se reîncarcă singură */
-const BUILD = "983111d8600c";
+const BUILD = "30dbcf200e54";
 let buildChecked = 0;
 async function checkBuild(){
   if (BUILD.startsWith("__") || Date.now() - buildChecked < 60000) return;

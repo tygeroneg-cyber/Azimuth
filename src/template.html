@@ -1018,8 +1018,17 @@ async function boot(){
     if (o && /^\d{4}-\d{2}-\d{2}$/.test(o.date)) days[o.date] = o;
   });
   S.days = days;
+  /* A day in the address (#d-…) is honoured only for a fresh link opened in a browser tab.
+     The installed app, a reload, or a page the phone restores after closing it in the
+     background always opens the newest edition, so an old address never hides today's. */
   const fromHash = (location.hash.match(/^#d-(\d{4}-\d{2}-\d{2})$/) || [])[1];
-  S.current = (fromHash && days[fromHash]) ? fromHash : latestDay();
+  let navType = "navigate";
+  try { navType = (performance.getEntriesByType("navigation")[0] || {}).type || "navigate"; } catch(e) {}
+  let standalone = false;
+  try { standalone = matchMedia("(display-mode: standalone)").matches || matchMedia("(display-mode: fullscreen)").matches || navigator.standalone === true; } catch(e) {}
+  const useHash = fromHash && days[fromHash] && (fromHash === latestDay() || (!standalone && navType === "navigate"));
+  S.current = useHash ? fromHash : latestDay();
+  if (fromHash && !useHash) { try { history.replaceState(null, "", location.pathname + location.search); } catch(e) {} }
   if (!S.current) { renderEmpty(); updateHeader(); }
   else openDay(S.current, false);
 

@@ -51,6 +51,7 @@ When working on the app from Claude Code:
 - Every edition shows an "AI" note (EU AI Act transparency) linking to About AI content.
 - GitHub Actions run with `permissions: contents: read` and a concurrency group. The OneSignal key exists only as the `ONESIGNAL_API_KEY` secret.
 - The "Check again" button is limited to one check every 20 seconds; the background check runs at most every 5 minutes.
+- A `#d-YYYY-MM-DD` address opens that day only for a fresh link in a browser tab; the installed app, a reload or a page restored by the phone always opens the newest edition.
 - `scripts/build.py` stamps a build id into `const BUILD`. An open app compares it with the live `index.html` (4 seconds after start and on each background check, at most once a minute) and reloads itself once when a newer version is out.
 
 ## Data format (summary)
